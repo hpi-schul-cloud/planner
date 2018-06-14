@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
-import times from "lodash/times";
+import SelectorInput from "./SelectorInput";
 
 const FormElementDiv = styled.div`
   margin-bottom: 10px;
@@ -15,10 +15,14 @@ const LabelDiv = styled.div`
   padding-right: 5px;
 `;
 
-export default class SchicView extends Component {
+interface PropsType {
+  onSave: () => void;
+}
+
+export default class SchicView extends Component<PropsType> {
   render() {
     return (
-      <React.Fragment>
+      <>
         <FormElementDiv>
           <InlineTextFieldDiv>
             <LabelDiv>Thema</LabelDiv>
@@ -43,50 +47,24 @@ export default class SchicView extends Component {
         </FormElementDiv>
         <FormElementDiv>
           <LabelDiv>Medienbildung</LabelDiv>
-          <SelectorInput options={["Präsentieren", "Informieren"]} />
+          <SelectorInput
+            options={["Präsentieren", "Informieren"]}
+            values={[]}
+          />
         </FormElementDiv>
         <FormElementDiv>
           <LabelDiv>Sprachbildung</LabelDiv>{" "}
-          <SelectorInput options={["Option 1", "Option 2"]} />
+          <SelectorInput options={["Option 1", "Option 2"]} values={[]} />
         </FormElementDiv>
         <FormElementDiv>
           <LabelDiv>Fächerübergreigende Bildung</LabelDiv>
           <SelectorInput
             options={["Gender Mainstreaming", "Demokratiebildung"]}
+            values={[]}
           />
         </FormElementDiv>
         <button onClick={this.props.onSave}>Save</button>
-      </React.Fragment>
-    );
-  }
-}
-
-class SelectorInput extends Component {
-  defaultProps = {
-    options: [],
-    values: []
-  };
-  state = {
-    addedFieldCount: 0
-  };
-  addField = () => {
-    this.setState({
-      addedFieldCount: this.state.addedFieldCount + 1
-    });
-  };
-
-  render() {
-    const { options, values } = this.props;
-    return (
-      <div>
-        {times(this.state.addedFieldCount, () => (
-          <div>
-            <select>{options.map(option => <option>{option}</option>)}</select>
-            <input />
-          </div>
-        ))}
-        <button onClick={this.addField}>+</button>
-      </div>
+      </>
     );
   }
 }

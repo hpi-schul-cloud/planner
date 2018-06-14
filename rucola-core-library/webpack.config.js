@@ -1,10 +1,9 @@
-const webpack = require("webpack");
-const path = require("path");
+const { CheckerPlugin } = require("awesome-typescript-loader");
 const libraryName = "rucola-core-lib";
 const outputFile = libraryName + ".js";
 
-const config = {
-  entry: __dirname + "/src/index.js",
+module.exports = {
+  entry: __dirname + "/src/index.ts",
   devtool: "source-map",
   output: {
     path: __dirname + "/lib",
@@ -13,21 +12,20 @@ const config = {
     libraryTarget: "umd",
     umdNamedDefine: true
   },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
+  },
+
   module: {
     rules: [
       {
-        test: /(\.jsx|\.js)$/,
+        test: /\.(t|j)sx?$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-react", "@babel/preset-env"],
-            plugins: ["@babel/plugin-proposal-class-properties"]
-          }
+          loader: "awesome-typescript-loader"
         }
       }
     ]
-  }
+  },
+  plugins: [new CheckerPlugin()]
 };
-
-module.exports = config;

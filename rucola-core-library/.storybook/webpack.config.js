@@ -1,16 +1,11 @@
-module.exports = baseConfig => {
-  baseConfig.module.rules = [
-    {
-      test: /(\.jsx|\.js)$/,
-      exclude: /node_modules/,
-      use: {
-        loader: "babel-loader",
-        options: {
-          presets: ["@babel/preset-react", "@babel/preset-env"],
-          plugins: ["@babel/plugin-proposal-class-properties"]
-        }
-      }
-    }
-  ];
-  return baseConfig;
+const path = require("path");
+const TSDocgenPlugin = require("react-docgen-typescript-webpack-plugin");
+module.exports = (baseConfig, env, defaultConfig) => {
+  defaultConfig.module.rules.push({
+    test: /\.(ts|tsx)$/,
+    loader: require.resolve("awesome-typescript-loader")
+  });
+  defaultConfig.plugins.push(new TSDocgenPlugin());
+  defaultConfig.resolve.extensions.push(".ts", ".tsx");
+  return defaultConfig;
 };
