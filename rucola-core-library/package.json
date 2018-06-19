@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "main": "lib/rucola-core-lib.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build": "webpack --mode=production",
