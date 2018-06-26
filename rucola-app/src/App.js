@@ -7,7 +7,11 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Rucula App </h1>
-        <SchicView />
+        <div className="Container">
+          <div className="SchicViewContainer">
+            <SchicView onSave={value => console.log(value)} />
+          </div>
+        </div>
       </div>
     );
   }
