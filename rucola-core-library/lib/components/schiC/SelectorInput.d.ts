@@ -1,17 +1,14 @@
-import { Component } from "react";
+import { ViewStylesType } from "../stylesType";
+import { ComponentStylesType } from "./stylesType";
+export declare type ItemType = {
+    optionIndex: number;
+    value: string;
+};
 interface PropsType {
     options: string[];
-    values: Object[];
+    items: ItemType[];
+    onChange: (value: ItemType[]) => void;
+    styles: ViewStylesType<ComponentStylesType>;
 }
-interface StateType {
-    addedFieldCount: number;
-}
-declare class SelectorInput extends Component<PropsType, StateType> {
-    static defaultProps: PropsType;
-    state: {
-        addedFieldCount: number;
-    };
-    addField: () => void;
-    render(): JSX.Element;
-}
+declare function SelectorInput(props: PropsType): JSX.Element;
 export default SelectorInput;

@@ -1,3 +1,3 @@
-import SchicView from "./components/schiC/SchicView";
+import SchicView from "./components/schiC";
 
 export { SchicView };
