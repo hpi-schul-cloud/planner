@@ -3,11 +3,7 @@ import { storiesOf } from '@storybook/react';
 import SchicView from '../src/components/schiC';
 import TopicElement from '../src/components/planner/TopicElement';
 import RasterTopicElement from '../src/components/planner/RasterTopicElement';
-import React from "react";
-import { storiesOf } from "@storybook/react";
-import SchicView from "../src/components/schiC";
-import { action } from "@storybook/addon-actions";
-import { styles as schulCloudStyles } from "./schulCloudStyles";
+import ResizableRasterTopicElement from '../src/components/planner/ResizableRasterTopicElement';
 import { action } from '@storybook/addon-actions';
 import { styles as schulCloudStyles } from './schulCloudStyles';
 
@@ -42,3 +38,17 @@ storiesOf('RasterTopicElement', module)
       text="Biologie"
     />
   ));
+
+storiesOf('ResizableRasterTopicElement', module).add('with small size', () => (
+  <ResizableRasterTopicElement
+    onChangeSizeLeft={newSize => {
+      console.log(`Left: ${newSize}`);
+    }}
+    onChangeSizeRight={newSize => {
+      console.log(`Right: ${newSize}`);
+    }}
+    rasterSize={15}
+    rasterCount={5}
+    text="Biologie"
+  />
+));
