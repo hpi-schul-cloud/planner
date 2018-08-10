@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import SchicView from '../src/components/schiC';
 import TopicElement from '../src/components/planner/TopicElement';
+import RasterTopicElement from '../src/components/planner/RasterTopicElement';
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import SchicView from "../src/components/schiC";
@@ -24,3 +25,20 @@ storiesOf('TopicElement', module)
     <TopicElement size="large" text="Biologie" width={100} />
   ));
 
+storiesOf('RasterTopicElement', module)
+  .add('with small size', () => (
+    <RasterTopicElement
+      rasterSize={15}
+      rasterCount={5}
+      onClick={action('onClick')}
+      text="Biologie"
+    />
+  ))
+  .add('with large size', () => (
+    <RasterTopicElement
+      rasterSize={15}
+      rasterCount={5}
+      size="large"
+      text="Biologie"
+    />
+  ));
