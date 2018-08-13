@@ -15,7 +15,7 @@ export type PropsType = {
 class RasterTopicElement extends Component<PropsType> {
   render() {
     const { startIndex, endIndex, rasterSize, ...otherProps } = this.props;
-    const width = (endIndex - startIndex) * rasterSize;
+    const width = (1 + endIndex - startIndex) * rasterSize;
 
     return <TopicElement width={width} {...otherProps} />;
   }

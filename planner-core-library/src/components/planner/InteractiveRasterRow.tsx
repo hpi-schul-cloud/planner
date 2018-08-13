@@ -43,7 +43,7 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
         else break;
       }
     });
-
+    console.log(rasterMap);
     this.state = {
       rasterMap
     };
@@ -57,8 +57,45 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
   ) => {
     const newRasterMap = [...this.state.rasterMap];
 
-    console.log(`${id}: ${side} ${startIndex}-${endIndex}`);
+    if (side === 'LEFT') {
+      let i = endIndex - 1;
+      while (true) {
+        if (i < 0) break;
+        if (i >= startIndex) {
+          if (newRasterMap[i] === '') {
+            newRasterMap[i] = id;
+          } else if (newRasterMap[i] !== id) {
+            if (newRasterMap[i] === newRasterMap[i - 1]) newRasterMap[i] = id;
+            else break;
+          }
+        } else {
+          if (newRasterMap[i] === id) newRasterMap[i] = '';
+          else break;
+        }
+        i--;
+      }
+    } else if (side === 'RIGHT') {
+      let i = startIndex + 1;
+      while (true) {
+        if (i >= newRasterMap.length) break;
+        if (i <= endIndex) {
+          if (newRasterMap[i] === '') {
+            newRasterMap[i] = id;
+          } else if (newRasterMap[i] !== id) {
+            if (newRasterMap[i] === newRasterMap[i + 1]) newRasterMap[i] = id;
+            else break;
+          }
+        } else {
+          if (newRasterMap[i] === id) newRasterMap[i] = '';
+          else break;
+        }
+        i++;
+      }
+    }
+
+    this.setState({ rasterMap: newRasterMap });
   };
+
   handleElementSizeChangeLeft = (
     id: string,
     startIndex: number,
@@ -74,14 +111,12 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
     const { rasterMap } = this.state;
     const elements: JSX.Element[] = [];
     const pushNewElement = (
-      i: number,
+      endIndex: number,
       currentElementStartIndex: number,
       lastElement: string
     ) => {
-      const count = i - currentElementStartIndex;
-
       if (lastElement === '') {
-        elements.push(<FillerElement width={count * this.props.rasterSize} />);
+        elements.push(<FillerElement width={this.props.rasterSize} />);
       } else {
         const { id, text, color } = this.props.topicElements[lastElement];
 
@@ -92,7 +127,7 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
             onChangeSizeRight={this.handleElementSizeChangeRight}
             rasterSize={this.props.rasterSize}
             startIndex={currentElementStartIndex}
-            endIndex={i}
+            endIndex={endIndex}
             color={color}
             text={text}
             key={id}
@@ -107,7 +142,7 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
 
       for (let i = 1; i < rasterMap.length; i++) {
         if (rasterMap[i] !== lastElement || rasterMap[i] === '') {
-          pushNewElement(i, currentElementStartIndex, lastElement);
+          pushNewElement(i - 1, currentElementStartIndex, lastElement);
           lastElement = rasterMap[i];
           currentElementStartIndex = i;
         }

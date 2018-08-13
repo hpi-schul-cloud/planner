@@ -40,6 +40,8 @@ const LEFT = 'LEFT';
 class ResizableRasterTopicElement extends Component<PropsType> {
   private topicElementRef: React.RefObject<HTMLDivElement>;
   initialX: number;
+  startIndex: number;
+  endIndex: number;
   dragSide: typeof RIGHT | typeof LEFT;
 
   constructor(props: PropsType) {
@@ -50,6 +52,8 @@ class ResizableRasterTopicElement extends Component<PropsType> {
   setupDragLeft = () => {
     // @ts-ignore - TS does not know getBoundingClientRect is available on ref
     this.initialX = this.topicElementRef.getBoundingClientRect().x;
+    this.startIndex = this.props.startIndex;
+    this.endIndex = this.props.endIndex;
     this.dragSide = LEFT;
     this.setupDrag();
   };
@@ -58,6 +62,8 @@ class ResizableRasterTopicElement extends Component<PropsType> {
     // @ts-ignore - TS does not know getBoundingClientRect is available on ref
     const boundingRect = this.topicElementRef.getBoundingClientRect();
     this.initialX = boundingRect.x + boundingRect.width;
+    this.startIndex = this.props.startIndex;
+    this.endIndex = this.props.endIndex;
     this.dragSide = RIGHT;
     this.setupDrag();
   };
@@ -69,25 +75,20 @@ class ResizableRasterTopicElement extends Component<PropsType> {
 
   handleMouseMove = (event: MouseEvent) => {
     const delta = event.clientX - this.initialX;
-    const steps =
-      delta >= 0
-        ? Math.floor(delta / this.props.rasterSize)
-        : Math.ceil(delta / this.props.rasterSize);
+    const steps = Math.round(delta / this.props.rasterSize);
 
-    if (steps !== 0) {
-      const { startIndex, endIndex } = this.props;
+    const { startIndex, endIndex } = this;
 
-      if (this.dragSide === RIGHT) {
-        const newEndIndex =
-          endIndex + steps >= startIndex ? endIndex + steps : startIndex;
+    if (this.dragSide === RIGHT) {
+      const newEndIndex =
+        endIndex + steps > startIndex ? endIndex + steps : startIndex;
 
-        this.props.onChangeSizeRight(this.props.id, startIndex, newEndIndex);
-      } else if (this.dragSide === LEFT) {
-        const newStartIndex =
-          startIndex + steps <= endIndex ? startIndex + steps : startIndex;
+      this.props.onChangeSizeRight(this.props.id, startIndex, newEndIndex);
+    } else if (this.dragSide === LEFT) {
+      const newStartIndex =
+        startIndex + steps < endIndex ? startIndex + steps : endIndex;
 
-        this.props.onChangeSizeLeft(this.props.id, newStartIndex, endIndex);
-      }
+      this.props.onChangeSizeLeft(this.props.id, newStartIndex, endIndex);
     }
   };
 

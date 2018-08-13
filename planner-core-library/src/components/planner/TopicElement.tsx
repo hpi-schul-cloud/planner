@@ -18,6 +18,8 @@ const ElementContainer = styled.div`
 `;
 
 const TextContainer = styled.div`
+  user-select: none;
+  pointer-events: none;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
