@@ -4,6 +4,7 @@ import SchicView from '../src/components/schiC';
 import TopicElement from '../src/components/planner/TopicElement';
 import RasterTopicElement from '../src/components/planner/RasterTopicElement';
 import ResizableRasterTopicElement from '../src/components/planner/ResizableRasterTopicElement';
+import InteractiveRasterRow from '../src/components/planner/InteractiveRasterRow';
 import { action } from '@storybook/addon-actions';
 import { styles as schulCloudStyles } from './schulCloudStyles';
 
@@ -56,3 +57,29 @@ storiesOf('ResizableRasterTopicElement', module).add('with small size', () => (
     text="Biologie"
   />
 ));
+
+storiesOf('InteractiveRasterRow', module).add('with small size', () => {
+  const topicElements = {
+    '1': {
+      id: '1',
+      text: 'Evolution',
+      color: '',
+      startIndex: 0,
+      endIndex: 5
+    },
+    '2': {
+      id: '2',
+      text: 'Blub',
+      color: '',
+      startIndex: 7,
+      endIndex: 9
+    }
+  };
+  return (
+    <InteractiveRasterRow
+      topicElements={topicElements}
+      rasterCount={45}
+      rasterSize={15}
+    />
+  );
+});
