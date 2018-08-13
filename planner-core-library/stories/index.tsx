@@ -25,7 +25,8 @@ storiesOf('RasterTopicElement', module)
   .add('with small size', () => (
     <RasterTopicElement
       rasterSize={15}
-      rasterCount={5}
+      startIndex={0}
+      endIndex={4}
       onClick={action('onClick')}
       text="Biologie"
     />
@@ -33,7 +34,8 @@ storiesOf('RasterTopicElement', module)
   .add('with large size', () => (
     <RasterTopicElement
       rasterSize={15}
-      rasterCount={5}
+      startIndex={0}
+      endIndex={4}
       size="large"
       text="Biologie"
     />
@@ -41,14 +43,16 @@ storiesOf('RasterTopicElement', module)
 
 storiesOf('ResizableRasterTopicElement', module).add('with small size', () => (
   <ResizableRasterTopicElement
-    onChangeSizeLeft={newSize => {
-      console.log(`Left: ${newSize}`);
+    id={'1'}
+    onChangeSizeLeft={(id, startIndex, endIndex) => {
+      console.log(`Left: ${startIndex}-${endIndex}`);
     }}
-    onChangeSizeRight={newSize => {
-      console.log(`Right: ${newSize}`);
+    onChangeSizeRight={(id, startIndex, endIndex) => {
+      console.log(`Right: ${startIndex}-${endIndex}`);
     }}
     rasterSize={15}
-    rasterCount={5}
+    startIndex={0}
+    endIndex={4}
     text="Biologie"
   />
 ));

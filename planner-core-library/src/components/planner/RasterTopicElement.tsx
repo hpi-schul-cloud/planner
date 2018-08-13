@@ -8,14 +8,16 @@ type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type PropsType = {
   rasterSize: number;
-  rasterCount: number;
+  startIndex: number;
+  endIndex: number;
 } & Omit<TopicElementPropsType, 'width'>;
 
 class RasterTopicElement extends Component<PropsType> {
   render() {
-    const { rasterCount, rasterSize, ...otherProps } = this.props;
+    const { startIndex, endIndex, rasterSize, ...otherProps } = this.props;
+    const width = (endIndex - startIndex) * rasterSize;
 
-    return <TopicElement width={rasterSize * rasterCount} {...otherProps} />;
+    return <TopicElement width={width} {...otherProps} />;
   }
 }
 

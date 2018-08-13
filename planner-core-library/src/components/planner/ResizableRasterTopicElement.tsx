@@ -7,17 +7,18 @@ import {
 
 const Dragger = styled.div`
   position: absolute;
-  cursor: ew-resize;
   width: 8px;
   height: 100%;
   z-index: 1;
 `;
 
 const LeftDragger = styled(Dragger)`
+  cursor: w-resize;
   top: 0px;
   left: 0px;
 `;
 const RightDragger = styled(Dragger)`
+  cursor: e-resize;
   right: 0px;
   top: 0px;
 `;
@@ -28,8 +29,9 @@ const DraggerContainer = styled.div`
 `;
 
 type PropsType = {
-  onChangeSizeLeft: (newSize: number) => void;
-  onChangeSizeRight: (newSize: number) => void;
+  id: string;
+  onChangeSizeLeft: (id: string, startIndex: number, endIndex: number) => void;
+  onChangeSizeRight: (id: string, startIndex: number, endIndex: number) => void;
 } & RasterTopicElementPropsType;
 
 const RIGHT = 'RIGHT';
@@ -73,20 +75,18 @@ class ResizableRasterTopicElement extends Component<PropsType> {
         : Math.ceil(delta / this.props.rasterSize);
 
     if (steps !== 0) {
+      const { startIndex, endIndex } = this.props;
+
       if (this.dragSide === RIGHT) {
-        const newSize =
-          this.props.rasterCount + steps > 0
-            ? this.props.rasterCount + steps
-            : 1;
+        const newEndIndex =
+          endIndex + steps >= startIndex ? endIndex + steps : startIndex;
 
-        this.props.onChangeSizeRight(newSize);
+        this.props.onChangeSizeRight(this.props.id, startIndex, newEndIndex);
       } else if (this.dragSide === LEFT) {
-        const newSize =
-          this.props.rasterCount - steps > 0
-            ? this.props.rasterCount - steps
-            : 1;
+        const newStartIndex =
+          startIndex + steps <= endIndex ? startIndex + steps : startIndex;
 
-        this.props.onChangeSizeLeft(newSize);
+        this.props.onChangeSizeLeft(this.props.id, newStartIndex, endIndex);
       }
     }
   };
