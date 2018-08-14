@@ -43,7 +43,7 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
         else break;
       }
     });
-    console.log(rasterMap);
+    
     this.state = {
       rasterMap
     };
