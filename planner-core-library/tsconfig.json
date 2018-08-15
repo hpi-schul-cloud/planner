@@ -21,10 +21,10 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "removeComments": true
+    "removeComments": true,
+    "experimentalDecorators": true
   },
   "include": ["src/**/*"],
   "awesomeTypescriptLoaderOptions": {
-    /* ... */
   }
 }
