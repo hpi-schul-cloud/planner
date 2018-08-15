@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import map from 'lodash/map';
 import ResizableRasterTopicElement from './ResizableRasterTopicElement';
 
-type TopicElementsType = {
+export type TopicElementsType = {
   [id: string]: {
     id: string;
     text: string;
@@ -17,6 +17,7 @@ interface PropsType {
   topicElements: TopicElementsType;
   rasterSize: number;
   rasterCount: number;
+  rowId: string;
 }
 
 interface StateType {
@@ -43,7 +44,7 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
         else break;
       }
     });
-    
+
     this.state = {
       rasterMap
     };
@@ -111,8 +112,8 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
     const { rasterMap } = this.state;
     const elements: JSX.Element[] = [];
     const pushNewElement = (
+      startIndex: number,
       endIndex: number,
-      currentElementStartIndex: number,
       lastElement: string
     ) => {
       if (lastElement === '') {
@@ -123,10 +124,11 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
         elements.push(
           <ResizableRasterTopicElement
             id={id}
+            isTransparentWhileDragging={true}
             onChangeSizeLeft={this.handleElementSizeChangeLeft}
             onChangeSizeRight={this.handleElementSizeChangeRight}
             rasterSize={this.props.rasterSize}
-            startIndex={currentElementStartIndex}
+            startIndex={startIndex}
             endIndex={endIndex}
             color={color}
             text={text}
@@ -142,13 +144,17 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
 
       for (let i = 1; i < rasterMap.length; i++) {
         if (rasterMap[i] !== lastElement || rasterMap[i] === '') {
-          pushNewElement(i - 1, currentElementStartIndex, lastElement);
+          pushNewElement(currentElementStartIndex, i - 1, lastElement);
           lastElement = rasterMap[i];
           currentElementStartIndex = i;
         }
       }
       // Push last element not covered by loop
-      pushNewElement(rasterMap.length, currentElementStartIndex, lastElement);
+      pushNewElement(
+        currentElementStartIndex,
+        rasterMap.length - 1,
+        lastElement
+      );
     }
 
     return elements;
