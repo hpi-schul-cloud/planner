@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import { findDOMNode } from 'react-dom';
+import styled, { injectGlobal } from 'styled-components';
+import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
 import map from 'lodash/map';
+import { XYCoord } from 'dnd-core';
 import ResizableRasterTopicElement from './ResizableRasterTopicElement';
 
 export type TopicElementsType = {
@@ -13,12 +16,16 @@ export type TopicElementsType = {
   };
 };
 
-interface PropsType {
+type DragDropRasterTopicElementType = {
+  connectDropTarget?: ConnectDropTarget;
+};
+
+type PropsType = {
   topicElements: TopicElementsType;
   rasterSize: number;
   rasterCount: number;
   rowId: string;
-}
+} & DragDropRasterTopicElementType;
 
 interface StateType {
   rasterMap: string[];
@@ -30,6 +37,44 @@ const FillerElement = styled.div`
   display: inline-block;
 `;
 
+const RasterRowContainer = styled.div`
+  display: inline-block;
+`;
+
+const cardTarget = {
+  canDrop() {
+    return true;
+  },
+
+  hover(
+    props: PropsType,
+    monitor: DropTargetMonitor,
+    component: InteractiveRasterRow
+  ) {
+    if (!component || !monitor.isOver({ shallow: true })) {
+      return;
+    }
+
+    // Determine rectangle on screen
+    const hoverBoundingRect = (findDOMNode(
+      component
+    ) as Element).getBoundingClientRect();
+
+    // Determine mouse position
+    const clientOffset = monitor.getSourceClientOffset();
+
+    // Get pixels to the left
+    const hoverClientY = (clientOffset as XYCoord).x - hoverBoundingRect.left;
+
+    const { id: draggedId, type } = monitor.getItem();
+
+    console.log(Math.floor(hoverClientY / props.rasterSize));
+  }
+};
+
+@DropTarget('TopicElement', cardTarget, connect => ({
+  connectDropTarget: connect.dropTarget()
+}))
 class InteractiveRasterRow extends Component<PropsType, StateType> {
   state: StateType = {
     rasterMap: []
@@ -162,8 +207,21 @@ class InteractiveRasterRow extends Component<PropsType, StateType> {
 
   render() {
     const elements = this.generateElements();
+    const { connectDropTarget } = this.props;
 
-    return <div>{elements}</div>;
+    return (
+      connectDropTarget && (
+        <RasterRowContainer
+          innerRef={instance => {
+            // @ts-ignore - We can be sure that domNode is React.Element
+            const domNode: React.ReactElement<{}> = findDOMNode(instance);
+            connectDropTarget(domNode);
+          }}
+        >
+          {elements}
+        </RasterRowContainer>
+      )
+    );
   }
 }
 
