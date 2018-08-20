@@ -10,6 +10,7 @@ export type PropsType = {
   rasterSize: number;
   startIndex: number;
   endIndex: number;
+  id: string;
 } & Omit<TopicElementPropsType, 'width'>;
 
 class RasterTopicElement extends Component<PropsType> {
