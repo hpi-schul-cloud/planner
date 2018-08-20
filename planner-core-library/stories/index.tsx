@@ -5,6 +5,7 @@ import TopicElement from '../src/components/planner/TopicElement';
 import RasterTopicElement from '../src/components/planner/RasterTopicElement';
 import ResizableRasterTopicElement from '../src/components/planner/ResizableRasterTopicElement';
 import InteractiveRasterRow from '../src/components/planner/InteractiveRasterRow';
+import InteractiveRasterUnit from '../src/components/planner/InteractiveRasterUnit';
 import { action } from '@storybook/addon-actions';
 import {
   withKnobs,
@@ -40,6 +41,7 @@ storiesOf('TopicElement', module).add('with all values', () => (
 
 storiesOf('RasterTopicElement', module).add('with small size', () => (
   <RasterTopicElement
+    id={text('Id', '1')}
     rasterSize={number('Raster Size', 15)}
     startIndex={number('Start Index', 0)}
     endIndex={number('End Index', 4)}
@@ -76,14 +78,14 @@ storiesOf('InteractiveRasterRow', module).add('with small size', () => {
     '1': {
       id: '1',
       text: 'Evolution',
-      color: '',
+      color: '#92DB92',
       startIndex: 0,
       endIndex: 5
     },
     '2': {
       id: '2',
       text: 'Blub',
-      color: '',
+      color: '#92DB92',
       startIndex: 7,
       endIndex: 9
     }
@@ -93,6 +95,11 @@ storiesOf('InteractiveRasterRow', module).add('with small size', () => {
       topicElements={object('Topic Elements', topicElements)}
       rasterCount={number('Raster Count', 45)}
       rasterSize={number('Raster Size', 15)}
+      rowId={text('RowId', '1')}
     />
   );
 });
+
+storiesOf('InteractiveRasterUnit', module).add('default', () => (
+  <InteractiveRasterUnit topicTemplates={{}} classInstances={{}} />
+));
