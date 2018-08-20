@@ -14,7 +14,11 @@ const ElementContainer = styled.div`
   border-radius: 5px;
   text-align: center;
   cursor: ${({ isInteractive }: ContainerType) =>
-    isInteractive ? 'pointer' : 'default'};
+    isInteractive ? 'pointer' : 'inherit'};
+  display: inline-block;
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 const TextContainer = styled.div`
