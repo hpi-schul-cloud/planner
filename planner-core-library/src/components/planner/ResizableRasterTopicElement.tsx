@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import {
-  default as RasterTopicElement,
-  PropsType as RasterTopicElementPropsType
-} from './RasterTopicElement';
+  default as DragDropRasterTopicElement,
+  PropsType as DragDropRasterTopicElementPropsType
+} from './dragAndDrop/DragDropRasterElement';
 
 const Dragger = styled.div`
   position: absolute;
   width: 8px;
-  height: 100%;
   z-index: 1;
 `;
 
@@ -16,23 +15,28 @@ const LeftDragger = styled(Dragger)`
   cursor: w-resize;
   top: 0px;
   left: 0px;
+  bottom: 0px;
 `;
 const RightDragger = styled(Dragger)`
   cursor: e-resize;
   right: 0px;
   top: 0px;
+  bottom: 0px;
 `;
 
 const DraggerContainer = styled.div`
   position: relative;
   display: inline-block;
+  * {
+    box-sizing: border-box;
+  }
 `;
 
-type PropsType = {
+export type PropsType = {
   id: string;
   onChangeSizeLeft: (id: string, startIndex: number, endIndex: number) => void;
   onChangeSizeRight: (id: string, startIndex: number, endIndex: number) => void;
-} & RasterTopicElementPropsType;
+} & DragDropRasterTopicElementPropsType;
 
 const RIGHT = 'RIGHT';
 const LEFT = 'LEFT';
@@ -98,15 +102,17 @@ class ResizableRasterTopicElement extends Component<PropsType> {
   };
 
   render() {
+    const { onChangeSizeLeft, onChangeSizeRight, ...props } = this.props;
     return (
       <DraggerContainer
         innerRef={x => {
           this.topicElementRef = x;
         }}
       >
-        <LeftDragger onMouseDown={this.setupDragLeft} />
-        <RightDragger onMouseDown={this.setupDragRight} />
-        <RasterTopicElement {...this.props} />
+        <DragDropRasterTopicElement {...props}>
+          <LeftDragger onMouseDown={this.setupDragLeft} />
+          <RightDragger onMouseDown={this.setupDragRight} />
+        </DragDropRasterTopicElement>
       </DraggerContainer>
     );
   }
