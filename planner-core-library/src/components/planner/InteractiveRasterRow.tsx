@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import styled, { injectGlobal } from 'styled-components';
+import styled from 'styled-components';
 import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
-import map from 'lodash/map';
 import { XYCoord } from 'dnd-core';
 import ResizableRasterTopicElement from './ResizableRasterTopicElement';
+import { getEmptySpaceSize } from './helper';
+import { TOPIC_INSTANCE, TOPIC_TEMPLATE } from './constants';
 
 export type TopicElementsType = {
-  [id: string]: {
-    id: string;
-    text: string;
-    color: string;
-    startIndex: number;
-    endIndex: number;
-  };
+  id: string;
+  text: string;
+  color: string;
+  startIndex: number;
+  endIndex: number;
 };
 
 type DragDropRasterTopicElementType = {
@@ -21,15 +20,25 @@ type DragDropRasterTopicElementType = {
 };
 
 type PropsType = {
-  topicElements: TopicElementsType;
+  topicElements: TopicElementsType[];
   rasterSize: number;
   rasterCount: number;
   rowId: string;
+  updateElements: (topicElements: TopicElementsType[]) => void;
+  softRelocateTopicElement: (
+    rowId: string,
+    elementIndex: number,
+    insertStartIndex: number,
+    width: number,
+    { text }: { text: string }
+  ) => void;
+  softInsertTopicElement: (
+    rowId: string,
+    insertStartIndex: number,
+    width: number,
+    { text }: { text: string }
+  ) => void;
 } & DragDropRasterTopicElementType;
-
-interface StateType {
-  rasterMap: string[];
-}
 
 const FillerElement = styled.div`
   width: ${({ width }: { width: number }) => `${width}px`};
@@ -42,16 +51,34 @@ const RasterRowContainer = styled.div`
 `;
 
 const cardTarget = {
-  canDrop() {
-    return true;
-  },
+  canDrop(props: PropsType, monitor: DropTargetMonitor) {
+    const emptySpace = getEmptySpaceSize(
+      props.rasterCount,
+      props.topicElements
+    );
+    const { width, type, rowId } = monitor.getItem();
 
+    if (type === TOPIC_INSTANCE) {
+      // Dragging between rows is not allowed
+      return rowId === props.rowId;
+    } else if (type === TOPIC_TEMPLATE) {
+      // Inserting template, when not enough space is given is not allowed
+      return emptySpace >= width;
+    }
+
+    return true;
+    // Also check whether id of topicElement is already present?
+  },
   hover(
     props: PropsType,
     monitor: DropTargetMonitor,
     component: InteractiveRasterRow
   ) {
-    if (!component || !monitor.isOver({ shallow: true })) {
+    if (
+      !component ||
+      !monitor.isOver({ shallow: true }) ||
+      !monitor.canDrop()
+    ) {
       return;
     }
 
@@ -59,146 +86,221 @@ const cardTarget = {
     const hoverBoundingRect = (findDOMNode(
       component
     ) as Element).getBoundingClientRect();
-
     // Determine mouse position
     const clientOffset = monitor.getSourceClientOffset();
-
     // Get pixels to the left
     const hoverClientY = (clientOffset as XYCoord).x - hoverBoundingRect.left;
+    let insertStartIndex = Math.round(hoverClientY / props.rasterSize);
+    insertStartIndex =
+      insertStartIndex < 0
+        ? 0
+        : insertStartIndex >= props.rasterCount
+          ? props.rasterCount - 1
+          : insertStartIndex;
 
-    const { id: draggedId, type } = monitor.getItem();
+    const { type, width, text } = monitor.getItem();
 
-    console.log(Math.floor(hoverClientY / props.rasterSize));
+    // Call SoftInsert from InteractiveRasterUnit
+    // With: rowId, insertionIndex, width
+    if (type === TOPIC_INSTANCE) {
+      const { rowId, index: elementIndex } = monitor.getItem();
+      // Only if value actually changed, relocate
+      if (props.topicElements[elementIndex].startIndex !== insertStartIndex) {
+        props.softRelocateTopicElement(
+          rowId,
+          elementIndex,
+          insertStartIndex,
+          width,
+          { text }
+        );
+      }
+    } else if (type === TOPIC_TEMPLATE) {
+      props.softInsertTopicElement(props.rowId, insertStartIndex, width, {
+        text
+      });
+    }
+  },
+  drop(
+    props: PropsType,
+    monitor: DropTargetMonitor,
+    component: InteractiveRasterRow
+  ) {
+    console.log(`Did drop on ${props.rowId}`);
   }
 };
 
-@DropTarget('TopicElement', cardTarget, connect => ({
-  connectDropTarget: connect.dropTarget()
+@DropTarget('TopicElement', cardTarget, (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  canDrop: monitor.canDrop()
 }))
-class InteractiveRasterRow extends Component<PropsType, StateType> {
-  state: StateType = {
-    rasterMap: []
-  };
-
-  constructor(props: PropsType) {
-    super(props);
-    const rasterMap: string[] = Array(props.rasterCount).fill('');
-    map(props.topicElements, element => {
-      for (let i = element.startIndex; i <= element.endIndex; i++) {
-        if (rasterMap[i] === '') rasterMap[i] = element.id;
-        else break;
-      }
+class InteractiveRasterRow extends Component<PropsType> {
+  generateAndCommitElementChanges(changes: {
+    [index: number]: Partial<TopicElementsType>;
+  }) {
+    let newTopicElements = [...this.props.topicElements];
+    Object.keys(changes).forEach(key => {
+      newTopicElements = [
+        ...newTopicElements.slice(0, +key),
+        {
+          ...this.props.topicElements[key],
+          ...changes[key]
+        },
+        ...newTopicElements.slice(+key + 1, newTopicElements.length)
+      ];
     });
 
-    this.state = {
-      rasterMap
-    };
+    this.props.updateElements(newTopicElements);
   }
 
-  handleElementSizeChange = (
+  resizeElementLeft = (
+    oldStartIndex: number,
+    newStartIndex: number,
+    index: number
+  ) => {
+    if (oldStartIndex > newStartIndex && index > 0) {
+      // Size increased & not first element -> Investigate left neighbor
+      const {
+        startIndex: neighborStartIndex,
+        endIndex: neighborEndIndex
+      } = this.props.topicElements[index - 1];
+      if (neighborEndIndex >= newStartIndex) {
+        if (newStartIndex > neighborStartIndex) {
+          // Crop neighborEndIndex to startIndex - 1
+          this.generateAndCommitElementChanges({
+            [index - 1]: { endIndex: newStartIndex - 1 },
+            [index]: { startIndex: newStartIndex }
+          });
+        } else {
+          // Crop neighborEndIndex to neighborStartIndex + Crop startIndex to be neighborStartIndex + 1
+          this.generateAndCommitElementChanges({
+            [index - 1]: { endIndex: neighborStartIndex },
+            [index]: { startIndex: neighborStartIndex + 1 }
+          });
+        }
+      } else {
+        // New startIndex does not interfere with neighbor -> Trivial
+        this.generateAndCommitElementChanges({
+          [index]: { startIndex: newStartIndex }
+        });
+      }
+    } else {
+      // Size reduced -> Trivial
+      this.generateAndCommitElementChanges({
+        [index]: { startIndex: newStartIndex }
+      });
+    }
+  };
+  resizeElementRight = (
+    oldEndIndex: number,
+    newEndIndex: number,
+    index: number
+  ) => {
+    if (
+      newEndIndex > oldEndIndex &&
+      index !== this.props.topicElements.length - 1
+    ) {
+      // Size increased & not last element -> Investigate right neighbor
+      const {
+        startIndex: neighborStartIndex,
+        endIndex: neighborEndIndex
+      } = this.props.topicElements[index + 1];
+      if (newEndIndex >= neighborStartIndex) {
+        if (newEndIndex < neighborEndIndex) {
+          // Crop neighborEndIndex to startIndex - 1
+          this.generateAndCommitElementChanges({
+            [index + 1]: { startIndex: newEndIndex + 1 },
+            [index]: { endIndex: newEndIndex }
+          });
+        } else {
+          // Crop neighborEndIndex to neighborStartIndex + Crop startIndex to be neighborStartIndex + 1
+          this.generateAndCommitElementChanges({
+            [index + 1]: { startIndex: neighborEndIndex },
+            [index]: { endIndex: neighborEndIndex - 1 }
+          });
+        }
+      } else {
+        // New startIndex does not interfere with neighbor -> Trivial
+        this.generateAndCommitElementChanges({
+          [index]: { endIndex: newEndIndex }
+        });
+      }
+    } else {
+      // Size reduced -> Trivial
+      this.generateAndCommitElementChanges({
+        [index]: { endIndex: newEndIndex }
+      });
+    }
+  };
+  handleElementSizeChangeLeft = (
     id: string,
-    side: 'LEFT' | 'RIGHT',
+    index: number,
     startIndex: number,
     endIndex: number
   ) => {
-    const newRasterMap = [...this.state.rasterMap];
+    const currentElement = this.props.topicElements[index];
+    const { startIndex: oldStartIndex } = currentElement;
+    const newStartIndex = startIndex < 0 ? 0 : startIndex;
 
-    if (side === 'LEFT') {
-      let i = endIndex - 1;
-      while (true) {
-        if (i < 0) break;
-        if (i >= startIndex) {
-          if (newRasterMap[i] === '') {
-            newRasterMap[i] = id;
-          } else if (newRasterMap[i] !== id) {
-            if (newRasterMap[i] === newRasterMap[i - 1]) newRasterMap[i] = id;
-            else break;
-          }
-        } else {
-          if (newRasterMap[i] === id) newRasterMap[i] = '';
-          else break;
-        }
-        i--;
-      }
-    } else if (side === 'RIGHT') {
-      let i = startIndex + 1;
-      while (true) {
-        if (i >= newRasterMap.length) break;
-        if (i <= endIndex) {
-          if (newRasterMap[i] === '') {
-            newRasterMap[i] = id;
-          } else if (newRasterMap[i] !== id) {
-            if (newRasterMap[i] === newRasterMap[i + 1]) newRasterMap[i] = id;
-            else break;
-          }
-        } else {
-          if (newRasterMap[i] === id) newRasterMap[i] = '';
-          else break;
-        }
-        i++;
-      }
-    }
-
-    this.setState({ rasterMap: newRasterMap });
+    this.resizeElementLeft(oldStartIndex, newStartIndex, index);
   };
-
-  handleElementSizeChangeLeft = (
-    id: string,
-    startIndex: number,
-    endIndex: number
-  ) => this.handleElementSizeChange(id, 'LEFT', startIndex, endIndex);
   handleElementSizeChangeRight = (
     id: string,
+    index: number,
     startIndex: number,
     endIndex: number
-  ) => this.handleElementSizeChange(id, 'RIGHT', startIndex, endIndex);
+  ) => {
+    const currentElement = this.props.topicElements[index];
+    const { endIndex: oldEndIndex } = currentElement;
+    const newEndIndex =
+      endIndex >= this.props.rasterCount
+        ? this.props.rasterCount - 1
+        : endIndex;
+
+    this.resizeElementRight(oldEndIndex, newEndIndex, index);
+  };
 
   generateElements = () => {
-    const { rasterMap } = this.state;
-    const elements: JSX.Element[] = [];
-    const pushNewElement = (
-      startIndex: number,
-      endIndex: number,
-      lastElement: string
-    ) => {
-      if (lastElement === '') {
-        elements.push(<FillerElement width={this.props.rasterSize} />);
-      } else {
-        const { id, text, color } = this.props.topicElements[lastElement];
+    const { topicElements, rasterSize, rasterCount, rowId } = this.props;
+    let elements = [];
+    let nextIndex = 0;
+    let i = 0;
+    for (i = 0; i < topicElements.length; i++) {
+      const { id, text, color, startIndex, endIndex } = topicElements[i];
 
+      if (topicElements[i].startIndex > nextIndex) {
         elements.push(
-          <ResizableRasterTopicElement
-            id={id}
-            isTransparentWhileDragging={true}
-            onChangeSizeLeft={this.handleElementSizeChangeLeft}
-            onChangeSizeRight={this.handleElementSizeChangeRight}
-            rasterSize={this.props.rasterSize}
-            startIndex={startIndex}
-            endIndex={endIndex}
-            color={color}
-            text={text}
-            key={id}
+          <FillerElement
+            width={(startIndex - nextIndex) * rasterSize}
+            key={`Filler-${i}`}
           />
         );
       }
-    };
-
-    if (rasterMap.length) {
-      let lastElement = rasterMap[0];
-      let currentElementStartIndex = 0;
-
-      for (let i = 1; i < rasterMap.length; i++) {
-        if (rasterMap[i] !== lastElement || rasterMap[i] === '') {
-          pushNewElement(currentElementStartIndex, i - 1, lastElement);
-          lastElement = rasterMap[i];
-          currentElementStartIndex = i;
-        }
-      }
-      // Push last element not covered by loop
-      pushNewElement(
-        currentElementStartIndex,
-        rasterMap.length - 1,
-        lastElement
+      elements.push(
+        <ResizableRasterTopicElement
+          id={id}
+          index={i}
+          rowId={rowId}
+          type={TOPIC_INSTANCE}
+          isTransparentWhileDragging={true}
+          onChangeSizeLeft={this.handleElementSizeChangeLeft}
+          onChangeSizeRight={this.handleElementSizeChangeRight}
+          rasterSize={rasterSize}
+          startIndex={startIndex}
+          endIndex={endIndex}
+          color={color}
+          text={text}
+          key={id}
+        />
+      );
+      nextIndex = endIndex + 1;
+    }
+    if (nextIndex < rasterCount) {
+      elements.push(
+        <FillerElement
+          width={(rasterCount - nextIndex) * rasterSize}
+          key={`Filler-${i}`}
+        />
       );
     }
 
