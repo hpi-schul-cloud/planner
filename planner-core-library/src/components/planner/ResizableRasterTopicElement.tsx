@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   default as DragDropRasterTopicElement,
   PropsType as DragDropRasterTopicElementPropsType
-} from './dragAndDrop/DragDropRasterElement';
+} from './dragAndDrop/DraggableRasterElement';
 
 const Dragger = styled.div`
   position: absolute;
@@ -34,8 +34,19 @@ const DraggerContainer = styled.div`
 
 export type PropsType = {
   id: string;
-  onChangeSizeLeft: (id: string, startIndex: number, endIndex: number) => void;
-  onChangeSizeRight: (id: string, startIndex: number, endIndex: number) => void;
+  index: number;
+  onChangeSizeLeft: (
+    id: string,
+    index: number,
+    startIndex: number,
+    endIndex: number
+  ) => void;
+  onChangeSizeRight: (
+    id: string,
+    index: number,
+    startIndex: number,
+    endIndex: number
+  ) => void;
 } & DragDropRasterTopicElementPropsType;
 
 const RIGHT = 'RIGHT';
@@ -82,17 +93,18 @@ class ResizableRasterTopicElement extends Component<PropsType> {
     const steps = Math.round(delta / this.props.rasterSize);
 
     const { startIndex, endIndex } = this;
+    const { id, index, onChangeSizeRight, onChangeSizeLeft } = this.props;
 
     if (this.dragSide === RIGHT) {
       const newEndIndex =
         endIndex + steps > startIndex ? endIndex + steps : startIndex;
 
-      this.props.onChangeSizeRight(this.props.id, startIndex, newEndIndex);
+      onChangeSizeRight(id, index, startIndex, newEndIndex);
     } else if (this.dragSide === LEFT) {
       const newStartIndex =
         startIndex + steps < endIndex ? startIndex + steps : endIndex;
 
-      this.props.onChangeSizeLeft(this.props.id, newStartIndex, endIndex);
+      onChangeSizeLeft(id, index, newStartIndex, endIndex);
     }
   };
 
