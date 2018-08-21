@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import map from 'lodash/map';
+import throttle from 'lodash/throttle';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import {
   default as InteractiveRasterRow,
   TopicElementsType
 } from './InteractiveRasterRow';
-import DragDropRasterElement from './dragAndDrop/DragDropRasterElement';
 import DraggableRasterElement from './dragAndDrop/DraggableRasterElement';
+import { TOPIC_TEMPLATE } from './constants';
 
 interface PropsType {
-  topicTemplates: {};
-  classInstances: {};
+  topicTemplates: TopicType[];
+  classInstances: {
+    [classId: string]: {
+      id: string;
+      name: string;
+      topics: TopicElementsType[];
+    };
+  };
 }
 
 interface TopicType {
@@ -27,9 +33,17 @@ interface StateType {
     [classId: string]: {
       id: string;
       name: string;
-      topics: TopicElementsType;
+      topics: TopicElementsType[];
     };
   };
+  tempClassInstances: {
+    [classId: string]: {
+      id: string;
+      name: string;
+      topics: TopicElementsType[];
+    };
+  };
+  isDragging: boolean;
 }
 
 @DragDropContext(HTML5Backend)
@@ -37,71 +51,47 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
     this.state = {
-      classInstances: {
-        '8a': {
-          id: '8a',
-          name: '',
-          topics: {
-            1: {
-              id: '1',
-              text: '1.Topic',
-              color: '#92DB92',
-              startIndex: 0,
-              endIndex: 3
-            },
-            2: {
-              id: '2',
-              text: '2.Topic',
-              color: '#92DB92',
-              startIndex: 4,
-              endIndex: 6
-            },
-            3: {
-              id: '3',
-              text: '3.Topic',
-              color: '#92DB92',
-              startIndex: 8,
-              endIndex: 12
-            }
-          }
-        },
-        '8b': {
-          id: '8b',
-          name: '',
-          topics: {
-            1: {
-              id: '1',
-              text: '1.Topic',
-              color: '#92DB92',
-              startIndex: 0,
-              endIndex: 3
-            },
-            2: {
-              id: '2',
-              text: '2.Topic',
-              color: '#92DB92',
-              startIndex: 4,
-              endIndex: 6
-            },
-            3: {
-              id: '3',
-              text: '3.Topic',
-              color: '#92DB92',
-              startIndex: 8,
-              endIndex: 12
-            }
-          }
-        }
-      },
-      topicTemplates: [
-        { id: '4', text: 'Evolution', width: 5 },
-        { id: '5', text: 'Replikation', width: 10 },
-        { id: '6', text: 'Zellteilung', width: 8 }
-      ]
+      topicTemplates: props.topicTemplates,
+      classInstances: props.classInstances,
+      tempClassInstances: { ...props.classInstances },
+      isDragging: false
     };
   }
 
-  updateClassInstance = (classId: string, topics: TopicElementsType) => {
+  softRelocateTopicElement = throttle(
+    (
+      rowId: string,
+      elementIndex: number,
+      insertStartIndex: number,
+      width: number,
+      { text }: { text: string }
+    ) => {
+      console.log(`Soft Relocate Topic Element ${rowId} ${insertStartIndex}`);
+      this.setState({
+        ...this.state,
+        isDragging: true
+      });
+    },
+    100
+  );
+
+  softInsertTopicElement = throttle(
+    (
+      rowId: string,
+      insertStartIndex: number,
+      width: number,
+      { text }: { text: string }
+    ) => {
+      console.log(`Soft Insert Topic Element ${rowId} ${insertStartIndex}`);
+      this.setState({
+        ...this.state,
+        isDragging: true
+      });
+    },
+    100
+  );
+
+  updateClassInstance = (classId: string, topics: TopicElementsType[]) => {
     this.setState({
       ...this.state,
       classInstances: {
@@ -120,12 +110,18 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
     return (
       <>
         {map(classInstances, classInstance => (
-          <div>
+          <div key={classInstance.id}>
             <InteractiveRasterRow
               topicElements={classInstance.topics}
               rasterSize={20}
               rasterCount={30}
               rowId={classInstance.id}
+              key={classInstance.id}
+              updateElements={topics =>
+                this.updateClassInstance(classInstance.id, topics)
+              }
+              softRelocateTopicElement={this.softRelocateTopicElement}
+              softInsertTopicElement={this.softInsertTopicElement}
             />
           </div>
         ))}
@@ -134,9 +130,10 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
             <DraggableRasterElement
               id={topicTemplate.id}
               key={topicTemplate.id}
+              type={TOPIC_TEMPLATE}
               isTransparentWhileDragging={false}
               text={topicTemplate.text}
-              rasterSize={15}
+              rasterSize={20}
               startIndex={0}
               endIndex={topicTemplate.width}
             />
