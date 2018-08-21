@@ -1,76 +1,97 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 import {
   DragSource,
   DragSourceCollector,
   DragSourceConnector,
   DragSourceMonitor,
-  ConnectDragSource,
-  ConnectDragPreview
+  ConnectDragSource
 } from 'react-dnd';
-import {
-  default as RasterTopicElement,
+import RasterTopicElement, {
   PropsType as RasterTopicElementPropsType
 } from '../RasterTopicElement';
 
 const StyledDragContainer = styled.div`
   display: inline-block;
-  cursor: move;
   opacity: ${({ isTransparent }: { isTransparent: boolean }) =>
     isTransparent ? 0 : 1};
+  * {
+    box-sizing: border-box;
+  }
 `;
 
-const cardSource = {
+const StyledTopicElementContainer = styled.div`
+  display: inline-block;
+  cursor: move;
+`;
+
+const elementSource = {
   beginDrag(props: PropsType) {
     return {
       id: props.id,
-      type: 'DRAGGABLE',
+      index: props.index,
+      type: props.type,
       width: props.endIndex - props.startIndex,
       text: props.text,
-      color: props.color
+      rowId: props.rowId
     };
+  },
+  endDrag(props: PropsType, monitor: DragSourceMonitor) {
+    if (monitor.didDrop()) {
+      console.log('Did drop');
+    } else {
+      console.log('Rejected');
+    }
   }
 };
 
-const collect: DragSourceCollector<DraggableRasterTopicElementType> = (
+const collect: DragSourceCollector<DragDropRasterTopicElementType> = (
   connect: DragSourceConnector,
   monitor: DragSourceMonitor
 ) => ({
   connectDragSource: connect.dragSource(),
-  connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging()
 });
 
-type DraggableRasterTopicElementType = {
+type DragDropRasterTopicElementType = {
   connectDragSource?: ConnectDragSource;
-  connectDragPreview?: ConnectDragPreview;
   isDragging?: boolean;
 };
 
-type PropsType = RasterTopicElementPropsType &
-  DraggableRasterTopicElementType & {
+export type PropsType = RasterTopicElementPropsType &
+  DragDropRasterTopicElementType & {
     isTransparentWhileDragging?: boolean;
+    type: string;
+    rowId?: string;
+    index?: number;
   };
 
-@DragSource('TopicElement', cardSource, collect)
-export default class DraggableRasterTopicElement extends Component<PropsType> {
+@DragSource('TopicElement', elementSource, collect)
+export default class DragDropRasterTopicElement extends Component<PropsType> {
   render() {
     const {
       connectDragSource,
-      connectDragPreview,
       isDragging,
       isTransparentWhileDragging,
+      type,
       ...props
     } = this.props;
     const isTransparent = !!(isDragging && isTransparentWhileDragging);
 
     return (
       connectDragSource && (
-        <StyledDragContainer
-          innerRef={instance => connectDragSource(instance)}
-          isTransparent={isTransparent}
-        >
-          <RasterTopicElement {...props} />
+        <StyledDragContainer isTransparent={isTransparent}>
+          {this.props.children}
+          <StyledTopicElementContainer
+            innerRef={instance => {
+              // @ts-ignore - We can be sure that domNode is React.Element
+              const domNode: React.ReactElement<{}> = findDOMNode(instance);
+              connectDragSource(domNode);
+            }}
+          >
+            <RasterTopicElement {...props} />
+          </StyledTopicElementContainer>
         </StyledDragContainer>
       )
     );
