@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import map from 'lodash/map';
 import throttle from 'lodash/throttle';
+import cloneDeep from 'lodash/cloneDeep';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import {
@@ -9,6 +10,10 @@ import {
 } from './InteractiveRasterRow';
 import DraggableRasterElement from './dragAndDrop/DraggableRasterElement';
 import { TOPIC_TEMPLATE } from './constants';
+import {
+  getClassTopicsAfterInsertion,
+  getClassTopicsAfterMove
+} from './helper';
 
 interface PropsType {
   topicTemplates: TopicType[];
@@ -28,7 +33,6 @@ interface TopicType {
 }
 
 interface StateType {
-  topicTemplates: TopicType[];
   classInstances: {
     [classId: string]: {
       id: string;
@@ -51,12 +55,42 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
     this.state = {
-      topicTemplates: props.topicTemplates,
       classInstances: props.classInstances,
-      tempClassInstances: { ...props.classInstances },
+      tempClassInstances: props.classInstances,
       isDragging: false
     };
   }
+
+  // static getDerivedStateFromProps(nextProps: PropsType, prevState: StateType) {
+  //   console.log('get derived state from props');
+  //   return {
+  //     ...prevState,
+  //     tempClassInstances: nextProps.classInstances
+  //   };
+  // }
+
+  resetDragState = () => {
+    // Cancel throttling
+    this.softRelocateTopicElement.cancel();
+    this.softInsertTopicElement.cancel();
+
+    this.setState({
+      ...this.state,
+      tempClassInstances: { ...this.state.classInstances },
+      isDragging: false
+    });
+  };
+
+  commitCurrentDragState = () => {
+    // Cancel throttling
+    this.softRelocateTopicElement.cancel();
+    this.softInsertTopicElement.cancel();
+
+    this.setState({
+      isDragging: false
+    });
+    // props.updateClassInstances(this.state.tempClassInstances);
+  };
 
   softRelocateTopicElement = throttle(
     (
@@ -64,12 +98,27 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
       elementIndex: number,
       insertStartIndex: number,
       width: number,
-      { text }: { text: string }
+      elementValues: Partial<TopicElementsType>
     ) => {
-      console.log(`Soft Relocate Topic Element ${rowId} ${insertStartIndex}`);
+      const newTemporaryClassTopics = getClassTopicsAfterMove(
+        insertStartIndex,
+        elementIndex,
+        width,
+        elementValues,
+        30, // rasterCount
+        this.state.classInstances[rowId].topics
+      );
+      const newTempClassInstances = {
+        ...this.state.classInstances,
+        [rowId]: {
+          ...this.state.classInstances[rowId],
+          topics: newTemporaryClassTopics
+        }
+      };
+
       this.setState({
-        ...this.state,
-        isDragging: true
+        isDragging: true,
+        tempClassInstances: newTempClassInstances
       });
     },
     100
@@ -80,18 +129,33 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
       rowId: string,
       insertStartIndex: number,
       width: number,
-      { text }: { text: string }
+      elementValues: Partial<TopicElementsType>
     ) => {
-      console.log(`Soft Insert Topic Element ${rowId} ${insertStartIndex}`);
+      const newTemporaryClassTopics = getClassTopicsAfterInsertion(
+        insertStartIndex,
+        width,
+        elementValues,
+        30, // rasterCount
+        this.state.classInstances[rowId].topics
+      );
+      const newTempClassInstances = {
+        ...this.state.classInstances,
+        [rowId]: {
+          ...this.state.classInstances[rowId],
+          topics: newTemporaryClassTopics
+        }
+      };
+
       this.setState({
-        ...this.state,
-        isDragging: true
+        isDragging: true,
+        tempClassInstances: newTempClassInstances
       });
     },
     100
   );
 
   updateClassInstance = (classId: string, topics: TopicElementsType[]) => {
+    // Actually: props.updateClassInstances(new State);
     this.setState({
       ...this.state,
       classInstances: {
@@ -105,8 +169,10 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
   };
 
   render() {
-    const { classInstances, topicTemplates } = this.state;
-
+    const { topicTemplates } = this.props;
+    const classInstances = this.state.isDragging
+      ? this.state.tempClassInstances
+      : this.state.classInstances;
     return (
       <>
         {map(classInstances, classInstance => (
@@ -122,6 +188,8 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
               }
               softRelocateTopicElement={this.softRelocateTopicElement}
               softInsertTopicElement={this.softInsertTopicElement}
+              onElementDidNotDrop={this.resetDragState}
+              onElementDidDrop={this.commitCurrentDragState}
             />
           </div>
         ))}
@@ -132,6 +200,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
               key={topicTemplate.id}
               type={TOPIC_TEMPLATE}
               isTransparentWhileDragging={false}
+              onElementDidNotDrop={this.resetDragState}
               text={topicTemplate.text}
               rasterSize={20}
               startIndex={0}
