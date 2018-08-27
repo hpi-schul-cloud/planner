@@ -32,16 +32,15 @@ const elementSource = {
       id: props.id,
       index: props.index,
       type: props.type,
-      width: props.endIndex - props.startIndex,
+      width: props.endIndex - props.startIndex + 1,
       text: props.text,
+      color: props.color,
       rowId: props.rowId
     };
   },
   endDrag(props: PropsType, monitor: DragSourceMonitor) {
-    if (monitor.didDrop()) {
-      console.log('Did drop');
-    } else {
-      console.log('Rejected');
+    if (monitor.didDrop() === false) {
+      props.onElementDidNotDrop();
     }
   }
 };
@@ -65,6 +64,7 @@ export type PropsType = RasterTopicElementPropsType &
     type: string;
     rowId?: string;
     index?: number;
+    onElementDidNotDrop: () => void;
   };
 
 @DragSource('TopicElement', elementSource, collect)

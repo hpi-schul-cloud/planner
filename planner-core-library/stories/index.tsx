@@ -72,6 +72,7 @@ storiesOf('ResizableRasterTopicElement', module).add('with small size', () => (
     endIndex={number('End Index', 4)}
     text={text('Text', 'Evolution')}
     color={color('Color', '#92DB92')}
+    onElementDidNotDrop={() => {}}
   />
 ));
 
@@ -101,6 +102,8 @@ storiesOf('InteractiveRasterRow', module).add('with small size', () => {
       updateElements={topics => console.log(topics)}
       softRelocateTopicElement={() => {}}
       softInsertTopicElement={() => {}}
+      onElementDidNotDrop={() => {}}
+      onElementDidDrop={() => {}}
     />
   );
 });
