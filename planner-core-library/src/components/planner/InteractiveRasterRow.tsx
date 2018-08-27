@@ -25,18 +25,20 @@ type PropsType = {
   rasterCount: number;
   rowId: string;
   updateElements: (topicElements: TopicElementsType[]) => void;
+  onElementDidNotDrop: () => void;
+  onElementDidDrop: () => void;
   softRelocateTopicElement: (
     rowId: string,
     elementIndex: number,
     insertStartIndex: number,
     width: number,
-    { text }: { text: string }
+    elementValues: Partial<TopicElementsType>
   ) => void;
   softInsertTopicElement: (
     rowId: string,
     insertStartIndex: number,
     width: number,
-    { text }: { text: string }
+    elementValues: Partial<TopicElementsType>
   ) => void;
 } & DragDropRasterTopicElementType;
 
@@ -62,8 +64,7 @@ const cardTarget = {
       // Dragging between rows is not allowed
       return rowId === props.rowId;
     } else if (type === TOPIC_TEMPLATE) {
-      // Inserting template, when not enough space is given is not allowed
-      return emptySpace >= width;
+      return true;
     }
 
     return true;
@@ -98,7 +99,7 @@ const cardTarget = {
           ? props.rasterCount - 1
           : insertStartIndex;
 
-    const { type, width, text } = monitor.getItem();
+    const { type, width, id, text, color } = monitor.getItem();
 
     // Call SoftInsert from InteractiveRasterUnit
     // With: rowId, insertionIndex, width
@@ -111,7 +112,7 @@ const cardTarget = {
           elementIndex,
           insertStartIndex,
           width,
-          { text }
+          { id, text, color }
         );
       }
     } else if (type === TOPIC_TEMPLATE) {
@@ -120,12 +121,8 @@ const cardTarget = {
       });
     }
   },
-  drop(
-    props: PropsType,
-    monitor: DropTargetMonitor,
-    component: InteractiveRasterRow
-  ) {
-    console.log(`Did drop on ${props.rowId}`);
+  drop(props: PropsType) {
+    props.onElementDidDrop();
   }
 };
 
@@ -191,6 +188,7 @@ class InteractiveRasterRow extends Component<PropsType> {
       });
     }
   };
+
   resizeElementRight = (
     oldEndIndex: number,
     newEndIndex: number,
@@ -232,6 +230,7 @@ class InteractiveRasterRow extends Component<PropsType> {
       });
     }
   };
+
   handleElementSizeChangeLeft = (
     id: string,
     index: number,
@@ -244,6 +243,7 @@ class InteractiveRasterRow extends Component<PropsType> {
 
     this.resizeElementLeft(oldStartIndex, newStartIndex, index);
   };
+
   handleElementSizeChangeRight = (
     id: string,
     index: number,
@@ -261,7 +261,13 @@ class InteractiveRasterRow extends Component<PropsType> {
   };
 
   generateElements = () => {
-    const { topicElements, rasterSize, rasterCount, rowId } = this.props;
+    const {
+      topicElements,
+      rasterSize,
+      rasterCount,
+      rowId,
+      onElementDidNotDrop
+    } = this.props;
     let elements = [];
     let nextIndex = 0;
     let i = 0;
@@ -282,9 +288,10 @@ class InteractiveRasterRow extends Component<PropsType> {
           index={i}
           rowId={rowId}
           type={TOPIC_INSTANCE}
-          isTransparentWhileDragging={true}
+          isTransparentWhileDragging={false}
           onChangeSizeLeft={this.handleElementSizeChangeLeft}
           onChangeSizeRight={this.handleElementSizeChangeRight}
+          onElementDidNotDrop={onElementDidNotDrop}
           rasterSize={rasterSize}
           startIndex={startIndex}
           endIndex={endIndex}
