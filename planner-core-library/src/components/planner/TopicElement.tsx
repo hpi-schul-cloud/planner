@@ -19,12 +19,13 @@ const ElementContainer = styled.div`
   * {
     box-sizing: border-box;
   }
+  vertical-align: top;
 `;
 
 const TextContainer = styled.div`
   user-select: none;
   pointer-events: none;
-  overflow: hidden;
+  overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: sans-serif;
@@ -34,6 +35,7 @@ const TextContainer = styled.div`
     else if (size === 'medium') return '2px 5px';
     else return '4px 10px';
   }};
+  color: #4a4a4a;
 `;
 
 export interface PropsType {
