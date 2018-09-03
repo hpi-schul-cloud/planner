@@ -48,8 +48,6 @@ export const getClassTopicsAfterInsertion = (
   rasterCount: number,
   currentClassInstances: TopicElementsType[]
 ) => {
-  // console.log(insertStartIndex);
-  // console.log(currentClassInstances);
   let result = [...currentClassInstances];
   const {
     elementIndexAtPosition,

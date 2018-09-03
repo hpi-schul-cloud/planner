@@ -6,6 +6,7 @@ import RasterTopicElement from '../src/components/planner/RasterTopicElement';
 import ResizableRasterTopicElement from '../src/components/planner/ResizableRasterTopicElement';
 import InteractiveRasterRow from '../src/components/planner/InteractiveRasterRow';
 import InteractiveRasterUnit from '../src/components/planner/InteractiveRasterUnit';
+import RasterUnitContainer from '../src/components/planner/RasterUnitContainer';
 import { action } from '@storybook/addon-actions';
 import {
   withKnobs,
@@ -120,6 +121,14 @@ storiesOf('InteractiveRasterUnit', module).add('default', () => {
     />
   );
 });
+
+storiesOf('RasterUnitContainer', module).add('default', () => {
+  return (
+    <RasterUnitContainer
+      topicTemplates={getTopicTemplates()}
+      classInstances={getClassInstances()}
+      rasterCount={number('Raster Count', 30)}
+      rasterSize={number('Raster Size', 20)}
     />
   );
 });
