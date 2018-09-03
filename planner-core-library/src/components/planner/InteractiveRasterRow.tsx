@@ -17,6 +17,8 @@ export type TopicElementsType = {
 
 type DragDropRasterTopicElementType = {
   connectDropTarget?: ConnectDropTarget;
+  canDrop?: boolean;
+  isOver?: boolean;
 };
 
 type PropsType = {
@@ -50,15 +52,12 @@ const FillerElement = styled.div`
 
 const RasterRowContainer = styled.div`
   display: inline-block;
+  background: ${({ background }: { background: string }) => background};
 `;
 
 const cardTarget = {
   canDrop(props: PropsType, monitor: DropTargetMonitor) {
-    const emptySpace = getEmptySpaceSize(
-      props.rasterCount,
-      props.topicElements
-    );
-    const { width, type, rowId } = monitor.getItem();
+    const { type, rowId } = monitor.getItem();
 
     if (type === TOPIC_INSTANCE) {
       // Dragging between rows is not allowed
@@ -117,7 +116,8 @@ const cardTarget = {
       }
     } else if (type === TOPIC_TEMPLATE) {
       props.softInsertTopicElement(props.rowId, insertStartIndex, width, {
-        text
+        text,
+        color
       });
     }
   },
@@ -316,11 +316,19 @@ class InteractiveRasterRow extends Component<PropsType> {
 
   render() {
     const elements = this.generateElements();
-    const { connectDropTarget } = this.props;
+    const {
+      connectDropTarget,
+      isOver,
+      canDrop,
+      rasterSize,
+      rasterCount
+    } = this.props;
+    const rasterRowState = isOver && canDrop ? '#afffb585' : 'none';
 
     return (
       connectDropTarget && (
         <RasterRowContainer
+          background={rasterRowState}
           innerRef={instance => {
             // @ts-ignore - We can be sure that domNode is React.Element
             const domNode: React.ReactElement<{}> = findDOMNode(instance);
