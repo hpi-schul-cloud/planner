@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import {
-  default as DragDropRasterTopicElement,
-  PropsType as DragDropRasterTopicElementPropsType
+  default as DraggableRasterElement,
+  PropsType as DraggableRasterElementPropsType
 } from './dragAndDrop/DraggableRasterElement';
 
 const Dragger = styled.div`
@@ -47,7 +47,7 @@ export type PropsType = {
     startIndex: number,
     endIndex: number
   ) => void;
-} & DragDropRasterTopicElementPropsType;
+} & DraggableRasterElementPropsType;
 
 const RIGHT = 'RIGHT';
 const LEFT = 'LEFT';
@@ -121,10 +121,10 @@ class ResizableRasterTopicElement extends Component<PropsType> {
           this.topicElementRef = x;
         }}
       >
-        <DragDropRasterTopicElement {...props}>
+        <DraggableRasterElement {...props}>
           <LeftDragger onMouseDown={this.setupDragLeft} />
           <RightDragger onMouseDown={this.setupDragRight} />
-        </DragDropRasterTopicElement>
+        </DraggableRasterElement>
       </DraggerContainer>
     );
   }
