@@ -16,6 +16,7 @@ import {
   select
 } from '@storybook/addon-knobs';
 import { styles as schulCloudStyles } from './schulCloudStyles';
+import { getClassInstances, getTopicTemplates } from './storyHelpers';
 
 addDecorator(withKnobs);
 
@@ -96,8 +97,8 @@ storiesOf('InteractiveRasterRow', module).add('with small size', () => {
   return (
     <InteractiveRasterRow
       topicElements={object('Topic Elements', topicElements)}
-      rasterCount={number('Raster Count', 45)}
-      rasterSize={number('Raster Size', 15)}
+      rasterCount={number('Raster Count', 30)}
+      rasterSize={number('Raster Size', 20)}
       rowId={text('RowId', '1')}
       updateElements={topics => console.log(topics)}
       softRelocateTopicElement={() => {}}
@@ -109,71 +110,16 @@ storiesOf('InteractiveRasterRow', module).add('with small size', () => {
 });
 
 storiesOf('InteractiveRasterUnit', module).add('default', () => {
-  const classInstances = {
-    '8a': {
-      id: '8a',
-      name: '',
-      topics: [
-        {
-          id: '1',
-          text: '1.Topic',
-          color: '#92DB92',
-          startIndex: 0,
-          endIndex: 3
-        },
-        {
-          id: '2',
-          text: '2.Topic',
-          color: '#92DB92',
-          startIndex: 4,
-          endIndex: 6
-        },
-        {
-          id: '3',
-          text: '3.Topic',
-          color: '#92DB92',
-          startIndex: 8,
-          endIndex: 12
-        }
-      ]
-    },
-    '8b': {
-      id: '8b',
-      name: '',
-      topics: [
-        {
-          id: '1',
-          text: '1.Topic',
-          color: '#92DB92',
-          startIndex: 0,
-          endIndex: 3
-        },
-        {
-          id: '2',
-          text: '2.Topic',
-          color: '#92DB92',
-          startIndex: 4,
-          endIndex: 6
-        },
-        {
-          id: '3',
-          text: '3.Topic',
-          color: '#92DB92',
-          startIndex: 8,
-          endIndex: 12
-        }
-      ]
-    }
-  };
-  const topicTemplates = [
-    { id: '4', text: 'Evolution', width: 5 },
-    { id: '5', text: 'Replikation', width: 10 },
-    { id: '6', text: 'Zellteilung', width: 8 }
-  ];
   return (
     <InteractiveRasterUnit
-      topicTemplates={topicTemplates}
-      classInstances={classInstances}
+      topicTemplates={getTopicTemplates()}
+      classInstances={getClassInstances()}
+      updateClassInstances={classInstaces => console.log(classInstaces)}
+      rasterCount={number('Raster Count', 30)}
+      rasterSize={number('Raster Size', 20)}
+    />
+  );
+});
     />
   );
 });
