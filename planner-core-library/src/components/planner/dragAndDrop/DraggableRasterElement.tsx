@@ -24,6 +24,8 @@ const StyledDragContainer = styled.div`
 const StyledTopicElementContainer = styled.div`
   display: inline-block;
   cursor: move;
+  /* Fixes the drag and drop preview image. See https://github.com/react-dnd/react-dnd/issues/788 */
+  transform: translate(0, 0);
 `;
 
 const elementSource = {
