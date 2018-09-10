@@ -47,7 +47,7 @@ const TestRender: React.SFC<{
   caption: string;
   buttonType: string;
 }> = ({ onClick, caption, buttonType }) => {
-  const Element = ReactButton;
+  const Element = getButtonElement();
 
   return <Element caption={caption} onClick={onClick} />;
 };
@@ -63,3 +63,7 @@ const Test: React.SFC<{ buttonType: string }> = ({ buttonType }) => {
 };
 
 export default Test;
+
+function getButtonElement() {
+  return ReactButton;
+}
