@@ -31,11 +31,11 @@ import {
 
 addDecorator(withKnobs);
 
-storiesOf('SchicView', module)
-  .add('with default styles', () => <SchicView onSave={action('onSave')} />)
-  .add('with Schul-Cloud styles', () => {
-    return <SchicView onSave={action('onSave')} styles={schulCloudStyles} />;
-  });
+// storiesOf('SchicView', module)
+//   .add('with default styles', () => <SchicView onSave={action('onSave')} />)
+//   .add('with Schul-Cloud styles', () => {
+//     return <SchicView onSave={action('onSave')} styles={schulCloudStyles} />;
+//   });
 
 storiesOf('ExpansionPanel', module).add('with all values', () => (
   <ExpansionPanel caption="Test">Haaaallo!</ExpansionPanel>

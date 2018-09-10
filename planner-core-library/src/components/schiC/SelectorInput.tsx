@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import Button from "../base/Button";
-import Select from "../base/Select";
-import Input from "../base/Input";
-import { mergeStyles } from "../stylesHelper";
-import { ViewStylesType } from "../stylesType";
-import { ComponentStylesType } from "./stylesType";
+import React from 'react';
+import styled from 'styled-components';
+import Button from '../base/Button';
+import Select from '../base/Select';
+import Input from '../base/Input';
+import { mergeStyles } from '../stylesHelper';
+import { ViewStylesType } from '../stylesType';
+import { ComponentStylesType } from './stylesType';
 
 export type ItemType = {
   optionIndex: number;
@@ -45,7 +45,7 @@ function SelectorInput(props: PropsType) {
       ...props.items,
       {
         optionIndex: 0,
-        value: ""
+        value: ''
       }
     ]);
   }
@@ -67,18 +67,19 @@ function SelectorInput(props: PropsType) {
       {items.map((item, index) => (
         <ItemDiv>
           <Select
-            value={item.optionIndex}
+            initialValue={item.optionIndex.toString()}
             onChange={event =>
-              changeField(index, parseInt(event.target.value, 10), item.value)
+              changeField(
+                index,
+                parseInt(event.currentTarget.value, 10),
+                item.value
+              )
             }
-            styles={styles.baseComponents.select}
-          >
-            {options.map((option, index) => (
-              <option value={index} key={index}>
-                {option}
-              </option>
-            ))}
-          </Select>
+            values={options.map((option, index) => ({
+              text: option,
+              value: index.toString()
+            }))}
+          />
           <Input
             value={item.value}
             onChange={event =>
@@ -88,7 +89,7 @@ function SelectorInput(props: PropsType) {
           />
           <Button
             onClick={() => removeItem(index)}
-            styles={mergeStyles(styles, "button", "minusButton")}
+            styles={mergeStyles(styles, 'button', 'minusButton')}
           >
             x
           </Button>
@@ -96,7 +97,7 @@ function SelectorInput(props: PropsType) {
       ))}
       <Button
         onClick={addField}
-        styles={mergeStyles(styles, "button", "plusButton")}
+        styles={mergeStyles(styles, 'button', 'plusButton')}
       >
         +
       </Button>

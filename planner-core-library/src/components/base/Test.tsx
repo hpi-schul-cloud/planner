@@ -36,7 +36,9 @@ const Button2: React.SFC<{ onClick: () => void; caption: string }> = ({
   return <Div2 onClick={onClick}>{caption}</Div2>;
 };
 
-const buttonMap = {
+const buttonMap: {
+  [id: string]: React.SFC<any> | React.ComponentClass<any>;
+} = {
   1: Button1,
   2: Button2,
   3: ReactButton
@@ -47,7 +49,10 @@ const TestRender: React.SFC<{
   caption: string;
   buttonType: string;
 }> = ({ onClick, caption, buttonType }) => {
-  const Element = getButtonElement();
+  const Element: React.ComponentClass<{
+    onClick: () => void;
+    caption: string;
+  }> = getButtonElement();
 
   return <Element caption={caption} onClick={onClick} />;
 };

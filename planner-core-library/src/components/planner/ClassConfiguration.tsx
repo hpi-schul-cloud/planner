@@ -7,8 +7,7 @@ import {
   ClassInstanceType,
   TemplatesOfClassLevelType
 } from './types';
-import ExpansionPanel from '../base/ExpansionPanel';
-import Select from '../base/Select';
+import { ExpansionPanel, Select } from '../provider/componentProvider';
 import RadioButtons from '../base/RadioButtons';
 
 interface PropsType {
@@ -95,7 +94,7 @@ class ClassConfiguration extends Component<PropsType, StateType> {
   getSelectOptions = () => {
     const { allClassTopics } = this.props;
     return Object.keys(allClassTopics).map(key => ({
-      id: allClassTopics[key].schoolYearId,
+      value: allClassTopics[key].schoolYearId,
       text: allClassTopics[key].schoolYearName
     }));
   };
@@ -136,7 +135,6 @@ class ClassConfiguration extends Component<PropsType, StateType> {
   };
 
   onSelectChange = (id: string) => {
-    debugger;
     this.setState({
       selectedSchoolYearId: id
     });
@@ -158,15 +156,10 @@ class ClassConfiguration extends Component<PropsType, StateType> {
         <StyledSelectorLabel>
           Schuljahr:{' '}
           <Select
-            value={this.state.selectedSchoolYearId}
-            onChange={event => this.onSelectChange(event.target.value)}
-          >
-            {selectOptions.map(option => (
-              <option value={option.id} key={option.id}>
-                {option.text}
-              </option>
-            ))}
-          </Select>
+            initialValue={this.state.selectedSchoolYearId}
+            onChange={event => this.onSelectChange(event.currentTarget.value)}
+            values={selectOptions}
+          />
         </StyledSelectorLabel>
         <div>
           <RadioButtons
