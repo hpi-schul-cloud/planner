@@ -13,6 +13,8 @@
   "author": "Georg Berecz",
   "license": "ISC",
   "devDependencies": {
+    "@material-ui/core": "^3.0.3",
+    "@material-ui/icons": "^3.0.1",
     "@storybook/addon-actions": "4.0.0-alpha.9",
     "@storybook/addon-info": "4.0.0-alpha.9",
     "@storybook/addon-knobs": "^3.4.10",
