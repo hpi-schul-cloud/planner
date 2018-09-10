@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import InteractiveRasterUnit from './InteractiveRasterUnit';
 import { TopicElementsType } from './InteractiveRasterRow';
 import TimeRasterWrapper from './TimeRasterWrapper';
+import RowCaptions from './RowCaptions';
 
 type ClassInstanceType = {
   [classId: string]: {
@@ -11,7 +13,7 @@ type ClassInstanceType = {
   };
 };
 
-interface TopicType {
+interface TopicTemplateType {
   id: string;
   text: string;
   width: number;
@@ -25,9 +27,13 @@ interface StateType {
 interface PropsType {
   rasterCount: number;
   rasterSize: number;
-  topicTemplates: TopicType[];
+  topicTemplates: TopicTemplateType[];
   classInstances: ClassInstanceType;
 }
+
+const FlexContainer = styled.div`
+  display: flex;
+`;
 
 class RasterUnitContainer extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
@@ -71,15 +77,31 @@ class RasterUnitContainer extends Component<PropsType, StateType> {
   };
 
   render() {
+    const labels = Object.values(this.state.classInstances).map(
+      classInstance => {
+        const freeSlotsCount = classInstance.topics.reduce(
+          (count, topic) => count - (topic.endIndex - topic.startIndex + 1),
+          this.props.rasterCount
+        );
+        return {
+          text: classInstance.name,
+          subText: freeSlotsCount ? `${freeSlotsCount} frei` : ''
+        };
+      }
+    );
+
     return (
-      <InteractiveRasterUnit
-        updateClassInstances={this.updateClassInstance}
-        classInstances={this.state.classInstances}
-        topicTemplates={this.props.topicTemplates}
-        rasterCount={this.props.rasterCount}
-        rasterSize={this.props.rasterSize}
-        wrapRasterRows={this.wrapRasterRowsWithGrid}
-      />
+      <FlexContainer>
+        <RowCaptions labels={labels} />
+        <InteractiveRasterUnit
+          updateClassInstances={this.updateClassInstance}
+          classInstances={this.state.classInstances}
+          topicTemplates={this.props.topicTemplates}
+          rasterCount={this.props.rasterCount}
+          rasterSize={this.props.rasterSize}
+          wrapRasterRows={this.wrapRasterRowsWithGrid}
+        />
+      </FlexContainer>
     );
   }
 }
