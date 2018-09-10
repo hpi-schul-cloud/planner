@@ -74,7 +74,7 @@ const generateTopLabels = (
       if (lastIndex !== i) {
         result.push(
           <StyledTopLabel width={(i - lastIndex) * rasterSize} key={i}>
-            {lastText}
+            {lastText.slice(0, 3)}
           </StyledTopLabel>
         );
       }
@@ -84,7 +84,7 @@ const generateTopLabels = (
   }
   result.push(
     <StyledTopLabel width={(rasterCount - lastIndex) * rasterSize} key={i}>
-      {lastText}
+      {lastText.slice(0, 3)}
     </StyledTopLabel>
   );
 
