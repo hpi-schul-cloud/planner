@@ -1,12 +1,17 @@
 import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
 import SchicView from '../src/components/schiC';
+import ExpansionPanel from '../src/components/base/ExpansionPanel';
+import RadioButtons from '../src/components/base/RadioButtons';
+import Test from '../src/components/base/Test';
 import TopicElement from '../src/components/planner/TopicElement';
 import RasterTopicElement from '../src/components/planner/RasterTopicElement';
 import ResizableRasterTopicElement from '../src/components/planner/ResizableRasterTopicElement';
 import InteractiveRasterRow from '../src/components/planner/InteractiveRasterRow';
 import InteractiveRasterUnit from '../src/components/planner/InteractiveRasterUnit';
 import RasterUnitContainer from '../src/components/planner/RasterUnitContainer';
+import ClassConfiguration from '../src/components/planner/ClassConfiguration';
+
 import { action } from '@storybook/addon-actions';
 import {
   withKnobs,
@@ -17,7 +22,12 @@ import {
   select
 } from '@storybook/addon-knobs';
 import { styles as schulCloudStyles } from './schulCloudStyles';
-import { getClassInstances, getTopicTemplates } from './storyHelpers';
+import {
+  getClassInstances,
+  getTopicTemplates,
+  getAllClassInstances,
+  getAllTopicTemplates
+} from './storyHelpers';
 
 addDecorator(withKnobs);
 
@@ -26,6 +36,25 @@ storiesOf('SchicView', module)
   .add('with Schul-Cloud styles', () => {
     return <SchicView onSave={action('onSave')} styles={schulCloudStyles} />;
   });
+
+storiesOf('ExpansionPanel', module).add('with all values', () => (
+  <ExpansionPanel caption="Test">Haaaallo!</ExpansionPanel>
+));
+
+storiesOf('Test', module).add('with all values', () => (
+  <Test buttonType={text('Text', '1')} />
+));
+
+storiesOf('RadioButtons', module).add('with all values', () => (
+  <RadioButtons
+    items={[
+      { id: 'biology', text: 'Biologie', color: '#58C853' },
+      { id: 'chemistry', text: 'Chemie', color: '#DBC192' },
+      { id: 'german', text: 'Deutsch', color: '#DB9292' }
+    ]}
+    onChange={action('onChange')}
+  />
+));
 
 storiesOf('TopicElement', module).add('with all values', () => (
   <TopicElement
@@ -114,7 +143,7 @@ storiesOf('InteractiveRasterUnit', module).add('default', () => {
   return (
     <InteractiveRasterUnit
       topicTemplates={getTopicTemplates()}
-      classInstances={getClassInstances()}
+      classInstances={getClassInstances(8)}
       updateClassInstances={classInstaces => console.log(classInstaces)}
       rasterCount={number('Raster Count', 30)}
       rasterSize={number('Raster Size', 20)}
@@ -126,9 +155,18 @@ storiesOf('RasterUnitContainer', module).add('default', () => {
   return (
     <RasterUnitContainer
       topicTemplates={getTopicTemplates()}
-      classInstances={getClassInstances()}
+      classInstances={getClassInstances(8)}
       rasterCount={number('Raster Count', 30)}
       rasterSize={number('Raster Size', 20)}
+    />
+  );
+});
+
+storiesOf('ClassConfiguration', module).add('default', () => {
+  return (
+    <ClassConfiguration
+      allClassTopics={getAllClassInstances()}
+      allTopicTemplates={getAllTopicTemplates()}
     />
   );
 });
