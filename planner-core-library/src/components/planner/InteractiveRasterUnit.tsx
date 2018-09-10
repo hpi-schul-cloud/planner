@@ -51,6 +51,10 @@ interface StateType {
   isDragging: boolean;
 }
 
+const StyledContainer = styled.div`
+  min-width: 0px;
+`;
+
 const RowContainer = styled.div`
   & > * {
     padding: 5px 0px;
@@ -182,7 +186,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
       ? this.state.tempClassInstances
       : this.props.classInstances;
     return (
-      <>
+      <StyledContainer>
         {wrapRasterRows!(
           <RowContainer>
             {map(classInstances, classInstance => (
@@ -219,7 +223,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
             />
           ))}
         </div>
-      </>
+      </StyledContainer>
     );
   }
   static defaultProps = {
