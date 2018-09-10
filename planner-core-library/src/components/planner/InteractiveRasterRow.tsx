@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 import ResizableRasterTopicElement from './ResizableRasterTopicElement';
-import { getEmptySpaceSize } from './helper';
 import { TOPIC_INSTANCE, TOPIC_TEMPLATE } from './constants';
 
 export type TopicElementsType = {
@@ -316,13 +315,7 @@ class InteractiveRasterRow extends Component<PropsType> {
 
   render() {
     const elements = this.generateElements();
-    const {
-      connectDropTarget,
-      isOver,
-      canDrop,
-      rasterSize,
-      rasterCount
-    } = this.props;
+    const { connectDropTarget, isOver, canDrop } = this.props;
     const rasterRowState = isOver && canDrop ? '#afffb585' : 'none';
 
     return (
