@@ -1,6 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
 
 interface PropsType {
+  caption?: string;
   initialValue: string;
   values: {
     value: string;
@@ -9,15 +11,29 @@ interface PropsType {
   onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
 }
 
-const Select: React.SFC<PropsType> = ({ initialValue, values, onChange }) => {
+const StyledSelectorLabel = styled.div`
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #4a4a4a;
+`;
+
+const Select: React.SFC<PropsType> = ({
+  initialValue,
+  values,
+  caption,
+  onChange
+}) => {
   return (
-    <select value={initialValue} onChange={onChange}>
-      {values.map(option => (
-        <option value={option.value} key={option.value}>
-          {option.text}
-        </option>
-      ))}
-    </select>
+    <StyledSelectorLabel>
+      {caption}
+      <select value={initialValue} onChange={onChange}>
+        {values.map(option => (
+          <option value={option.value} key={option.value}>
+            {option.text}
+          </option>
+        ))}
+      </select>
+    </StyledSelectorLabel>
   );
 };
 
