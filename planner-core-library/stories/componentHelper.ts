@@ -1,4 +1,10 @@
-import { ExpansionPanel, Select, Tabs, Headline } from './materialComponents';
+import {
+  ExpansionPanel,
+  Select,
+  Tabs,
+  Headline,
+  Button
+} from './materialComponents';
 import { setupComponentMap } from '../src/components/provider/componentProvider';
 
 export const setupMaterialComponents = () => {
@@ -6,6 +12,11 @@ export const setupMaterialComponents = () => {
     expansionPanel: ExpansionPanel,
     select: Select,
     tabs: Tabs,
-    headline: Headline
+    headline: Headline,
+    button: Button
   });
+};
+
+export const resetCustomComponents = () => {
+  setupComponentMap({});
 };
