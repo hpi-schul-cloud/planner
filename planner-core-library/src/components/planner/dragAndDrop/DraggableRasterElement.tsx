@@ -37,7 +37,8 @@ const elementSource = {
       width: props.endIndex - props.startIndex + 1,
       text: props.text,
       color: props.color,
-      rowId: props.rowId
+      rowId: props.rowId,
+      classLevelId: props.classLevelId
     };
   },
   endDrag(props: PropsType, monitor: DragSourceMonitor) {
@@ -66,6 +67,7 @@ export type PropsType = RasterTopicElementPropsType &
     type: string;
     rowId?: string;
     index?: number;
+    classLevelId?: string;
     onElementDidNotDrop: () => void;
   };
 

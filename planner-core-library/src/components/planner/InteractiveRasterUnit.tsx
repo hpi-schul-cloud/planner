@@ -29,6 +29,7 @@ interface PropsType {
   rasterSize: number;
   topicTemplates: TopicType[];
   classInstances: ClassInstanceType;
+  classLevelId: string;
   wrapRasterRows?: (
     children: JSX.Element | JSX.Element[]
   ) => JSX.Element | JSX.Element[];
@@ -52,6 +53,15 @@ interface StateType {
   isDragging: boolean;
 }
 
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+const FlexChild = styled.div`
+  min-width: 0px;
+`;
+
 const StyledContainer = styled.div`
   min-width: 0px;
 `;
@@ -67,6 +77,12 @@ const RowContainer = styled.div`
       margin-bottom: 10px;
     }
   }
+`;
+
+const StyledTrashDrop = styled(TrashDrop)`
+  margin-left: 20px;
+  margin-top: -15px;
+  line-height: 1px;
 `;
 
 @DragDropContext(HTML5Backend)
@@ -190,7 +206,8 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
       topicTemplates,
       rasterSize,
       rasterCount,
-      wrapRasterRows
+      wrapRasterRows,
+      classLevelId
     } = this.props;
     const classInstances = this.state.isDragging
       ? this.state.tempClassInstances
@@ -205,6 +222,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
                 rasterSize={rasterSize}
                 rasterCount={rasterCount}
                 rowId={classInstance.id}
+                classLevelId={classLevelId}
                 key={classInstance.id}
                 updateElements={topics =>
                   this.updateClassInstance(classInstance.id, topics)
@@ -217,23 +235,26 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
             ))}
           </RowContainer>
         )}
-        <div>
-          {topicTemplates.map(topicTemplate => (
-            <DraggableRasterElement
-              id={topicTemplate.id}
-              key={topicTemplate.id}
-              type={TOPIC_TEMPLATE}
-              color={topicTemplate.color}
-              isTransparentWhileDragging={false}
-              onElementDidNotDrop={this.resetDragState}
-              text={topicTemplate.text}
-              rasterSize={rasterSize}
-              startIndex={0}
-              endIndex={topicTemplate.width}
-            />
-          ))}
-          <TrashDrop onElementDidDrop={this.deleteTopic} />
-        </div>
+        <FlexContainer>
+          <FlexChild>
+            {topicTemplates.map(topicTemplate => (
+              <DraggableRasterElement
+                id={topicTemplate.id}
+                classLevelId={classLevelId}
+                key={topicTemplate.id}
+                type={TOPIC_TEMPLATE}
+                color={topicTemplate.color}
+                isTransparentWhileDragging={false}
+                onElementDidNotDrop={this.resetDragState}
+                text={topicTemplate.text}
+                rasterSize={rasterSize}
+                startIndex={0}
+                endIndex={topicTemplate.width}
+              />
+            ))}
+          </FlexChild>
+          <StyledTrashDrop onElementDidDrop={this.deleteTopic} />
+        </FlexContainer>
       </StyledContainer>
     );
   }

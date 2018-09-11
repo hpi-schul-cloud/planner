@@ -29,6 +29,8 @@ interface PropsType {
   rasterSize: number;
   topicTemplates: TopicTemplateType[];
   classInstances: ClassInstanceType;
+  classLevelId: string;
+  onAddTemplateClick: (classLevelId: string) => void;
 }
 
 const FlexContainer = styled.div`

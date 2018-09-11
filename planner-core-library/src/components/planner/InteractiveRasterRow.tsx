@@ -25,6 +25,7 @@ type PropsType = {
   rasterSize: number;
   rasterCount: number;
   rowId: string;
+  classLevelId: string;
   updateElements: (topicElements: TopicElementsType[]) => void;
   onElementDidNotDrop: () => void;
   onElementDidDrop: () => void;
@@ -56,17 +57,14 @@ const RasterRowContainer = styled.div`
 
 const cardTarget = {
   canDrop(props: PropsType, monitor: DropTargetMonitor) {
-    const { type, rowId } = monitor.getItem();
+    const { type, rowId, classLevelId } = monitor.getItem();
 
     if (type === TOPIC_INSTANCE) {
       // Dragging between rows is not allowed
       return rowId === props.rowId;
     } else if (type === TOPIC_TEMPLATE) {
-      return true;
-    }
-
-    return true;
-    // Also check whether id of topicElement is already present?
+      return props.classLevelId === classLevelId;
+    } else return true;
   },
   hover(
     props: PropsType,
@@ -316,7 +314,11 @@ class InteractiveRasterRow extends Component<PropsType> {
   render() {
     const elements = this.generateElements();
     const { connectDropTarget, isOver, canDrop } = this.props;
-    const rasterRowState = isOver && canDrop ? '#afffb585' : 'none';
+    const rasterRowState = canDrop
+      ? isOver
+        ? '#afffb585'
+        : '#aff0ff85'
+      : 'none';
 
     return (
       connectDropTarget && (
