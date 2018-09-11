@@ -8,6 +8,7 @@ import InteractiveRasterRow, {
   TopicElementsType
 } from './InteractiveRasterRow';
 import DraggableRasterElement from './dragAndDrop/DraggableRasterElement';
+import TrashDrop from './TrashDrop';
 import { TOPIC_TEMPLATE } from './constants';
 import {
   getClassTopicsAfterInsertion,
@@ -163,6 +164,15 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
     100
   );
 
+  deleteTopic = (classId: string, index: number) => {
+    const newTopics = [...this.props.classInstances[classId].topics];
+    newTopics.splice(index, index + 1);
+    this.updateClassInstance(classId, newTopics);
+    this.setState({
+      isDragging: false
+    });
+  };
+
   updateClassInstance = (classId: string, topics: TopicElementsType[]) => {
     const newClassInstances = {
       ...this.props.classInstances,
@@ -222,10 +232,12 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
               endIndex={topicTemplate.width}
             />
           ))}
+          <TrashDrop onElementDidDrop={this.deleteTopic} />
         </div>
       </StyledContainer>
     );
   }
+
   static defaultProps = {
     wrapRasterRows: (children: JSX.Element | JSX.Element[]) => children
   };
