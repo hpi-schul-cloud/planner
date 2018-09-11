@@ -50,7 +50,7 @@ const StyledItem = styled.div`
   padding-bottom: 2px;
 `;
 
-const RadioButtons: React.SFC<PropsType> = props => {
+const Tabs: React.SFC<PropsType> = props => {
   const { selected, items, onChange } = props;
   const onClick = (id: string) => {
     if (id !== props.selected) onChange(id);
@@ -60,6 +60,7 @@ const RadioButtons: React.SFC<PropsType> = props => {
     <StyledContainer>
       {items.map(item => (
         <StyledItem
+          key={item.id}
           isSelected={selected === item.id}
           color={item.color}
           onClick={() => onClick(item.id)}
@@ -71,4 +72,4 @@ const RadioButtons: React.SFC<PropsType> = props => {
   );
 };
 
-export default RadioButtons;
+export default Tabs;
