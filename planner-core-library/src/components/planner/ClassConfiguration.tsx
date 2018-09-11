@@ -7,8 +7,7 @@ import {
   ClassInstanceType,
   TemplatesOfClassLevelType
 } from './types';
-import { ExpansionPanel, Select } from '../provider/componentProvider';
-import RadioButtons from '../base/RadioButtons';
+import ComponentProvider from '../provider/componentProvider';
 
 interface PropsType {
   allClassTopics: AllClassInstancesType;
@@ -21,22 +20,12 @@ interface StateType {
   selectedSubjectId: string;
 }
 
-const StyledHeading = styled.h2`
-  font-family: sans-serif;
-  font-size: 36px;
-  color: #5e5e5e;
-  font-weight: normal;
-  margin: 20px 0;
-`;
-
-const StyledSelectorLabel = styled.div`
-  font-family: sans-serif;
-  font-size: 14px;
-  color: #4a4a4a;
-`;
-
-const StyledExpansionPanel = styled(ExpansionPanel)`
+const ExpansionPanelContainer = styled.div`
   margin: 25px 0px;
+`;
+
+const RasterUnitDiv = styled.div`
+  min-width: 0px;
 `;
 
 const RASTER_SIZE = 15;
@@ -115,19 +104,23 @@ class ClassConfiguration extends Component<PropsType, StateType> {
 
     return classLevelArray.length > 0 ? (
       classLevelArray.map(classLevel => (
-        <StyledExpansionPanel
-          key={`${selectedSchoolYearId}-${selectedSubjectId}-${
-            classLevel.classLevelName
-          }`}
-          caption={classLevel.classLevelName}
-        >
-          <RasterUnitContainer
-            rasterCount={RASTER_COUNT}
-            rasterSize={RASTER_SIZE}
-            topicTemplates={templates[classLevel.classLevelId]}
-            classInstances={classLevel.classes}
-          />
-        </StyledExpansionPanel>
+        <ExpansionPanelContainer>
+          <ComponentProvider.ExpansionPanel
+            key={`${selectedSchoolYearId}-${selectedSubjectId}-${
+              classLevel.classLevelName
+            }`}
+            caption={classLevel.classLevelName}
+          >
+            <RasterUnitDiv>
+              <RasterUnitContainer
+                rasterCount={RASTER_COUNT}
+                rasterSize={RASTER_SIZE}
+                topicTemplates={templates[classLevel.classLevelId]}
+                classInstances={classLevel.classes}
+              />
+            </RasterUnitDiv>
+          </ComponentProvider.ExpansionPanel>
+        </ExpansionPanelContainer>
       ))
     ) : (
       <div>No classes assigned!</div>
@@ -152,22 +145,20 @@ class ClassConfiguration extends Component<PropsType, StateType> {
     const rasterUnits = this.generateRasterUnits(instancesAndTemplates);
     return (
       <div>
-        <StyledHeading>Meine Klassen</StyledHeading>
-        <StyledSelectorLabel>
-          Schuljahr:{' '}
-          <Select
-            initialValue={this.state.selectedSchoolYearId}
-            onChange={event => this.onSelectChange(event.currentTarget.value)}
-            values={selectOptions}
-          />
-        </StyledSelectorLabel>
-        <div>
-          <RadioButtons
-            items={this.getRadioItems()}
-            onChange={this.onRadioButtonChange}
-            selected={this.state.selectedSubjectId}
-          />
-        </div>
+        <ComponentProvider.Headline caption="Meine Klassen" />
+        <ComponentProvider.Select
+          initialValue={this.state.selectedSchoolYearId}
+          onChange={(event: React.FormEvent<HTMLSelectElement>) =>
+            this.onSelectChange((event.target as HTMLInputElement).value)
+          }
+          values={selectOptions}
+          caption={'Schuljahr:'}
+        />
+        <ComponentProvider.Tabs
+          items={this.getRadioItems()}
+          onChange={this.onRadioButtonChange}
+          selected={this.state.selectedSubjectId}
+        />
         {rasterUnits}
       </div>
     );
