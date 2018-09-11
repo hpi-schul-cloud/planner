@@ -32,7 +32,7 @@ const StyledCaption = styled.div`
 const StyledContentContainer = styled.div`
   padding: 10px 5px;
   display: ${({ isVisible }: { isVisible: boolean }) =>
-    isVisible ? 'initial' : 'none'};
+    isVisible ? 'block' : 'none'};
 `;
 
 class ExpansionPanel extends Component<PropsType, StateType> {
