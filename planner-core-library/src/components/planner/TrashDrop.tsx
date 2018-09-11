@@ -15,6 +15,7 @@ type DragDropRasterTopicElementType = {
   connectDropTarget?: ConnectDropTarget;
   canDrop?: boolean;
   isOver?: boolean;
+  className?: string;
 };
 
 type PropsType = {
@@ -42,11 +43,11 @@ const cardTarget = {
 }))
 class TrashDrop extends Component<PropsType> {
   render() {
-    const { canDrop, isOver, connectDropTarget } = this.props;
+    const { canDrop, isOver, connectDropTarget, className } = this.props;
     const containerColor = canDrop
       ? isOver
         ? '#afffb585'
-        : '#ffafaf85'
+        : '#aff0ff85'
       : 'none';
 
     return (
@@ -58,6 +59,7 @@ class TrashDrop extends Component<PropsType> {
             const domNode: React.ReactElement<{}> = findDOMNode(instance);
             connectDropTarget(domNode);
           }}
+          className={className}
         >
           <IconTrash color={canDrop ? '#838383' : '#e9e8e8'} />
         </IconContainer>
