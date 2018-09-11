@@ -47,14 +47,14 @@ const RowCaptions: React.SFC<PropsType> = ({ labels }) => {
       {labels.map(
         (label, i) =>
           labels.length - 1 === i ? (
-            <StyledLastLabelArea>
+            <StyledLastLabelArea key={i}>
               <StyledLabel>{label.text}</StyledLabel>
               {label.subText && (
                 <StyledSubLabel>{label.subText}</StyledSubLabel>
               )}
             </StyledLastLabelArea>
           ) : (
-            <StyledLabelArea>
+            <StyledLabelArea key={i}>
               <StyledLabel>{label.text}</StyledLabel>
               {label.subText && (
                 <StyledSubLabel>{label.subText}</StyledSubLabel>
