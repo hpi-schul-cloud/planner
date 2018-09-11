@@ -1,8 +1,9 @@
 import React from 'react';
 import BaseExpansionPanel from '../base/ExpansionPanel';
 import BaseSelect from '../base/Select';
-import BaseTabs from '../base/RadioButtons';
+import BaseTabs from '../base/Tabs';
 import BaseHeadline from '../base/Headline';
+import BaseButton from '../base/Button';
 
 type ComponentType<Props> = React.SFC<Props> | React.ComponentClass<Props>;
 
@@ -17,6 +18,7 @@ type SelectPropsType = {
     value: string;
     text: string;
   }[];
+  caption: string;
   onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
 };
 type TabsPropsType = {
@@ -31,45 +33,60 @@ type TabsPropsType = {
 type HeadlinePropsType = {
   caption: string;
 };
+type ButtonPropsType = {
+  className?: string;
+  caption: string;
+  disabled?: boolean;
+  color?: 'primary' | 'secondary' | 'default';
+  size?: 'small' | 'medium' | 'large';
+  type?: 'default' | 'bold' | 'thin';
+  onClick?: () => void;
+};
 
-type ComponentMapType = {
+type ComponentMapType = Readonly<{
   expansionPanel: ComponentType<ExpansionPanelPropsType>;
   select: ComponentType<SelectPropsType>;
   tabs: ComponentType<TabsPropsType>;
   headline: ComponentType<HeadlinePropsType>;
-};
+  button: ComponentType<ButtonPropsType>;
+}>;
 
 class ComponentProvider {
-  defaultComponentMap: ComponentMapType = {
+  readonly defaultComponentMap: ComponentMapType = {
     expansionPanel: BaseExpansionPanel,
     select: BaseSelect,
     tabs: BaseTabs,
-    headline: BaseHeadline
+    headline: BaseHeadline,
+    button: BaseButton
   };
-  customComponentMap: Partial<ComponentMapType> = {};
+  customComponentMap: Partial<ComponentMapType>;
 
   setupComponentMap(customComponents: Partial<ComponentMapType>) {
     this.customComponentMap = customComponents;
   }
 
-  getElement(id: keyof ComponentMapType) {
+  getElement<K extends keyof ComponentMapType>(id: K) {
     return this.customComponentMap[id] || this.defaultComponentMap[id];
   }
 
   get ExpansionPanel() {
-    return this.getElement('expansionPanel');
+    return this.getElement('expansionPanel')!;
   }
 
   get Select() {
-    return this.getElement('select');
+    return this.getElement('select')!;
   }
 
   get Tabs() {
-    return this.getElement('tabs');
+    return this.getElement('tabs')!;
   }
 
   get Headline() {
-    return this.getElement('headline');
+    return this.getElement('headline')!;
+  }
+
+  get Button() {
+    return this.getElement('button')!;
   }
 }
 
