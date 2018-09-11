@@ -2,7 +2,6 @@ import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
 import SchicView from '../src/components/schiC';
 import ComponentProvider from '../src/components/provider/componentProvider';
-import RadioButtons from '../src/components/base/RadioButtons';
 import Test from '../src/components/base/Test';
 import TopicElement from '../src/components/planner/TopicElement';
 import RasterTopicElement from '../src/components/planner/RasterTopicElement';
@@ -21,14 +20,16 @@ import {
   number,
   select
 } from '@storybook/addon-knobs';
-import { styles as schulCloudStyles } from './schulCloudStyles';
 import {
   getClassInstances,
   getTopicTemplates,
   getAllClassInstances,
   getAllTopicTemplates
 } from './storyHelpers';
-import { setupMaterialComponents } from './componentHelper';
+import {
+  setupMaterialComponents,
+  resetCustomComponents
+} from './componentHelper';
 
 addDecorator(withKnobs);
 
@@ -39,11 +40,14 @@ addDecorator(withKnobs);
 //   });
 
 storiesOf('ExpansionPanel', module)
-  .add('default', () => (
-    <ComponentProvider.ExpansionPanel caption="Test">
-      Haaaallo!
-    </ComponentProvider.ExpansionPanel>
-  ))
+  .add('default', () => {
+    resetCustomComponents();
+    return (
+      <ComponentProvider.ExpansionPanel caption="Test">
+        Haaaallo!
+      </ComponentProvider.ExpansionPanel>
+    );
+  })
   .add('with material design', () => {
     setupMaterialComponents();
     return (
@@ -53,19 +57,38 @@ storiesOf('ExpansionPanel', module)
     );
   });
 
+storiesOf('Tabs', module)
+  .add('default', () => {
+    resetCustomComponents();
+
+    return (
+      <ComponentProvider.Tabs
+        items={[
+          { id: 'biology', text: 'Biologie', color: '#58C853' },
+          { id: 'chemistry', text: 'Chemie', color: '#DBC192' },
+          { id: 'german', text: 'Deutsch', color: '#DB9292' }
+        ]}
+        onChange={action('onChange')}
+      />
+    );
+  })
+  .add('with material design', () => {
+    setupMaterialComponents();
+
+    return (
+      <ComponentProvider.Tabs
+        items={[
+          { id: 'biology', text: 'Biologie', color: '#58C853' },
+          { id: 'chemistry', text: 'Chemie', color: '#DBC192' },
+          { id: 'german', text: 'Deutsch', color: '#DB9292' }
+        ]}
+        onChange={action('onChange')}
+      />
+    );
+  });
+
 storiesOf('Test', module).add('with all values', () => (
   <Test buttonType={text('Text', '1')} />
-));
-
-storiesOf('RadioButtons', module).add('with all values', () => (
-  <RadioButtons
-    items={[
-      { id: 'biology', text: 'Biologie', color: '#58C853' },
-      { id: 'chemistry', text: 'Chemie', color: '#DBC192' },
-      { id: 'german', text: 'Deutsch', color: '#DB9292' }
-    ]}
-    onChange={action('onChange')}
-  />
 ));
 
 storiesOf('TopicElement', module).add('with all values', () => (
@@ -104,18 +127,14 @@ storiesOf('ResizableRasterTopicElement', module).add('with small size', () => (
     id={text('Id', '1')}
     index={1}
     type={''}
-    onChangeSizeLeft={(id, index, startIndex, endIndex) => {
-      console.log(`Left: ${startIndex}-${endIndex}`);
-    }}
-    onChangeSizeRight={(id, index, startIndex, endIndex) => {
-      console.log(`Right: ${startIndex}-${endIndex}`);
-    }}
+    onChangeSizeLeft={action('onChangeSizeLeft')}
+    onChangeSizeRight={action('onChangeSizeRight')}
     rasterSize={number('Raster Size', 15)}
     startIndex={number('Start Index', 0)}
     endIndex={number('End Index', 4)}
     text={text('Text', 'Evolution')}
     color={color('Color', '#92DB92')}
-    onElementDidNotDrop={() => {}}
+    onElementDidNotDrop={action('onElementDidNotDrop')}
   />
 ));
 
@@ -142,6 +161,7 @@ storiesOf('InteractiveRasterRow', module).add('with small size', () => {
       rasterCount={number('Raster Count', 30)}
       rasterSize={number('Raster Size', 20)}
       rowId={text('RowId', '1')}
+      classLevelId={text('ClassLevelId', '1')}
       updateElements={topics => console.log(topics)}
       softRelocateTopicElement={() => {}}
       softInsertTopicElement={() => {}}
@@ -156,6 +176,7 @@ storiesOf('InteractiveRasterUnit', module).add('default', () => {
     <InteractiveRasterUnit
       topicTemplates={getTopicTemplates()}
       classInstances={getClassInstances(8)}
+      classLevelId={text('ClassLevelId', '1')}
       updateClassInstances={classInstaces => console.log(classInstaces)}
       rasterCount={number('Raster Count', 30)}
       rasterSize={number('Raster Size', 20)}
@@ -170,16 +191,23 @@ storiesOf('RasterUnitContainer', module).add('default', () => {
       classInstances={getClassInstances(8)}
       rasterCount={number('Raster Count', 30)}
       rasterSize={number('Raster Size', 20)}
+      classLevelId={text('ClassLevelId', '1')}
+      onAddTemplateClick={action('onAddTemplateClick')}
+      onUpdate={action('onUpdate')}
     />
   );
 });
 
 storiesOf('ClassConfiguration', module)
   .add('default', () => {
+    resetCustomComponents();
+
     return (
       <ClassConfiguration
         allClassTopics={getAllClassInstances()}
         allTopicTemplates={getAllTopicTemplates()}
+        onAddTemplate={action('onAddTemplate')}
+        onSaveClassInstances={action('onSaveClassInstances')}
       />
     );
   })
@@ -190,6 +218,8 @@ storiesOf('ClassConfiguration', module)
       <ClassConfiguration
         allClassTopics={getAllClassInstances()}
         allTopicTemplates={getAllTopicTemplates()}
+        onAddTemplate={action('onAddTemplate')}
+        onSaveClassInstances={action('onSaveClassInstances')}
       />
     );
   });
