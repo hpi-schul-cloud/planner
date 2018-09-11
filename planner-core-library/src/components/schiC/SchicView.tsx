@@ -1,16 +1,17 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { ViewStylesType } from "../stylesType";
-import Button from "../base/Button";
-import Input from "../base/Input";
-import TextArea from "../base/TextArea";
-import { ComponentStylesType } from "./stylesType";
-import SelectorInput, { ItemType } from "./SelectorInput";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { ViewStylesType } from '../stylesType';
+import Button from '../base/Button';
+import Input from '../base/Input';
+import TextArea from '../base/TextArea';
+import ComponentProvider from '../provider/componentProvider';
+import { ComponentStylesType } from './stylesType';
+import SelectorInput, { ItemType } from './SelectorInput';
 import {
   MEDIA_EDUCATION_OPTIONS,
   LANGUAGE_EDUCATION_OPTIONS,
   INTERDISCIPLINARY_EDUCATION_OPTIONS
-} from "./constants";
+} from './constants';
 
 const SchicViewDiv = styled.div``;
 
@@ -45,14 +46,14 @@ type FormValuesType = {
 };
 
 type FormFieldType =
-  | "topic"
-  | "shortDescription"
-  | "numberOfLessons"
-  | "competences"
-  | "content"
-  | "mediaEducation"
-  | "languageEducation"
-  | "interdisciplinaryEducation";
+  | 'topic'
+  | 'shortDescription'
+  | 'numberOfLessons'
+  | 'competences'
+  | 'content'
+  | 'mediaEducation'
+  | 'languageEducation'
+  | 'interdisciplinaryEducation';
 
 export interface PropsType {
   onSave: (values: FormValuesType) => void;
@@ -67,11 +68,11 @@ interface StateType {
 export default class SchicView extends Component<PropsType, StateType> {
   state = {
     values: {
-      topic: "",
-      shortDescription: "",
-      numberOfLessons: "",
-      competences: "",
-      content: "",
+      topic: '',
+      shortDescription: '',
+      numberOfLessons: '',
+      competences: '',
+      content: '',
       mediaEducation: [],
       languageEducation: [],
       interdisciplinaryEducation: []
@@ -111,7 +112,7 @@ export default class SchicView extends Component<PropsType, StateType> {
             <Input
               value={this.state.values.topic}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                this.onFormChange(event.target.value, "topic")
+                this.onFormChange(event.target.value, 'topic')
               }
               styles={this.props.styles.baseComponents.input}
             />
@@ -123,7 +124,7 @@ export default class SchicView extends Component<PropsType, StateType> {
             <Input
               value={this.state.values.shortDescription}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                this.onFormChange(event.target.value, "shortDescription")
+                this.onFormChange(event.target.value, 'shortDescription')
               }
               styles={this.props.styles.baseComponents.input}
             />
@@ -135,7 +136,7 @@ export default class SchicView extends Component<PropsType, StateType> {
             <Input
               value={this.state.values.numberOfLessons}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                this.onFormChange(event.target.value, "numberOfLessons")
+                this.onFormChange(event.target.value, 'numberOfLessons')
               }
               styles={this.props.styles.baseComponents.input}
             />
@@ -149,7 +150,7 @@ export default class SchicView extends Component<PropsType, StateType> {
             <TextArea
               value={this.state.values.competences}
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-                this.onFormChange(event.target.value, "competences")
+                this.onFormChange(event.target.value, 'competences')
               }
               styles={this.props.styles.baseComponents.textarea}
             />
@@ -163,7 +164,7 @@ export default class SchicView extends Component<PropsType, StateType> {
             <TextArea
               value={this.state.values.content}
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-                this.onFormChange(event.target.value, "content")
+                this.onFormChange(event.target.value, 'content')
               }
               styles={this.props.styles.baseComponents.textarea}
             />
@@ -176,7 +177,7 @@ export default class SchicView extends Component<PropsType, StateType> {
           <SelectorInput
             options={MEDIA_EDUCATION_OPTIONS}
             items={this.state.values.mediaEducation}
-            onChange={value => this.onFormChange(value, "mediaEducation")}
+            onChange={value => this.onFormChange(value, 'mediaEducation')}
             styles={this.props.styles}
           />
         </FormElementDiv>
@@ -187,7 +188,7 @@ export default class SchicView extends Component<PropsType, StateType> {
           <SelectorInput
             options={LANGUAGE_EDUCATION_OPTIONS}
             items={this.state.values.languageEducation}
-            onChange={value => this.onFormChange(value, "languageEducation")}
+            onChange={value => this.onFormChange(value, 'languageEducation')}
             styles={this.props.styles}
           />
         </FormElementDiv>
@@ -199,17 +200,15 @@ export default class SchicView extends Component<PropsType, StateType> {
             options={INTERDISCIPLINARY_EDUCATION_OPTIONS}
             items={this.state.values.interdisciplinaryEducation}
             onChange={value =>
-              this.onFormChange(value, "interdisciplinaryEducation")
+              this.onFormChange(value, 'interdisciplinaryEducation')
             }
             styles={this.props.styles}
           />
         </FormElementDiv>
-        <Button
+        <ComponentProvider.Button
           onClick={this.onSaveButtonClick}
-          styles={this.props.styles.baseComponents.button}
-        >
-          Save
-        </Button>
+          caption="Save"
+        />
       </SchicViewDiv>
     );
   }

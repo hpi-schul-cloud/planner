@@ -87,20 +87,10 @@ function SelectorInput(props: PropsType) {
             }
             styles={styles.baseComponents.input}
           />
-          <Button
-            onClick={() => removeItem(index)}
-            styles={mergeStyles(styles, 'button', 'minusButton')}
-          >
-            x
-          </Button>
+          <Button onClick={() => removeItem(index)} caption="x" />
         </ItemDiv>
       ))}
-      <Button
-        onClick={addField}
-        styles={mergeStyles(styles, 'button', 'plusButton')}
-      >
-        +
-      </Button>
+      <Button onClick={addField} caption="+" />
     </div>
   );
 }
