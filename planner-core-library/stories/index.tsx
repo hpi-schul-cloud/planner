@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
 import SchicView from '../src/components/schiC';
-import ExpansionPanel from '../src/components/base/ExpansionPanel';
+import ComponentProvider from '../src/components/provider/componentProvider';
 import RadioButtons from '../src/components/base/RadioButtons';
 import Test from '../src/components/base/Test';
 import TopicElement from '../src/components/planner/TopicElement';
@@ -28,6 +28,7 @@ import {
   getAllClassInstances,
   getAllTopicTemplates
 } from './storyHelpers';
+import { setupMaterialComponents } from './componentHelper';
 
 addDecorator(withKnobs);
 
@@ -37,9 +38,20 @@ addDecorator(withKnobs);
 //     return <SchicView onSave={action('onSave')} styles={schulCloudStyles} />;
 //   });
 
-storiesOf('ExpansionPanel', module).add('with all values', () => (
-  <ExpansionPanel caption="Test">Haaaallo!</ExpansionPanel>
-));
+storiesOf('ExpansionPanel', module)
+  .add('default', () => (
+    <ComponentProvider.ExpansionPanel caption="Test">
+      Haaaallo!
+    </ComponentProvider.ExpansionPanel>
+  ))
+  .add('with material design', () => {
+    setupMaterialComponents();
+    return (
+      <ComponentProvider.ExpansionPanel caption="Test">
+        Haaaallo!
+      </ComponentProvider.ExpansionPanel>
+    );
+  });
 
 storiesOf('Test', module).add('with all values', () => (
   <Test buttonType={text('Text', '1')} />
@@ -162,11 +174,22 @@ storiesOf('RasterUnitContainer', module).add('default', () => {
   );
 });
 
-storiesOf('ClassConfiguration', module).add('default', () => {
-  return (
-    <ClassConfiguration
-      allClassTopics={getAllClassInstances()}
-      allTopicTemplates={getAllTopicTemplates()}
-    />
-  );
-});
+storiesOf('ClassConfiguration', module)
+  .add('default', () => {
+    return (
+      <ClassConfiguration
+        allClassTopics={getAllClassInstances()}
+        allTopicTemplates={getAllTopicTemplates()}
+      />
+    );
+  })
+  .add('with material design', () => {
+    setupMaterialComponents();
+
+    return (
+      <ClassConfiguration
+        allClassTopics={getAllClassInstances()}
+        allTopicTemplates={getAllTopicTemplates()}
+      />
+    );
+  });
