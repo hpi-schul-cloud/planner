@@ -50,6 +50,7 @@ const StyledRasterColumn = styled.div`
 
 const StyledWidthContainer = styled.div`
   width: ${({ width }: { width: number }) => `${width}px`};
+  z-index: 1;
   position: relative;
   ${StyledRasterColumn} {
     border: 1px solid #e9e8e8;
