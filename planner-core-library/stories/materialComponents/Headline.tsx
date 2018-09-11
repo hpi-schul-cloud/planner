@@ -7,7 +7,7 @@ interface PropsType {
 
 const Headline: React.SFC<PropsType> = ({ caption }) => {
   return (
-    <Typography variant="title" gutterBottom>
+    <Typography variant="headline" gutterBottom>
       {caption}
     </Typography>
   );
