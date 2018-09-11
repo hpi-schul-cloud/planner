@@ -13,11 +13,14 @@ interface PropsType {
   allClassTopics: AllClassInstancesType;
   allTopicTemplates: AllTopicTemplatesType;
   initialSchoolYearId?: string;
+  onAddTemplate: (selectedSubjectId: string, classLevelId: string) => void;
+  onSaveClassInstances: (instances: AllClassInstancesType) => void;
 }
 
 interface StateType {
   selectedSchoolYearId: string;
   selectedSubjectId: string;
+  localAllClassTopics: AllClassInstancesType;
 }
 
 const ExpansionPanelContainer = styled.div`
@@ -26,6 +29,12 @@ const ExpansionPanelContainer = styled.div`
 
 const RasterUnitDiv = styled.div`
   min-width: 0px;
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 `;
 
 const RASTER_SIZE = 15;
@@ -51,14 +60,19 @@ class ClassConfiguration extends Component<PropsType, StateType> {
     this.state = {
       selectedSchoolYearId:
         props.initialSchoolYearId || defaultSelectedSchoolYearId,
-      selectedSubjectId: defaultSelectedSubjectId
+      selectedSubjectId: defaultSelectedSubjectId,
+      localAllClassTopics: props.allClassTopics
     };
   }
 
   getCurrentTopicInstancesAndTemplates = () => {
-    const { allClassTopics, allTopicTemplates } = this.props;
-    const { selectedSchoolYearId, selectedSubjectId } = this.state;
-    const selectedSchoolYearTopics = allClassTopics[selectedSchoolYearId];
+    const { allTopicTemplates } = this.props;
+    const {
+      selectedSchoolYearId,
+      selectedSubjectId,
+      localAllClassTopics
+    } = this.state;
+    const selectedSchoolYearTopics = localAllClassTopics[selectedSchoolYearId];
     const selectedSubjectTopics =
       selectedSchoolYearTopics.subjects[selectedSubjectId];
     const selectedTemplates = allTopicTemplates[selectedSubjectId];
@@ -69,10 +83,48 @@ class ClassConfiguration extends Component<PropsType, StateType> {
     };
   };
 
+  updateLocalClassTopicsForYear = (
+    classLevelId: string,
+    newClasses: ClassInstanceType
+  ) => {
+    const {
+      selectedSchoolYearId,
+      selectedSubjectId,
+      localAllClassTopics
+    } = this.state;
+    localAllClassTopics[selectedSchoolYearId];
+    this.setState({
+      localAllClassTopics: {
+        ...localAllClassTopics,
+        [selectedSchoolYearId]: {
+          ...localAllClassTopics[selectedSchoolYearId],
+          subjects: {
+            ...localAllClassTopics[selectedSchoolYearId].subjects,
+            [selectedSubjectId]: {
+              ...localAllClassTopics[selectedSchoolYearId].subjects[
+                selectedSubjectId
+              ],
+              classLevels: {
+                ...localAllClassTopics[selectedSchoolYearId].subjects[
+                  selectedSubjectId
+                ].classLevels,
+                [classLevelId]: {
+                  ...localAllClassTopics[selectedSchoolYearId].subjects[
+                    selectedSubjectId
+                  ].classLevels[classLevelId],
+                  classes: newClasses
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+  };
+
   getRadioItems = () => {
-    const { allClassTopics } = this.props;
-    const { selectedSchoolYearId } = this.state;
-    const selectedSchoolYearTopics = allClassTopics[selectedSchoolYearId];
+    const { selectedSchoolYearId, localAllClassTopics } = this.state;
+    const selectedSchoolYearTopics = localAllClassTopics[selectedSchoolYearId];
     return Object.keys(selectedSchoolYearTopics.subjects).map(key => ({
       id: selectedSchoolYearTopics.subjects[key].subjectId,
       text: selectedSchoolYearTopics.subjects[key].subjectName,
@@ -81,10 +133,10 @@ class ClassConfiguration extends Component<PropsType, StateType> {
   };
 
   getSelectOptions = () => {
-    const { allClassTopics } = this.props;
-    return Object.keys(allClassTopics).map(key => ({
-      value: allClassTopics[key].schoolYearId,
-      text: allClassTopics[key].schoolYearName
+    const { localAllClassTopics } = this.state;
+    return Object.keys(localAllClassTopics).map(key => ({
+      value: localAllClassTopics[key].schoolYearId,
+      text: localAllClassTopics[key].schoolYearName
     }));
   };
 
@@ -104,7 +156,7 @@ class ClassConfiguration extends Component<PropsType, StateType> {
 
     return classLevelArray.length > 0 ? (
       classLevelArray.map(classLevel => (
-        <ExpansionPanelContainer>
+        <ExpansionPanelContainer key={classLevel.classLevelId}>
           <ComponentProvider.ExpansionPanel
             key={`${selectedSchoolYearId}-${selectedSubjectId}-${
               classLevel.classLevelName
@@ -116,7 +168,12 @@ class ClassConfiguration extends Component<PropsType, StateType> {
                 rasterCount={RASTER_COUNT}
                 rasterSize={RASTER_SIZE}
                 topicTemplates={templates[classLevel.classLevelId]}
+                classLevelId={classLevel.classLevelId}
                 classInstances={classLevel.classes}
+                onAddTemplateClick={(classLevelId: string) =>
+                  this.props.onAddTemplate(selectedSubjectId, classLevelId)
+                }
+                onUpdate={this.updateLocalClassTopicsForYear}
               />
             </RasterUnitDiv>
           </ComponentProvider.ExpansionPanel>
@@ -139,21 +196,36 @@ class ClassConfiguration extends Component<PropsType, StateType> {
     });
   };
 
+  onSaveButtonClick = () => {
+    this.props.onSaveClassInstances(this.state.localAllClassTopics);
+  };
+
   render() {
     const instancesAndTemplates = this.getCurrentTopicInstancesAndTemplates();
     const selectOptions = this.getSelectOptions();
     const rasterUnits = this.generateRasterUnits(instancesAndTemplates);
+
     return (
       <div>
         <ComponentProvider.Headline caption="Meine Klassen" />
-        <ComponentProvider.Select
-          initialValue={this.state.selectedSchoolYearId}
-          onChange={(event: React.FormEvent<HTMLSelectElement>) =>
-            this.onSelectChange((event.target as HTMLInputElement).value)
-          }
-          values={selectOptions}
-          caption={'Schuljahr:'}
-        />
+        <FlexContainer>
+          <ComponentProvider.Select
+            initialValue={this.state.selectedSchoolYearId}
+            onChange={(event: React.FormEvent<HTMLSelectElement>) =>
+              this.onSelectChange((event.target as HTMLInputElement).value)
+            }
+            values={selectOptions}
+            caption={'Schuljahr:'}
+          />
+          <ComponentProvider.Button
+            caption="Speichern"
+            color="primary"
+            disabled={
+              this.props.allClassTopics === this.state.localAllClassTopics
+            }
+            onClick={this.onSaveButtonClick}
+          />
+        </FlexContainer>
         <ComponentProvider.Tabs
           items={this.getRadioItems()}
           onChange={this.onRadioButtonChange}

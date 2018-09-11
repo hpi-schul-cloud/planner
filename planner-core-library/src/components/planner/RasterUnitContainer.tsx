@@ -4,6 +4,7 @@ import InteractiveRasterUnit from './InteractiveRasterUnit';
 import { TopicElementsType } from './InteractiveRasterRow';
 import TimeRasterWrapper from './TimeRasterWrapper';
 import RowCaptions from './RowCaptions';
+import ComponentProvider from '../provider/componentProvider';
 
 type ClassInstanceType = {
   [classId: string]: {
@@ -20,10 +21,6 @@ interface TopicTemplateType {
   color: string;
 }
 
-interface StateType {
-  classInstances: ClassInstanceType;
-}
-
 interface PropsType {
   rasterCount: number;
   rasterSize: number;
@@ -31,13 +28,17 @@ interface PropsType {
   classInstances: ClassInstanceType;
   classLevelId: string;
   onAddTemplateClick: (classLevelId: string) => void;
+  onUpdate: (classLevelId: string, classes: ClassInstanceType) => void;
 }
 
 const FlexContainer = styled.div`
   display: flex;
 `;
+const FlexChild = styled.div`
+  min-width: 0px;
+`;
 
-class RasterUnitContainer extends Component<PropsType, StateType> {
+class RasterUnitContainer extends Component<PropsType> {
   constructor(props: PropsType) {
     super(props);
     this.state = {
@@ -73,13 +74,12 @@ class RasterUnitContainer extends Component<PropsType, StateType> {
   };
 
   updateClassInstance = (classInstances: ClassInstanceType) => {
-    this.setState({
-      classInstances
-    });
+    this.props.onUpdate(this.props.classLevelId, classInstances);
   };
 
   render() {
-    const labels = Object.values(this.state.classInstances).map(
+    const { onAddTemplateClick } = this.props;
+    const labels = Object.values(this.props.classInstances).map(
       classInstance => {
         const freeSlotsCount = classInstance.topics.reduce(
           (count, topic) => count - (topic.endIndex - topic.startIndex + 1),
@@ -93,17 +93,28 @@ class RasterUnitContainer extends Component<PropsType, StateType> {
     );
 
     return (
-      <FlexContainer>
-        <RowCaptions labels={labels} />
-        <InteractiveRasterUnit
-          updateClassInstances={this.updateClassInstance}
-          classInstances={this.state.classInstances}
-          topicTemplates={this.props.topicTemplates}
-          rasterCount={this.props.rasterCount}
-          rasterSize={this.props.rasterSize}
-          wrapRasterRows={this.wrapRasterRowsWithGrid}
-        />
-      </FlexContainer>
+      <>
+        <FlexContainer>
+          <RowCaptions labels={labels} />
+          <FlexChild>
+            <InteractiveRasterUnit
+              updateClassInstances={this.updateClassInstance}
+              classInstances={this.props.classInstances}
+              topicTemplates={this.props.topicTemplates}
+              rasterCount={this.props.rasterCount}
+              rasterSize={this.props.rasterSize}
+              wrapRasterRows={this.wrapRasterRowsWithGrid}
+              classLevelId={this.props.classLevelId}
+            />
+            <ComponentProvider.Button
+              caption="+"
+              size="small"
+              type="thin"
+              onClick={() => onAddTemplateClick(this.props.classLevelId)}
+            />
+          </FlexChild>
+        </FlexContainer>
+      </>
     );
   }
 }
