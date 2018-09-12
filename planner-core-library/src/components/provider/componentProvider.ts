@@ -6,6 +6,7 @@ import BaseHeadline from '../base/Headline';
 import BaseButton from '../base/Button';
 import BaseTextField from '../base/TextField';
 import BaseTextArea from '../base/TextArea';
+import BaseChip from '../base/Chip';
 
 type ComponentType<Props> = React.SFC<Props> | React.ComponentClass<Props>;
 
@@ -56,6 +57,11 @@ type TextAreaPropsType = {
   label?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
+type ChipPropsType = {
+  firstLabel?: string;
+  secondLabel?: string;
+  onDeleteClick?: () => void;
+};
 
 type ComponentMapType = Readonly<{
   expansionPanel: ComponentType<ExpansionPanelPropsType>;
@@ -65,6 +71,7 @@ type ComponentMapType = Readonly<{
   button: ComponentType<ButtonPropsType>;
   textField: ComponentType<TextFieldPropsType>;
   textArea: ComponentType<TextAreaPropsType>;
+  chip: ComponentType<ChipPropsType>;
 }>;
 
 class ComponentProvider {
@@ -75,7 +82,8 @@ class ComponentProvider {
     headline: BaseHeadline,
     button: BaseButton,
     textField: BaseTextField,
-    textArea: BaseTextArea
+    textArea: BaseTextArea,
+    chip: BaseChip
   };
   customComponentMap: Partial<ComponentMapType>;
 
@@ -113,6 +121,10 @@ class ComponentProvider {
 
   get TextArea() {
     return this.getElement('textArea')!;
+  }
+
+  get Chip() {
+    return this.getElement('chip')!;
   }
 }
 

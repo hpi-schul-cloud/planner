@@ -4,7 +4,9 @@ import {
   Tabs,
   Headline,
   Button,
-  TextField
+  TextField,
+  TextArea,
+  Chip
 } from './materialComponents';
 import { setupComponentMap } from '../src/components/provider/componentProvider';
 import { setupCustomStyles } from '../src/components/provider/generalStylesProvider';
@@ -16,7 +18,9 @@ export const setupMaterialComponents = () => {
     tabs: Tabs,
     headline: Headline,
     button: Button,
-    textField: TextField
+    textField: TextField,
+    textArea: TextArea,
+    chip: Chip
   });
   setupCustomStyles({
     'font-family': 'Roboto, Helvetica, Arial, sans-serif',

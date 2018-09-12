@@ -105,6 +105,50 @@ storiesOf('TextField', module)
     );
   });
 
+storiesOf('TextArea', module)
+  .add('default', () => {
+    resetCustomComponents();
+    return (
+      <ComponentProvider.TextArea
+        label="Test"
+        value="Hallo"
+        onChange={action('onChange')}
+      />
+    );
+  })
+  .add('with material design', () => {
+    setupMaterialComponents();
+    return (
+      <ComponentProvider.TextArea
+        label="Test"
+        value="Hallo"
+        onChange={action('onChange')}
+      />
+    );
+  });
+
+storiesOf('Chip', module)
+  .add('default', () => {
+    resetCustomComponents();
+    return (
+      <ComponentProvider.Chip
+        firstLabel="Stufe E"
+        secondLabel="Kennzeichen der Fortpflanzung sowie Stadien der Entwicklung von Organismen beschreiben"
+        onDeleteClick={action('onDeleteClick')}
+      />
+    );
+  })
+  .add('with material design', () => {
+    setupMaterialComponents();
+    return (
+      <ComponentProvider.Chip
+        firstLabel="Stufe E"
+        secondLabel="Kennzeichen der Fortpflanzung sowie Stadien der Entwicklung von Organismen beschreiben"
+        onDeleteClick={action('onDeleteClick')}
+      />
+    );
+  });
+
 storiesOf('Test', module).add('with all values', () => (
   <Test buttonType={text('Text', '1')} />
 ));
