@@ -5,6 +5,7 @@ import BaseTabs from '../base/Tabs';
 import BaseHeadline from '../base/Headline';
 import BaseButton from '../base/Button';
 import BaseTextField from '../base/TextField';
+import BaseTextArea from '../base/TextArea';
 
 type ComponentType<Props> = React.SFC<Props> | React.ComponentClass<Props>;
 
@@ -47,7 +48,13 @@ type TextFieldPropsType = {
   label?: string;
   placeHolderText?: string;
   value?: string;
-  onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+type TextAreaPropsType = {
+  value?: string;
+  placeHolderText?: string;
+  label?: string;
+  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
 type ComponentMapType = Readonly<{
@@ -57,6 +64,7 @@ type ComponentMapType = Readonly<{
   headline: ComponentType<HeadlinePropsType>;
   button: ComponentType<ButtonPropsType>;
   textField: ComponentType<TextFieldPropsType>;
+  textArea: ComponentType<TextAreaPropsType>;
 }>;
 
 class ComponentProvider {
@@ -66,7 +74,8 @@ class ComponentProvider {
     tabs: BaseTabs,
     headline: BaseHeadline,
     button: BaseButton,
-    textField: BaseTextField
+    textField: BaseTextField,
+    textArea: BaseTextArea
   };
   customComponentMap: Partial<ComponentMapType>;
 
@@ -100,6 +109,10 @@ class ComponentProvider {
 
   get TextField() {
     return this.getElement('textField')!;
+  }
+
+  get TextArea() {
+    return this.getElement('textArea')!;
   }
 }
 
