@@ -60,6 +60,10 @@ const FlexContainer = styled.div`
 `;
 const FlexChild = styled.div`
   min-width: 0px;
+  > * {
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -68,13 +72,13 @@ const StyledContainer = styled.div`
 
 const RowContainer = styled.div`
   & > * {
-    padding: 5px 0px;
-    margin-top: 30px;
+    padding: 10px 0px;
+    margin-top: 20px;
     :first-child {
-      margin-top: 20px;
+      margin-top: 15px;
     }
     :last-child {
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
   }
 `;
@@ -182,7 +186,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
 
   deleteTopic = (classId: string, index: number) => {
     const newTopics = [...this.props.classInstances[classId].topics];
-    newTopics.splice(index, index + 1);
+    newTopics.splice(index, 1);
     this.updateClassInstance(classId, newTopics);
     this.setState({
       isDragging: false
