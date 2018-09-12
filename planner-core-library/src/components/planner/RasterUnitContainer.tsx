@@ -107,7 +107,7 @@ class RasterUnitContainer extends Component<PropsType> {
               classLevelId={this.props.classLevelId}
             />
             <ComponentProvider.Button
-              caption="+"
+              caption="+ Thema"
               size="small"
               type="thin"
               onClick={() => onAddTemplateClick(this.props.classLevelId)}
