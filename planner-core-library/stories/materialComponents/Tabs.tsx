@@ -1,5 +1,4 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
 import createStyles from '@material-ui/core/styles/createStyles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
@@ -19,14 +18,14 @@ const styles = (theme: Theme) =>
     tabRoot: {
       // textTransform: 'initial',
       '&:hover': {
-        color: '#5e5e5e',
+        color: 'rgba(0, 0, 0, 0.87)',
         opacity: 1
       },
       '&$tabSelected': {
-        color: '#5e5e5e'
+        color: 'rgba(0, 0, 0, 0.87)'
       },
       '&:focus': {
-        color: '#5e5e5e'
+        color: 'rgba(0, 0, 0, 0.87)'
       }
     },
     tabSelected: {}
