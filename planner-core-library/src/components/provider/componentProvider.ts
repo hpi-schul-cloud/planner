@@ -4,6 +4,7 @@ import BaseSelect from '../base/Select';
 import BaseTabs from '../base/Tabs';
 import BaseHeadline from '../base/Headline';
 import BaseButton from '../base/Button';
+import BaseTextField from '../base/TextField';
 
 type ComponentType<Props> = React.SFC<Props> | React.ComponentClass<Props>;
 
@@ -42,6 +43,12 @@ type ButtonPropsType = {
   type?: 'default' | 'bold' | 'thin';
   onClick?: () => void;
 };
+type TextFieldPropsType = {
+  label?: string;
+  placeHolderText?: string;
+  value?: string;
+  onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
+};
 
 type ComponentMapType = Readonly<{
   expansionPanel: ComponentType<ExpansionPanelPropsType>;
@@ -49,6 +56,7 @@ type ComponentMapType = Readonly<{
   tabs: ComponentType<TabsPropsType>;
   headline: ComponentType<HeadlinePropsType>;
   button: ComponentType<ButtonPropsType>;
+  textField: ComponentType<TextFieldPropsType>;
 }>;
 
 class ComponentProvider {
@@ -57,7 +65,8 @@ class ComponentProvider {
     select: BaseSelect,
     tabs: BaseTabs,
     headline: BaseHeadline,
-    button: BaseButton
+    button: BaseButton,
+    textField: BaseTextField
   };
   customComponentMap: Partial<ComponentMapType>;
 
@@ -87,6 +96,10 @@ class ComponentProvider {
 
   get Button() {
     return this.getElement('button')!;
+  }
+
+  get TextField() {
+    return this.getElement('textField')!;
   }
 }
 

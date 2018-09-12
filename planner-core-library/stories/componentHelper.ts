@@ -3,7 +3,8 @@ import {
   Select,
   Tabs,
   Headline,
-  Button
+  Button,
+  TextField
 } from './materialComponents';
 import { setupComponentMap } from '../src/components/provider/componentProvider';
 import { setupCustomStyles } from '../src/components/provider/generalStylesProvider';
@@ -14,7 +15,8 @@ export const setupMaterialComponents = () => {
     select: Select,
     tabs: Tabs,
     headline: Headline,
-    button: Button
+    button: Button,
+    textField: TextField
   });
   setupCustomStyles({
     'font-family': 'Roboto, Helvetica, Arial, sans-serif',

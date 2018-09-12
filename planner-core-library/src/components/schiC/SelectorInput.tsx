@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../base/Button';
 import Select from '../base/Select';
-import Input from '../base/Input';
+import Input from '../base/TextField';
 import { mergeStyles } from '../stylesHelper';
 import { ViewStylesType } from '../stylesType';
 import { ComponentStylesType } from './stylesType';
@@ -82,10 +82,9 @@ function SelectorInput(props: PropsType) {
           />
           <Input
             value={item.value}
-            onChange={event =>
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               changeField(index, item.optionIndex, event.target.value)
             }
-            styles={styles.baseComponents.input}
           />
           <Button onClick={() => removeItem(index)} caption="x" />
         </ItemDiv>

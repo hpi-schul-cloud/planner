@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { ViewStylesType } from '../stylesType';
 import Button from '../base/Button';
-import Input from '../base/Input';
+import Input from '../base/TextField';
 import TextArea from '../base/TextArea';
 import ComponentProvider from '../provider/componentProvider';
 import { ComponentStylesType } from './stylesType';
@@ -114,7 +114,6 @@ export default class SchicView extends Component<PropsType, StateType> {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 this.onFormChange(event.target.value, 'topic')
               }
-              styles={this.props.styles.baseComponents.input}
             />
           </InlineTextFieldDiv>
           <InlineTextFieldDiv>
@@ -126,7 +125,6 @@ export default class SchicView extends Component<PropsType, StateType> {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 this.onFormChange(event.target.value, 'shortDescription')
               }
-              styles={this.props.styles.baseComponents.input}
             />
           </InlineTextFieldDiv>
           <InlineTextFieldDiv>
@@ -138,7 +136,6 @@ export default class SchicView extends Component<PropsType, StateType> {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 this.onFormChange(event.target.value, 'numberOfLessons')
               }
-              styles={this.props.styles.baseComponents.input}
             />
           </InlineTextFieldDiv>
         </FormElementDiv>
