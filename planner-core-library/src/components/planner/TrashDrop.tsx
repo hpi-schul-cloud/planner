@@ -9,6 +9,7 @@ const IconContainer = styled.div`
   display: inline-block;
   padding: 10px;
   background: ${({ color }: { color: string }) => color};
+  border-radius: 22px;
 `;
 
 type DragDropRasterTopicElementType = {
