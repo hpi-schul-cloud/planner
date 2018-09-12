@@ -6,6 +6,7 @@ import {
   Button
 } from './materialComponents';
 import { setupComponentMap } from '../src/components/provider/componentProvider';
+import { setupCustomStyles } from '../src/components/provider/generalStylesProvider';
 
 export const setupMaterialComponents = () => {
   setupComponentMap({
@@ -14,6 +15,12 @@ export const setupMaterialComponents = () => {
     tabs: Tabs,
     headline: Headline,
     button: Button
+  });
+  setupCustomStyles({
+    'font-family': 'Roboto, Helvetica, Arial, sans-serif',
+    strongTextColor: 'rgba(0, 0, 0, 0.95)',
+    defaultTextColor: 'rgba(0, 0, 0, 0.87)',
+    lightTextColor: 'rgba(0, 0, 0, 0.54)'
   });
 };
 
