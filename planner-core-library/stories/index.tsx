@@ -33,12 +33,6 @@ import {
 
 addDecorator(withKnobs);
 
-// storiesOf('SchicView', module)
-//   .add('with default styles', () => <SchicView onSave={action('onSave')} />)
-//   .add('with Schul-Cloud styles', () => {
-//     return <SchicView onSave={action('onSave')} styles={schulCloudStyles} />;
-//   });
-
 storiesOf('ExpansionPanel', module)
   .add('default', () => {
     resetCustomComponents();
@@ -82,6 +76,30 @@ storiesOf('Tabs', module)
           { id: 'chemistry', text: 'Chemie', color: '#DBC192' },
           { id: 'german', text: 'Deutsch', color: '#DB9292' }
         ]}
+        onChange={action('onChange')}
+      />
+    );
+  });
+
+storiesOf('TextField', module)
+  .add('default', () => {
+    resetCustomComponents();
+    return (
+      <ComponentProvider.TextField
+        label="Test"
+        placeHolderText="Placeholder"
+        value="Hallo"
+        onChange={action('onChange')}
+      />
+    );
+  })
+  .add('with material design', () => {
+    setupMaterialComponents();
+    return (
+      <ComponentProvider.TextField
+        label="Test"
+        placeHolderText="Placeholder"
+        value="Hallo"
         onChange={action('onChange')}
       />
     );
