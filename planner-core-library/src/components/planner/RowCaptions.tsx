@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import StylesProvider from '../provider/generalStylesProvider';
 
 interface PropsType {
   labels: {
@@ -7,8 +8,9 @@ interface PropsType {
     subText?: string;
   }[];
 }
+
 const StyledLabels = styled.div`
-  padding-top: 39px;
+  padding-top: 40px;
   padding-right: 10px;
   white-space: nowrap;
   max-width: 70px;
@@ -18,9 +20,9 @@ const StyledLabelArea = styled.div`
 `;
 
 const StyledLabel = styled.div`
-  font-family: sans-serif;
+  font-family: ${StylesProvider.generalStyles['font-family']};
   font-size: 14px;
-  color: #5e5e5e;
+  color: ${StylesProvider.generalStyles.defaultTextColor};
   overflow-x: hidden;
   text-overflow: clip;
 `;
@@ -29,16 +31,16 @@ const StyledLastLabelArea = styled(StyledLabelArea)`
 `;
 
 const StyledSubLabel = styled.div`
-  font-family: sans-serif;
+  font-family: ${StylesProvider.generalStyles['font-family']};
   font-size: 12px;
-  color: #838383;
+  color: ${StylesProvider.generalStyles.lightTextColor};
   text-align: center;
   overflow-x: hidden;
   text-overflow: clip;
 `;
 
 const StyledTopicLabel = styled(StyledLabel)`
-  padding-top: 23px;
+  padding-top: 22px;
 `;
 
 const RowCaptions: React.SFC<PropsType> = ({ labels }) => {

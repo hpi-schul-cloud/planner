@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import StylesProvider from '../provider/generalStylesProvider';
 
 type ContainerType = {
   color: string;
   width?: number;
   isInteractive: boolean;
 };
+
 const ElementContainer = styled.div`
   width: ${({ width }: ContainerType) =>
     width ? `${width}px` : 'fit-content'};
@@ -28,14 +30,14 @@ const TextContainer = styled.div`
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: sans-serif;
+  font-family: ${StylesProvider.generalStyles['font-family']};
   font-size: 13px;
   padding: ${({ size }: { size: 'small' | 'medium' | 'large' }) => {
     if (size === 'small') return '0px 5px';
     else if (size === 'medium') return '2px 5px';
     else return '4px 10px';
   }};
-  color: #4a4a4a;
+  color: ${StylesProvider.generalStyles.strongTextColor};
 `;
 
 export interface PropsType {
@@ -49,7 +51,7 @@ export interface PropsType {
 class TopicElement extends Component<PropsType> {
   static defaultProps = {
     size: 'small',
-    color: '#92DB92'
+    color: '#FFFFFF'
   };
 
   render() {

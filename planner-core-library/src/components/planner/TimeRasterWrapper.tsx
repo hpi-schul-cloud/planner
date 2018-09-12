@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import StylesProvider from '../provider/generalStylesProvider';
 
 type StringMapType = {
   [index: number]: string;
@@ -25,9 +26,9 @@ const StyledTopLabel = styled.div`
   width: ${({ width }: { width: number }) => `${width}px`};
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-family: sans-serif;
+  font-family: ${StylesProvider.generalStyles['font-family']};
   font-size: 12px;
-  color: #838383;
+  color: ${StylesProvider.generalStyles.lightTextColor};
   vertical-align: top;
 `;
 
