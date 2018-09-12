@@ -149,7 +149,6 @@ export default class SchicView extends Component<PropsType, StateType> {
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
                 this.onFormChange(event.target.value, 'competences')
               }
-              styles={this.props.styles.baseComponents.textarea}
             />
           </FlexContainer>
         </FormElementDiv>
@@ -163,7 +162,6 @@ export default class SchicView extends Component<PropsType, StateType> {
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
                 this.onFormChange(event.target.value, 'content')
               }
-              styles={this.props.styles.baseComponents.textarea}
             />
           </FlexContainer>
         </FormElementDiv>
