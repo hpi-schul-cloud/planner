@@ -7,6 +7,7 @@ import BaseButton from '../base/Button';
 import BaseTextField from '../base/TextField';
 import BaseTextArea from '../base/TextArea';
 import BaseChip from '../base/Chip';
+import BaseSelectorInput from '../base/SelectorInput';
 
 type ComponentType<Props> = React.SFC<Props> | React.ComponentClass<Props>;
 
@@ -62,6 +63,22 @@ type ChipPropsType = {
   secondLabel?: string;
   onDeleteClick?: () => void;
 };
+type SelectorInputPropsType = {
+  typeOptions: { text: string; value: string }[];
+  timeOptions: { text: string; value: string }[];
+  values: {
+    typeValue: string;
+    timeValue: string;
+    textValue: string;
+  }[];
+  onChange: (
+    values: {
+      typeValue: string;
+      timeValue: string;
+      textValue: string;
+    }[]
+  ) => void;
+};
 
 type ComponentMapType = Readonly<{
   expansionPanel: ComponentType<ExpansionPanelPropsType>;
@@ -72,6 +89,7 @@ type ComponentMapType = Readonly<{
   textField: ComponentType<TextFieldPropsType>;
   textArea: ComponentType<TextAreaPropsType>;
   chip: ComponentType<ChipPropsType>;
+  selectorInput: ComponentType<SelectorInputPropsType>;
 }>;
 
 class ComponentProvider {
@@ -83,7 +101,8 @@ class ComponentProvider {
     button: BaseButton,
     textField: BaseTextField,
     textArea: BaseTextArea,
-    chip: BaseChip
+    chip: BaseChip,
+    selectorInput: BaseSelectorInput
   };
   customComponentMap: Partial<ComponentMapType>;
 
@@ -125,6 +144,10 @@ class ComponentProvider {
 
   get Chip() {
     return this.getElement('chip')!;
+  }
+
+  get SelectorInput() {
+    return this.getElement('selectorInput')!;
   }
 }
 
