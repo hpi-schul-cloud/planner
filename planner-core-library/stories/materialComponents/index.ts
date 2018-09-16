@@ -6,6 +6,7 @@ import Button from './Button';
 import TextField from './TextField';
 import TextArea from './TextArea';
 import Chip from './Chip';
+import SelectorInput from './SelectorInput';
 
 export {
   ExpansionPanel,
@@ -15,5 +16,6 @@ export {
   Button,
   TextField,
   TextArea,
-  Chip
+  Chip,
+  SelectorInput
 };

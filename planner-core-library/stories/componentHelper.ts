@@ -6,7 +6,8 @@ import {
   Button,
   TextField,
   TextArea,
-  Chip
+  Chip,
+  SelectorInput
 } from './materialComponents';
 import { setupComponentMap } from '../src/components/provider/componentProvider';
 import { setupCustomStyles } from '../src/components/provider/generalStylesProvider';
@@ -20,7 +21,8 @@ export const setupMaterialComponents = () => {
     button: Button,
     textField: TextField,
     textArea: TextArea,
-    chip: Chip
+    chip: Chip,
+    selectorInput: SelectorInput
   });
   setupCustomStyles({
     'font-family': 'Roboto, Helvetica, Arial, sans-serif',
