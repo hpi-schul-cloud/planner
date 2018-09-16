@@ -1,11 +1,11 @@
-import { ViewStylesInputType } from "../src/components/stylesType";
-import { ComponentStylesInputType } from "../src/components/schiC/stylesType";
+import { ViewStylesInputType } from '../src/components/stylesType';
+import { ComponentStylesInputType } from '../src/components/topicTemplateView/stylesType';
 
 export const styles: ViewStylesInputType<ComponentStylesInputType> = {
   general: {
-    primaryColor: "#b10438",
-    "font-family": '"PT Sans","Helvetica Neue",Helvetica,Arial,sans-serif',
-    textColor: "#373a3c"
+    primaryColor: '#b10438',
+    'font-family': '"PT Sans","Helvetica Neue",Helvetica,Arial,sans-serif',
+    textColor: '#373a3c'
   },
   baseComponents: {
     input: generalStyle => `
@@ -19,10 +19,10 @@ export const styles: ViewStylesInputType<ComponentStylesInputType> = {
       background-clip: padding-box;
       border: 1px solid rgba(0,0,0,.15);
       border-radius: .25rem;
-      font-family: ${generalStyle["font-family"]};
+      font-family: ${generalStyle['font-family']};
     `,
     label: generalStyle => `
-      font-family: ${generalStyle["font-family"]};
+      font-family: ${generalStyle['font-family']};
       line-height: 1.4;
       font-size: 1rem;
       color: #373a3c;
@@ -45,7 +45,7 @@ export const styles: ViewStylesInputType<ComponentStylesInputType> = {
       padding: .5rem 2rem;
       font-size: 1rem;
       border-radius: .25rem;
-      font-family: ${generalStyle["font-family"]};
+      font-family: ${generalStyle['font-family']};
     `,
     textarea: generalStyle => `
       height: 100px;
@@ -59,10 +59,10 @@ export const styles: ViewStylesInputType<ComponentStylesInputType> = {
       border: 1px solid rgba(0,0,0,.15);
       border-radius: .25rem;
       padding: .5rem .75rem;
-      font-family: ${generalStyle["font-family"]};
+      font-family: ${generalStyle['font-family']};
     `,
     select: generalStyle => `
-      font-family: ${generalStyle["font-family"]};
+      font-family: ${generalStyle['font-family']};
       color: #55595c;
       font-size: 15px;
       background: white;

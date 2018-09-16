@@ -1,3 +1,3 @@
-import SchicView from "./components/schiC";
+import { TopicTemplateView } from './components/topicTemplateView';
 
-export { SchicView };
+export { TopicTemplateView };

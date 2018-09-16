@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
-import SchicView from '../src/components/schiC';
+import { TopicTemplateView } from '../src/components/topicTemplateView';
 import ComponentProvider from '../src/components/provider/componentProvider';
 import Test from '../src/components/base/Test';
 import TopicElement from '../src/components/planner/TopicElement';
@@ -147,6 +147,54 @@ storiesOf('Chip', module)
         onDeleteClick={action('onDeleteClick')}
       />
     );
+  });
+
+storiesOf('SelectorInput', module)
+  .add('default', () => {
+    resetCustomComponents();
+    return (
+      <ComponentProvider.SelectorInput
+        typeOptions={[
+          { text: 'Mündlich', value: 'spoken' },
+          { text: 'Schriftlich', value: 'written' }
+        ]}
+        timeOptions={[
+          { text: '1. Woche', value: '1w' },
+          { text: '2.Woche', value: '2w' }
+        ]}
+        values={[{ typeValue: 'spoken', timeValue: '1w', textValue: 'Test' }]}
+        onChange={action('onChange')}
+      />
+    );
+  })
+  .add('with material design', () => {
+    setupMaterialComponents();
+    return (
+      <ComponentProvider.SelectorInput
+        typeOptions={[
+          { text: 'Mündlich', value: 'spoken' },
+          { text: 'Schriftlich', value: 'written' }
+        ]}
+        timeOptions={[
+          { text: '1. Woche', value: '1w' },
+          { text: '2.Woche', value: '2w' }
+        ]}
+        values={[{ typeValue: 'spoken', timeValue: '1w', textValue: 'Test' }]}
+        onChange={action('onChange')}
+      />
+    );
+  });
+
+storiesOf('TopicTemplateView', module)
+  .add('default', () => {
+    resetCustomComponents();
+
+    return <TopicTemplateView onSave={action('onSave')} />;
+  })
+  .add('with Material Design', () => {
+    setupMaterialComponents();
+
+    return <TopicTemplateView onSave={action('onSave')} />;
   });
 
 storiesOf('Test', module).add('with all values', () => (
