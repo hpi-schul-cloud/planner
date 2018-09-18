@@ -2,6 +2,7 @@ import ExpansionPanel from './ExpansionPanel';
 import Select from './Select';
 import Tabs from './Tabs';
 import Headline from './Headline';
+import Label from './Label';
 import Button from './Button';
 import TextField from './TextField';
 import TextArea from './TextArea';
@@ -13,6 +14,7 @@ export {
   Select,
   Tabs,
   Headline,
+  Label,
   Button,
   TextField,
   TextArea,
