@@ -8,6 +8,7 @@ import TextField from './TextField';
 import TextArea from './TextArea';
 import Chip from './Chip';
 import SelectorInput from './SelectorInput';
+import TextFieldTable from './TextFieldTable';
 
 export {
   ExpansionPanel,
@@ -19,5 +20,6 @@ export {
   TextField,
   TextArea,
   Chip,
-  SelectorInput
+  SelectorInput,
+  TextFieldTable
 };

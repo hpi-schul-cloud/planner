@@ -8,7 +8,8 @@ import {
   TextField,
   TextArea,
   Chip,
-  SelectorInput
+  SelectorInput,
+  TextFieldTable
 } from './materialComponents';
 import { setupComponentMap } from '../src/components/provider/componentProvider';
 import { setupCustomStyles } from '../src/components/provider/generalStylesProvider';
@@ -24,7 +25,8 @@ export const setupMaterialComponents = () => {
     textField: TextField,
     textArea: TextArea,
     chip: Chip,
-    selectorInput: SelectorInput
+    selectorInput: SelectorInput,
+    textFieldTable: TextFieldTable
   });
   setupCustomStyles({
     'font-family': 'Roboto, Helvetica, Arial, sans-serif',
