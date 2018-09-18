@@ -1,12 +1,11 @@
 import React from 'react';
 import createStyles from '@material-ui/core/styles/createStyles';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SCTheme from './SchulCloudThemeProvider';
 
-const styles = (theme: Theme) =>
+const styles = () =>
   createStyles({
     root: {},
     tabsRoot: {

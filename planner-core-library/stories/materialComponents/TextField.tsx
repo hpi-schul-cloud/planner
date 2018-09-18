@@ -7,13 +7,17 @@ interface PropsType {
   placeHolderText?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  margin?: 'dense' | 'normal';
+  fullWidth?: boolean;
 }
 
 const TextField: React.SFC<PropsType> = ({
   label = '',
   placeHolderText = '',
   value = '',
-  onChange = () => {}
+  onChange = () => {},
+  margin = 'normal',
+  fullWidth = false
 }) => {
   return (
     <SCTheme>
@@ -23,7 +27,8 @@ const TextField: React.SFC<PropsType> = ({
         value={value}
         placeholder={placeHolderText}
         onChange={onChange}
-        margin="normal"
+        margin={margin}
+        fullWidth={fullWidth}
       />
     </SCTheme>
   );
