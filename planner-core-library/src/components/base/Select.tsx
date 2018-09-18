@@ -15,6 +15,23 @@ const StyledSelectorLabel = styled.div`
   font-family: sans-serif;
   font-size: 14px;
   color: #4a4a4a;
+  padding-bottom: 3px;
+`;
+
+const StyledSelect = styled.select`
+  background: #ffffff;
+  border: 1px solid #979797;
+  border-radius: 5px;
+  font-family: sans-serif;
+  font-size: 12px;
+  color: #5e5e5e;
+  height: 34px;
+`;
+
+const StyledSelectContainer = styled.div`
+  margin: 5px 0px;
+  display: inline-flex;
+  flex-direction: column;
 `;
 
 const Select: React.SFC<PropsType> = ({
@@ -24,16 +41,16 @@ const Select: React.SFC<PropsType> = ({
   onChange
 }) => {
   return (
-    <StyledSelectorLabel>
-      {caption}
-      <select value={initialValue} onChange={onChange}>
+    <StyledSelectContainer>
+      <StyledSelectorLabel>{caption}</StyledSelectorLabel>
+      <StyledSelect value={initialValue} onChange={onChange}>
         {values.map(option => (
           <option value={option.value} key={option.value}>
             {option.text}
           </option>
         ))}
-      </select>
-    </StyledSelectorLabel>
+      </StyledSelect>
+    </StyledSelectContainer>
   );
 };
 

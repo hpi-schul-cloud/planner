@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledInput = styled.input`
-  padding: 7px 10px;
+  padding: 9px 12px;
   background: #ffffff;
   border: 1px solid #979797;
   border-radius: 5px;
@@ -16,7 +16,14 @@ const Label = styled.div`
   margin-right: 5px;
   font-family: sans-serif;
   font-size: 14px;
-  color: #5e5e5e;
+  color: #4a4a4a;
+  padding-bottom: 3px;
+`;
+
+const StyledTextFieldContainer = styled.div`
+  margin: 5px 0px;
+  display: inline-flex;
+  flex-direction: column;
 `;
 
 interface PropsType {
@@ -36,7 +43,7 @@ const TextField: React.SFC<PropsType> = ({
 }) => {
   const labelComponent = label ? <Label>{label}</Label> : null;
   return (
-    <div>
+    <StyledTextFieldContainer>
       {labelComponent}
       <StyledInput
         placeholder={placeHolderText}
@@ -44,7 +51,7 @@ const TextField: React.SFC<PropsType> = ({
         onChange={onChange}
         className={className}
       />
-    </div>
+    </StyledTextFieldContainer>
   );
 };
 

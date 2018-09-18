@@ -18,6 +18,8 @@ interface PropsType {
 }
 
 const ItemDiv = styled.div`
+  display: flex;
+  align-items: center;
   > * {
     margin-right: 10px;
     :last-child {

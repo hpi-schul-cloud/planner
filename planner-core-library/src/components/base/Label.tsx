@@ -6,6 +6,7 @@ const StyledLabel = styled.div`
   color: #4a4a4a;
   font-family: sans-serif;
   font-weight: normal;
+  margin-bottom: 5px;
 `;
 
 interface PropsType {

@@ -19,7 +19,7 @@ const StyledContainer = styled.div`
 `;
 const StyledCaptionContainer = styled.div`
   display: flex;
-  padding: 10px 5px;
+  padding: 10px 5px 10px 0px;
   cursor: pointer;
   align-items: baseline;
   justify-content: space-between;
@@ -28,9 +28,10 @@ const StyledCaption = styled.div`
   font-family: sans-serif;
   font-size: 14px;
   color: #4a4a4a;
+  padding-left: 24px;
 `;
 const StyledContentContainer = styled.div`
-  padding: 10px 5px;
+  padding: 8px 24px 24px;
   display: ${({ isVisible }: { isVisible: boolean }) =>
     isVisible ? 'block' : 'none'};
 `;

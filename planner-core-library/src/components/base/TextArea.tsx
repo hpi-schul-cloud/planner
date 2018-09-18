@@ -18,12 +18,19 @@ const StyledTextArea = styled.textarea`
   padding: 7px 10px;
 `;
 
-const Label = styled.div`
+const StyledLabel = styled.div`
   display: inline-block;
   margin-right: 5px;
   font-family: sans-serif;
   font-size: 14px;
-  color: #5e5e5e;
+  color: #4a4a4a;
+  padding-bottom: 3px;
+`;
+
+const StyledTextAreaContainer = styled.div`
+  margin: 5px 0px;
+  display: inline-flex;
+  flex-direction: column;
 `;
 
 const TextArea: React.SFC<PropsType> = ({
@@ -31,13 +38,13 @@ const TextArea: React.SFC<PropsType> = ({
   value = '',
   onChange = () => {}
 }) => {
-  const labelComponent = label ? <Label>{label}</Label> : null;
+  const labelComponent = label ? <StyledLabel>{label}</StyledLabel> : null;
 
   return (
-    <div>
+    <StyledTextAreaContainer>
       {labelComponent}
       <StyledTextArea value={value} onChange={onChange} />
-    </div>
+    </StyledTextAreaContainer>
   );
 };
 
