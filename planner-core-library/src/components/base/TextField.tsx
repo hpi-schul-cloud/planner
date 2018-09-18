@@ -24,13 +24,15 @@ interface PropsType {
   placeHolderText?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 }
 
 const TextField: React.SFC<PropsType> = ({
   label = '',
   placeHolderText = '',
   value = '',
-  onChange = () => {}
+  onChange = () => {},
+  className
 }) => {
   const labelComponent = label ? <Label>{label}</Label> : null;
   return (
@@ -40,6 +42,7 @@ const TextField: React.SFC<PropsType> = ({
         placeholder={placeHolderText}
         value={value}
         onChange={onChange}
+        className={className}
       />
     </div>
   );
