@@ -2,7 +2,6 @@ import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
 import { TopicTemplateView } from '../src/components/topicTemplateView';
 import ComponentProvider from '../src/components/provider/componentProvider';
-import Test from '../src/components/base/Test';
 import TopicElement from '../src/components/planner/TopicElement';
 import RasterTopicElement from '../src/components/planner/RasterTopicElement';
 import ResizableRasterTopicElement from '../src/components/planner/ResizableRasterTopicElement';
@@ -213,7 +212,7 @@ storiesOf('Base/SelectorInput', module)
     );
   });
 
-storiesOf('TopicTemplateView', module)
+storiesOf('CreateTemplate/TopicTemplateView', module)
   .add('default', () => {
     resetCustomComponents();
 
@@ -225,11 +224,7 @@ storiesOf('TopicTemplateView', module)
     return <TopicTemplateView onSave={action('onSave')} />;
   });
 
-storiesOf('Test', module).add('with all values', () => (
-  <Test buttonType={text('Text', '1')} />
-));
-
-storiesOf('TopicElement', module).add('with all values', () => (
+storiesOf('MyClass/TopicElement', module).add('with all values', () => (
   <TopicElement
     onClick={action('onClick')}
     text={text('Text', 'Evolution')}
@@ -243,7 +238,7 @@ storiesOf('TopicElement', module).add('with all values', () => (
   />
 ));
 
-storiesOf('RasterTopicElement', module).add('with small size', () => (
+storiesOf('MyClass/RasterTopicElement', module).add('with small size', () => (
   <RasterTopicElement
     id={text('Id', '1')}
     rasterSize={number('Raster Size', 15)}
@@ -260,23 +255,26 @@ storiesOf('RasterTopicElement', module).add('with small size', () => (
   />
 ));
 
-storiesOf('ResizableRasterTopicElement', module).add('with small size', () => (
-  <ResizableRasterTopicElement
-    id={text('Id', '1')}
-    index={1}
-    type={''}
-    onChangeSizeLeft={action('onChangeSizeLeft')}
-    onChangeSizeRight={action('onChangeSizeRight')}
-    rasterSize={number('Raster Size', 15)}
-    startIndex={number('Start Index', 0)}
-    endIndex={number('End Index', 4)}
-    text={text('Text', 'Evolution')}
-    color={color('Color', '#92DB92')}
-    onElementDidNotDrop={action('onElementDidNotDrop')}
-  />
-));
+storiesOf('MyClass/ResizableRasterTopicElement', module).add(
+  'with small size',
+  () => (
+    <ResizableRasterTopicElement
+      id={text('Id', '1')}
+      index={1}
+      type={''}
+      onChangeSizeLeft={action('onChangeSizeLeft')}
+      onChangeSizeRight={action('onChangeSizeRight')}
+      rasterSize={number('Raster Size', 15)}
+      startIndex={number('Start Index', 0)}
+      endIndex={number('End Index', 4)}
+      text={text('Text', 'Evolution')}
+      color={color('Color', '#92DB92')}
+      onElementDidNotDrop={action('onElementDidNotDrop')}
+    />
+  )
+);
 
-storiesOf('InteractiveRasterRow', module).add('with small size', () => {
+storiesOf('MyClass/InteractiveRasterRow', module).add('with small size', () => {
   const topicElements = [
     {
       id: '1',
@@ -309,7 +307,7 @@ storiesOf('InteractiveRasterRow', module).add('with small size', () => {
   );
 });
 
-storiesOf('InteractiveRasterUnit', module).add('default', () => {
+storiesOf('MyClass/InteractiveRasterUnit', module).add('default', () => {
   return (
     <InteractiveRasterUnit
       topicTemplates={getTopicTemplates()}
@@ -322,7 +320,7 @@ storiesOf('InteractiveRasterUnit', module).add('default', () => {
   );
 });
 
-storiesOf('RasterUnitContainer', module).add('default', () => {
+storiesOf('MyClass/RasterUnitContainer', module).add('default', () => {
   return (
     <RasterUnitContainer
       topicTemplates={getTopicTemplates()}
@@ -336,7 +334,7 @@ storiesOf('RasterUnitContainer', module).add('default', () => {
   );
 });
 
-storiesOf('ClassConfiguration', module)
+storiesOf('MyClass/ClassConfiguration', module)
   .add('default', () => {
     resetCustomComponents();
 
