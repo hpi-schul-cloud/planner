@@ -25,7 +25,8 @@ const TextArea: React.SFC<PropsType> = ({
         onChange={onChange}
         margin="normal"
         multiline={true}
-        rows={8}
+        rows={6}
+        rowsMax={20}
       />
     </SCTheme>
   );
