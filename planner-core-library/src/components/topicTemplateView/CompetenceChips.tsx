@@ -20,6 +20,7 @@ const StyledChipsContainer = styled.div`
 
 const StyledChipContainer = styled.span`
   margin-bottom: 4px;
+  max-width: 100%;
 `;
 
 const StyledLabel = styled.span`
