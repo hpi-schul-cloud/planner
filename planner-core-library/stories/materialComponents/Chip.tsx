@@ -14,7 +14,7 @@ interface PropsType extends WithStyles<typeof styles> {
 const styles = (theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
+      maxWidth: '100%',
       justifyContent: 'left'
     },
     label: {
