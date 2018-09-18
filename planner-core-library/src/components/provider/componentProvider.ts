@@ -3,8 +3,10 @@ import BaseExpansionPanel from '../base/ExpansionPanel';
 import BaseSelect from '../base/Select';
 import BaseTabs from '../base/Tabs';
 import BaseHeadline from '../base/Headline';
+import BaseLabel from '../base/Label';
 import BaseButton from '../base/Button';
 import BaseTextField from '../base/TextField';
+import BaseTextFieldTable from '../base/TextFieldTable';
 import BaseTextArea from '../base/TextArea';
 import BaseChip from '../base/Chip';
 import BaseSelectorInput from '../base/SelectorInput';
@@ -37,6 +39,10 @@ type TabsPropsType = {
 type HeadlinePropsType = {
   caption: string;
 };
+type LabelPropsType = {
+  caption: string;
+  className?: string;
+};
 type ButtonPropsType = {
   className?: string;
   caption: string;
@@ -51,6 +57,10 @@ type TextFieldPropsType = {
   placeHolderText?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+type TextFieldTablePropsType = {
+  rows: { caption: string; value: string }[];
+  onChange: (newRows: { caption: string; value: string }[]) => void;
 };
 type TextAreaPropsType = {
   value?: string;
@@ -85,8 +95,10 @@ type ComponentMapType = Readonly<{
   select: ComponentType<SelectPropsType>;
   tabs: ComponentType<TabsPropsType>;
   headline: ComponentType<HeadlinePropsType>;
+  label: ComponentType<LabelPropsType>;
   button: ComponentType<ButtonPropsType>;
   textField: ComponentType<TextFieldPropsType>;
+  textFieldTable: ComponentType<TextFieldTablePropsType>;
   textArea: ComponentType<TextAreaPropsType>;
   chip: ComponentType<ChipPropsType>;
   selectorInput: ComponentType<SelectorInputPropsType>;
@@ -98,8 +110,10 @@ class ComponentProvider {
     select: BaseSelect,
     tabs: BaseTabs,
     headline: BaseHeadline,
+    label: BaseLabel,
     button: BaseButton,
     textField: BaseTextField,
+    textFieldTable: BaseTextFieldTable,
     textArea: BaseTextArea,
     chip: BaseChip,
     selectorInput: BaseSelectorInput
@@ -130,12 +144,20 @@ class ComponentProvider {
     return this.getElement('headline')!;
   }
 
+  get Label() {
+    return this.getElement('label')!;
+  }
+
   get Button() {
     return this.getElement('button')!;
   }
 
   get TextField() {
     return this.getElement('textField')!;
+  }
+
+  get TextFieldTable() {
+    return this.getElement('textFieldTable')!;
   }
 
   get TextArea() {
