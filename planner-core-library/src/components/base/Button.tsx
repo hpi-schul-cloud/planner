@@ -10,6 +10,7 @@ const StyledButton = styled.button`
   font-size: 14px;
   color: #5e5e5e;
   text-align: center;
+  background: white;
 `;
 
 interface PropsType {
@@ -29,7 +30,7 @@ const Button: React.SFC<PropsType> = ({
   disabled = false
 }) => {
   return (
-    <StyledButton onClick={onClick} className={className} disabled>
+    <StyledButton onClick={onClick} className={className} disabled={disabled}>
       {caption}
     </StyledButton>
   );
