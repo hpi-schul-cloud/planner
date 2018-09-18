@@ -27,7 +27,6 @@ const ItemDiv = styled.div`
       margin-right: 0px;
     }
   }
-  padding-bottom: 5px;
   :last-child {
     padding-bottom: 0px;
   }
