@@ -33,7 +33,7 @@ import {
 
 addDecorator(withKnobs);
 
-storiesOf('ExpansionPanel', module)
+storiesOf('Base/ExpansionPanel', module)
   .add('default', () => {
     resetCustomComponents();
     return (
@@ -51,7 +51,7 @@ storiesOf('ExpansionPanel', module)
     );
   });
 
-storiesOf('Tabs', module)
+storiesOf('Base/Tabs', module)
   .add('default', () => {
     resetCustomComponents();
 
@@ -81,7 +81,7 @@ storiesOf('Tabs', module)
     );
   });
 
-storiesOf('TextField', module)
+storiesOf('Base/TextField', module)
   .add('default', () => {
     resetCustomComponents();
     return (
@@ -105,7 +105,7 @@ storiesOf('TextField', module)
     );
   });
 
-storiesOf('TextArea', module)
+storiesOf('Base/TextArea', module)
   .add('default', () => {
     resetCustomComponents();
     return (
@@ -127,7 +127,35 @@ storiesOf('TextArea', module)
     );
   });
 
-storiesOf('Chip', module)
+storiesOf('Base/TextFieldTable', module)
+  .add('default', () => {
+    resetCustomComponents();
+    return (
+      <ComponentProvider.TextFieldTable
+        rows={[
+          { caption: 'W1 - 1. Einheit', value: 'Einführung Thema' },
+          { caption: 'W1 - 2. Einheit', value: 'Weiterführung Thema' },
+          { caption: 'W2 - 1. Einheit', value: 'Kontrolle' }
+        ]}
+        onChange={action('onChange')}
+      />
+    );
+  })
+  .add('with material design', () => {
+    setupMaterialComponents();
+    return (
+      <ComponentProvider.TextFieldTable
+        rows={[
+          { caption: 'W1 - 1. Einheit', value: 'Einführung Thema' },
+          { caption: 'W1 - 2. Einheit', value: 'Weiterführung Thema' },
+          { caption: 'W2 - 1. Einheit', value: 'Kontrolle' }
+        ]}
+        onChange={action('onChange')}
+      />
+    );
+  });
+
+storiesOf('Base/Chip', module)
   .add('default', () => {
     resetCustomComponents();
     return (
@@ -149,7 +177,7 @@ storiesOf('Chip', module)
     );
   });
 
-storiesOf('SelectorInput', module)
+storiesOf('Base/SelectorInput', module)
   .add('default', () => {
     resetCustomComponents();
     return (
