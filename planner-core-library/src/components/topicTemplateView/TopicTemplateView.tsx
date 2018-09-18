@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import range from 'lodash/range';
 import ComponentProvider from '../provider/componentProvider';
-import { ItemType } from '../base/SelectorInput';
 import {
   MEDIA_EDUCATION_OPTIONS,
   LANGUAGE_EDUCATION_OPTIONS,
   INTERDISCIPLINARY_EDUCATION_OPTIONS
 } from './constants';
+import CompetenceChips from './CompetenceChips';
 
 const SchicViewDiv = styled.div``;
 
@@ -29,26 +30,25 @@ const LabelDiv = styled.div`
   ${({ styles }: { styles?: string }) => styles};
 `;
 
-type FormValuesType = {
-  topic: string;
-  shortDescription: string;
-  numberOfLessons: string;
-  competences: string;
-  content: string;
-  mediaEducation: ItemType[];
-  languageEducation: ItemType[];
-  interdisciplinaryEducation: ItemType[];
+type ItemType = {
+  typeValue: string;
+  timeValue: string;
+  textValue: string;
 };
 
-type FormFieldType =
-  | 'topic'
-  | 'shortDescription'
-  | 'numberOfLessons'
-  | 'competences'
-  | 'content'
-  | 'examinationType'
-  | 'languageEducation'
-  | 'interdisciplinaryEducation';
+type FormValuesType = {
+  subject: string;
+  classLevel: string;
+  name: string;
+  numberOfWeeks: string;
+  unitsPerPeek: string;
+  content: string;
+  subjectUnits: string[];
+  examinations: ItemType[];
+  competences: { id: string; level: string; text: string }[];
+};
+
+type FormFieldType = keyof FormValuesType;
 
 export interface PropsType {
   onSave: (values: FormValuesType) => void;
@@ -56,20 +56,28 @@ export interface PropsType {
 }
 
 interface StateType {
-  values: FormValuesType;
+  currentValues: FormValuesType;
 }
 
 export default class TopicTemplateView extends Component<PropsType, StateType> {
   state = {
-    values: {
-      topic: '',
-      shortDescription: '',
-      numberOfLessons: '',
-      competences: '',
+    currentValues: {
+      subject: '',
+      classLevel: '',
+      name: '',
+      numberOfWeeks: '4',
+      unitsPerPeek: '2',
       content: '',
-      mediaEducation: [],
-      languageEducation: [],
-      interdisciplinaryEducation: []
+      subjectUnits: [],
+      examinations: [],
+      competences: [
+        {
+          id: '1',
+          level: 'Stufe E',
+          text:
+            'Diagramme mit zwei Variablen beschreiben und aus ihnen Daten entnehmen'
+        }
+      ]
     }
   };
 
@@ -77,25 +85,52 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
     super(props);
     if (this.props.initialValues)
       this.setState({
-        values: this.props.initialValues
+        currentValues: this.props.initialValues
       });
   }
 
   onSaveButtonClick = () => {
-    this.props.onSave(this.state.values);
+    this.props.onSave(this.state.currentValues);
   };
 
-  onFormChange = (value: string | ItemType[], key: FormFieldType) => {
+  onFormChange = (
+    value:
+      | string
+      | string[]
+      | ItemType[]
+      | { id: string; level: string; text: string }[],
+    key: FormFieldType
+  ) => {
     this.setState({
       ...this.state,
-      values: {
-        ...this.state.values,
+      currentValues: {
+        ...this.state.currentValues,
         [key]: value
       }
     });
   };
 
+  getTextFieldTableCaptions = (numberOfWeeks: string, unitsPerPeek: string) => {
+    const captions: string[] = [];
+    range(+numberOfWeeks).forEach(weekNumber => {
+      range(+unitsPerPeek).forEach(unitNumber => {
+        captions.push(`${weekNumber + 1}.Woche ${unitNumber + 1}.Einheit`);
+      });
+    });
+
+    return captions;
+  };
+
   render() {
+    const captions = this.getTextFieldTableCaptions(
+      this.state.currentValues.numberOfWeeks,
+      this.state.currentValues.unitsPerPeek
+    );
+    const rows = captions.map((caption, index) => ({
+      caption,
+      value: this.state.currentValues.subjectUnits[index] || ''
+    }));
+
     return (
       <SchicViewDiv>
         <ComponentProvider.Headline caption="Themenvorlage erstellen" />
@@ -120,9 +155,9 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
             <InlineTextFieldDiv>
               <ComponentProvider.TextField
                 label="Name"
-                value={this.state.values.topic}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  this.onFormChange(event.target.value, 'topic')
+                value={this.state.currentValues.name}
+                onChange={event =>
+                  this.onFormChange(event.target.value, 'name')
                 }
               />
             </InlineTextFieldDiv>
@@ -131,18 +166,18 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
             <InlineTextFieldDiv>
               <ComponentProvider.TextField
                 label="Anzahl der Wochen"
-                value={this.state.values.shortDescription}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  this.onFormChange(event.target.value, 'shortDescription')
+                value={this.state.currentValues.numberOfWeeks}
+                onChange={event =>
+                  this.onFormChange(event.target.value, 'numberOfWeeks')
                 }
               />
             </InlineTextFieldDiv>
             <InlineTextFieldDiv>
               <ComponentProvider.TextField
                 label="Einheiten pro Woche"
-                value={this.state.values.numberOfLessons}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  this.onFormChange(event.target.value, 'numberOfLessons')
+                value={this.state.currentValues.unitsPerPeek}
+                onChange={event =>
+                  this.onFormChange(event.target.value, 'unitsPerPeek')
                 }
               />
             </InlineTextFieldDiv>
@@ -152,8 +187,8 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
           <FlexContainer>
             <ComponentProvider.TextArea
               label="Inhalt"
-              value={this.state.values.content}
-              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+              value={this.state.currentValues.content}
+              onChange={event =>
                 this.onFormChange(event.target.value, 'content')
               }
             />
@@ -161,27 +196,37 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         </FormElementDiv>
         <FormElementDiv>
           <FlexContainer>
-            <ComponentProvider.TextArea
-              label="Kompetenzen vom Lehrplan"
-              value={this.state.values.competences}
-              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-                this.onFormChange(event.target.value, 'competences')
+            <ComponentProvider.Label caption="Unterrichtseinheiten" />
+            <ComponentProvider.TextFieldTable
+              rows={rows}
+              onChange={rows =>
+                this.onFormChange(rows.map(row => row.value), 'subjectUnits')
               }
             />
           </FlexContainer>
         </FormElementDiv>
         <FormElementDiv>
-          <LabelDiv>Leistungserfassung</LabelDiv>
+          <ComponentProvider.Label caption="Leistungserfassung" />
           <ComponentProvider.SelectorInput
             typeOptions={[{ text: 'Mündlich', value: 'spoken' }]}
             timeOptions={[{ text: '1.Woche', value: '1W' }]}
-            values={[]}
-            onChange={value => this.onFormChange(value, 'examinationType')}
+            values={this.state.currentValues.examinations}
+            onChange={value => this.onFormChange(value, 'examinations')}
           />
+        </FormElementDiv>
+        <FormElementDiv>
+          <FlexContainer>
+            <CompetenceChips
+              caption="Kompetenzen vom Lehrplan"
+              competences={this.state.currentValues.competences}
+              onChange={value => this.onFormChange(value, 'competences')}
+            />
+          </FlexContainer>
         </FormElementDiv>
         <ComponentProvider.Button
           onClick={this.onSaveButtonClick}
           caption="Save"
+          color="primary"
         />
       </SchicViewDiv>
     );
