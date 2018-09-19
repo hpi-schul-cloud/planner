@@ -8,7 +8,7 @@ import ResizableRasterTopicElement from '../src/components/planner/ResizableRast
 import InteractiveRasterRow from '../src/components/planner/InteractiveRasterRow';
 import InteractiveRasterUnit from '../src/components/planner/InteractiveRasterUnit';
 import RasterUnitContainer from '../src/components/planner/RasterUnitContainer';
-import ClassConfiguration from '../src/components/planner/ClassConfiguration';
+import ClassConfigurationView from '../src/components/planner/ClassConfigurationView';
 
 import { action } from '@storybook/addon-actions';
 import {
@@ -348,12 +348,12 @@ storiesOf('MyClass/RasterUnitContainer', module).add('default', () => {
   );
 });
 
-storiesOf('MyClass/ClassConfiguration', module)
+storiesOf('MyClass/ClassConfigurationView', module)
   .add('default', () => {
     resetCustomComponents();
 
     return (
-      <ClassConfiguration
+      <ClassConfigurationView
         allClassTopics={getAllClassInstances()}
         allTopicTemplates={getAllTopicTemplates()}
         onAddTemplate={action('onAddTemplate')}
@@ -365,7 +365,7 @@ storiesOf('MyClass/ClassConfiguration', module)
     setupMaterialComponents();
 
     return (
-      <ClassConfiguration
+      <ClassConfigurationView
         allClassTopics={getAllClassInstances()}
         allTopicTemplates={getAllTopicTemplates()}
         onAddTemplate={action('onAddTemplate')}

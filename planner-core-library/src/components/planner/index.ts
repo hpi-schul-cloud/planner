@@ -1,3 +1,3 @@
-import ClassConfiguration from './ClassConfiguration';
+import ClassConfigurationView from './ClassConfigurationView';
 
-export { ClassConfiguration };
+export { ClassConfigurationView };

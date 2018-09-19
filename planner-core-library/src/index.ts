@@ -1,4 +1,4 @@
-import { ClassConfiguration } from './components/planner';
+import { ClassConfigurationView } from './components/planner';
 import { TopicTemplateView } from './components/topicTemplateView';
 
-export { ClassConfiguration, TopicTemplateView };
+export { ClassConfigurationView, TopicTemplateView };

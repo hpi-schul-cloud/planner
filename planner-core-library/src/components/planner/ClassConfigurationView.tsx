@@ -49,7 +49,7 @@ function getColorForSubjectId(id: string) {
   return colorMap[id] || '#92D0DB';
 }
 
-class ClassConfiguration extends Component<PropsType, StateType> {
+class ClassConfigurationView extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
     const defaultSelectedSchoolYearId = Object.keys(props.allClassTopics)[0];
@@ -237,4 +237,4 @@ class ClassConfiguration extends Component<PropsType, StateType> {
   }
 }
 
-export default ClassConfiguration;
+export default ClassConfigurationView;
