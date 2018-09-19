@@ -124,7 +124,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
 
     return (
       <div>
-        <ComponentProvider.Headline caption="Themenvorlage erstellen" />
+        <ComponentProvider.Headline caption="Thema bearbeiten" />
         <FormElementDiv>
           <InlineTextFieldDiv>
             <ComponentProvider.Text
