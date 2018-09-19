@@ -5,6 +5,7 @@ import BaseTabs from '../base/Tabs';
 import BaseHeadline from '../base/Headline';
 import BaseLabel from '../base/Label';
 import BaseButton from '../base/Button';
+import BaseText from '../base/Text';
 import BaseTextField from '../base/TextField';
 import BaseTextFieldTable from '../base/TextFieldTable';
 import BaseTextArea from '../base/TextArea';
@@ -24,7 +25,7 @@ type SelectPropsType = {
     value: string;
     text: string;
   }[];
-  caption: string;
+  caption?: string;
   onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
 };
 type TabsPropsType = {
@@ -51,6 +52,10 @@ type ButtonPropsType = {
   size?: 'small' | 'medium' | 'large';
   type?: 'default' | 'bold' | 'thin';
   onClick?: () => void;
+};
+type TextPropsType = {
+  label?: string;
+  text: string;
 };
 type TextFieldPropsType = {
   label?: string;
@@ -97,6 +102,7 @@ type ComponentMapType = Readonly<{
   headline: ComponentType<HeadlinePropsType>;
   label: ComponentType<LabelPropsType>;
   button: ComponentType<ButtonPropsType>;
+  text: ComponentType<TextPropsType>;
   textField: ComponentType<TextFieldPropsType>;
   textFieldTable: ComponentType<TextFieldTablePropsType>;
   textArea: ComponentType<TextAreaPropsType>;
@@ -112,13 +118,14 @@ class ComponentProvider {
     headline: BaseHeadline,
     label: BaseLabel,
     button: BaseButton,
+    text: BaseText,
     textField: BaseTextField,
     textFieldTable: BaseTextFieldTable,
     textArea: BaseTextArea,
     chip: BaseChip,
     selectorInput: BaseSelectorInput
   };
-  customComponentMap: Partial<ComponentMapType>;
+  customComponentMap: Partial<ComponentMapType> = {};
 
   setupComponentMap(customComponents: Partial<ComponentMapType>) {
     this.customComponentMap = customComponents;
@@ -150,6 +157,10 @@ class ComponentProvider {
 
   get Button() {
     return this.getElement('button')!;
+  }
+
+  get Text() {
+    return this.getElement('text')!;
   }
 
   get TextField() {
