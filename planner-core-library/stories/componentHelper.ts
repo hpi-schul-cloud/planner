@@ -10,7 +10,7 @@ import {
   Chip,
   SelectorInput,
   TextFieldTable
-} from './materialComponents';
+} from '../materialComponents';
 import { setupComponentMap } from '../src/components/provider/componentProvider';
 import { setupCustomStyles } from '../src/components/provider/generalStylesProvider';
 

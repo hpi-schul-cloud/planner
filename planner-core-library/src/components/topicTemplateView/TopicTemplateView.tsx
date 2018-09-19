@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import range from 'lodash/range';
 import ComponentProvider from '../provider/componentProvider';
-import {
-  MEDIA_EDUCATION_OPTIONS,
-  LANGUAGE_EDUCATION_OPTIONS,
-  INTERDISCIPLINARY_EDUCATION_OPTIONS
-} from './constants';
 import CompetenceChips from './CompetenceChips';
 
 const SchicViewDiv = styled.div``;
@@ -24,10 +19,6 @@ const InlineTextFieldDiv = styled.div`
   display: inline-flex;
   flex-direction: column;
   margin-right: 10px;
-`;
-
-const LabelDiv = styled.div`
-  ${({ styles }: { styles?: string }) => styles};
 `;
 
 type ItemType = {
