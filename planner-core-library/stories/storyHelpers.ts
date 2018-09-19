@@ -1,3 +1,4 @@
+import uniqueId from 'lodash/uniqueId';
 import {
   AllClassInstancesType,
   AllTopicTemplatesType
@@ -129,4 +130,60 @@ export const getTopicTemplates = () => [
   { id: '4', text: 'Evolution', width: 5, color: '#92DB92' },
   { id: '5', text: 'Replikation', width: 10, color: '#92DB92' },
   { id: '6', text: 'Zellteilung', width: 8, color: '#92DB92' }
+];
+
+const ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
+const getTopic = (
+  schoolYearStart: number,
+  startWeek: number,
+  endWeek: number,
+  color: string
+) => {
+  const id = uniqueId('Thema ');
+  return {
+    id,
+    text: id,
+    color,
+    startDate: schoolYearStart + startWeek * ONE_WEEK,
+    endDate: schoolYearStart + endWeek * ONE_WEEK - 1
+  };
+};
+export const getClassTopicsData = (schoolYearStart: number) => [
+  {
+    className: 'Klasse 8a',
+    classes: [
+      {
+        subjectId: 'biology',
+        subjectName: 'Biologie',
+        topics: [
+          getTopic(schoolYearStart, 0, 2, '#92DB92'),
+          getTopic(schoolYearStart, 2, 8, '#92DB92'),
+          getTopic(schoolYearStart, 8, 12, '#92DB92')
+        ]
+      }
+    ]
+  },
+  {
+    className: 'Klasse 8b',
+    classes: [
+      {
+        subjectId: 'biology',
+        subjectName: 'Biologie',
+        topics: [
+          getTopic(schoolYearStart, 0, 3, '#92DB92'),
+          getTopic(schoolYearStart, 3, 7, '#92DB92'),
+          getTopic(schoolYearStart, 7, 13, '#92DB92')
+        ]
+      },
+      {
+        subjectId: 'chemistry',
+        subjectName: 'Chemie',
+        topics: [
+          getTopic(schoolYearStart, 0, 1, '#DBC192'),
+          getTopic(schoolYearStart, 1, 5, '#DBC192'),
+          getTopic(schoolYearStart, 5, 10, '#DBC192')
+        ]
+      }
+    ]
+  }
 ];
