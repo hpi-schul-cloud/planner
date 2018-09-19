@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import Label from './Label';
 import TextField from './TextField';
 
 type TextFieldTableProps = {
+  label?: string;
   rows: { caption: string; value: string }[];
   onChange: (newRows: { caption: string; value: string }[]) => void;
 };
@@ -45,7 +47,11 @@ const StyledTextField = styled(TextField)`
   border: none;
 `;
 
-const TextFieldTable: React.SFC<TextFieldTableProps> = ({ rows, onChange }) => {
+const TextFieldTable: React.SFC<TextFieldTableProps> = ({
+  rows,
+  label,
+  onChange
+}) => {
   function onRowChange(index: number, value: string) {
     onChange([
       ...rows.slice(0, index),
@@ -56,21 +62,27 @@ const TextFieldTable: React.SFC<TextFieldTableProps> = ({ rows, onChange }) => {
       ...rows.slice(index + 1)
     ]);
   }
+  const labelComponent = label ? <Label caption={label} /> : null;
 
   return (
-    <StyledTable>
-      {rows.map((row, i) => (
-        <StyledRow key={i}>
-          <StyledCell>{row.caption}</StyledCell>
-          <StyledCell>
-            <StyledTextField
-              value={row.value}
-              onChange={event => onRowChange(i, event.target.value)}
-            />
-          </StyledCell>
-        </StyledRow>
-      ))}
-    </StyledTable>
+    <>
+      {labelComponent}
+      <StyledTable>
+        {rows.map((row, i) => (
+          <StyledRow key={i}>
+            <StyledCell>{row.caption}</StyledCell>
+            <StyledCell>
+              <StyledTextField
+                value={row.value}
+                margin="dense"
+                fullWidth={true}
+                onChange={event => onRowChange(i, event.target.value)}
+              />
+            </StyledCell>
+          </StyledRow>
+        ))}
+      </StyledTable>
+    </>
   );
 };
 

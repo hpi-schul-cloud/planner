@@ -8,7 +8,7 @@ interface PropsType {
 
 const Label: React.SFC<PropsType> = ({ caption, className }) => {
   return (
-    <span className={className}>
+    <span className={className} style={{ marginBottom: 5 }}>
       <Typography variant="caption">{caption}</Typography>
     </span>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Label from './Label';
 
 interface PropsType {
   caption?: string;
@@ -40,9 +41,10 @@ const Select: React.SFC<PropsType> = ({
   caption,
   onChange
 }) => {
+  const labelComponent = caption ? <Label caption={caption} /> : null;
   return (
     <StyledSelectContainer>
-      <StyledSelectorLabel>{caption}</StyledSelectorLabel>
+      {labelComponent}
       <StyledSelect value={initialValue} onChange={onChange}>
         {values.map(option => (
           <option value={option.value} key={option.value}>

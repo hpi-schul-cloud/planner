@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Label from './Label';
 
 interface PropsType {
   value?: string;
@@ -38,7 +39,7 @@ const TextArea: React.SFC<PropsType> = ({
   value = '',
   onChange = () => {}
 }) => {
-  const labelComponent = label ? <StyledLabel>{label}</StyledLabel> : null;
+  const labelComponent = label ? <Label caption={label} /> : null;
 
   return (
     <StyledTextAreaContainer>

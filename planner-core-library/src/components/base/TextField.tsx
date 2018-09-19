@@ -1,29 +1,25 @@
 import React from 'react';
+import Label from './Label';
 import styled from 'styled-components';
 
 const StyledInput = styled.input`
-  padding: 9px 12px;
   background: #ffffff;
   border: 1px solid #979797;
   border-radius: 5px;
   font-family: sans-serif;
   font-size: 12px;
   color: #5e5e5e;
-`;
 
-const Label = styled.div`
-  display: inline-block;
-  margin-right: 5px;
-  font-family: sans-serif;
-  font-size: 14px;
-  color: #4a4a4a;
-  padding-bottom: 3px;
+  padding: ${({ margin }: { margin: 'dense' | 'normal' }) =>
+    margin === 'dense' ? '0px' : '9px 12px'};
 `;
 
 const StyledTextFieldContainer = styled.div`
   margin: 5px 0px;
   display: inline-flex;
   flex-direction: column;
+  width: ${({ fullWidth }: { fullWidth: boolean }) =>
+    fullWidth ? '100%' : 'initial'};
 `;
 
 interface PropsType {
@@ -31,7 +27,9 @@ interface PropsType {
   placeHolderText?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  margin?: 'dense' | 'normal';
   className?: string;
+  fullWidth?: boolean;
 }
 
 const TextField: React.SFC<PropsType> = ({
@@ -39,17 +37,20 @@ const TextField: React.SFC<PropsType> = ({
   placeHolderText = '',
   value = '',
   onChange = () => {},
-  className
+  className,
+  margin = 'normal',
+  fullWidth = false
 }) => {
-  const labelComponent = label ? <Label>{label}</Label> : null;
+  const labelComponent = label ? <Label caption={label} /> : null;
   return (
-    <StyledTextFieldContainer>
+    <StyledTextFieldContainer fullWidth={fullWidth}>
       {labelComponent}
       <StyledInput
         placeholder={placeHolderText}
         value={value}
         onChange={onChange}
         className={className}
+        margin={margin}
       />
     </StyledTextFieldContainer>
   );

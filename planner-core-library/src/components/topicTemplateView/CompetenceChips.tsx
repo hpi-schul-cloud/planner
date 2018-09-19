@@ -23,10 +23,6 @@ const StyledChipContainer = styled.span`
   max-width: 100%;
 `;
 
-const StyledLabel = styled.span`
-  padding-bottom: 6px;
-`;
-
 class CompetenceChips extends Component<PropsType> {
   deleteCompetence = (index: number) => {
     this.props.onChange([
@@ -51,9 +47,7 @@ class CompetenceChips extends Component<PropsType> {
     const { caption, competences } = this.props;
     return (
       <StyledChipsContainer>
-        <StyledLabel>
-          <ComponentProvider.Label caption={caption} />
-        </StyledLabel>
+        <ComponentProvider.Label caption={caption} />
         {competences.map((competence, index) => (
           <StyledChipContainer>
             <ComponentProvider.Chip
