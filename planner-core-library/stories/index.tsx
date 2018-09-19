@@ -36,7 +36,7 @@ storiesOf('Base/ExpansionPanel', module)
   .add('default', () => {
     resetCustomComponents();
     return (
-      <ComponentProvider.ExpansionPanel caption="Test">
+      <ComponentProvider.ExpansionPanel caption={text('Caption', 'Test')}>
         Haaaallo!
       </ComponentProvider.ExpansionPanel>
     );
@@ -44,7 +44,7 @@ storiesOf('Base/ExpansionPanel', module)
   .add('with material design', () => {
     setupMaterialComponents();
     return (
-      <ComponentProvider.ExpansionPanel caption="Test">
+      <ComponentProvider.ExpansionPanel caption={text('Caption', 'Test')}>
         Haaaallo!
       </ComponentProvider.ExpansionPanel>
     );
@@ -56,11 +56,12 @@ storiesOf('Base/Tabs', module)
 
     return (
       <ComponentProvider.Tabs
-        items={[
+        selected={text('Id', '')}
+        items={object('items', [
           { id: 'biology', text: 'Biologie', color: '#58C853' },
           { id: 'chemistry', text: 'Chemie', color: '#DBC192' },
           { id: 'german', text: 'Deutsch', color: '#DB9292' }
-        ]}
+        ])}
         onChange={action('onChange')}
       />
     );
@@ -70,11 +71,12 @@ storiesOf('Base/Tabs', module)
 
     return (
       <ComponentProvider.Tabs
-        items={[
+        selected={text('Id', '')}
+        items={object('items', [
           { id: 'biology', text: 'Biologie', color: '#58C853' },
           { id: 'chemistry', text: 'Chemie', color: '#DBC192' },
           { id: 'german', text: 'Deutsch', color: '#DB9292' }
-        ]}
+        ])}
         onChange={action('onChange')}
       />
     );
@@ -85,9 +87,9 @@ storiesOf('Base/TextField', module)
     resetCustomComponents();
     return (
       <ComponentProvider.TextField
-        label="Test"
-        placeHolderText="Placeholder"
-        value="Hallo"
+        label={text('Label', 'Test')}
+        placeHolderText={text('Placeholder', 'Placeholder')}
+        value={text('Value', 'Hallo')}
         onChange={action('onChange')}
       />
     );
@@ -96,9 +98,9 @@ storiesOf('Base/TextField', module)
     setupMaterialComponents();
     return (
       <ComponentProvider.TextField
-        label="Test"
-        placeHolderText="Placeholder"
-        value="Hallo"
+        label={text('Label', 'Test')}
+        placeHolderText={text('Placeholder', 'Placeholder')}
+        value={text('Value', 'Hallo')}
         onChange={action('onChange')}
       />
     );
@@ -109,8 +111,9 @@ storiesOf('Base/TextArea', module)
     resetCustomComponents();
     return (
       <ComponentProvider.TextArea
-        label="Test"
-        value="Hallo"
+        label={text('Label', 'Test')}
+        placeHolderText={text('Placeholder', 'Placeholder')}
+        value={text('Value', 'Hallo')}
         onChange={action('onChange')}
       />
     );
@@ -119,8 +122,9 @@ storiesOf('Base/TextArea', module)
     setupMaterialComponents();
     return (
       <ComponentProvider.TextArea
-        label="Test"
-        value="Hallo"
+        label={text('Label', 'Test')}
+        placeHolderText={text('Placeholder', 'Placeholder')}
+        value={text('Value', 'Hallo')}
         onChange={action('onChange')}
       />
     );
@@ -131,11 +135,11 @@ storiesOf('Base/TextFieldTable', module)
     resetCustomComponents();
     return (
       <ComponentProvider.TextFieldTable
-        rows={[
+        rows={object('Rows', [
           { caption: 'W1 - 1. Einheit', value: 'Einführung Thema' },
           { caption: 'W1 - 2. Einheit', value: 'Weiterführung Thema' },
           { caption: 'W2 - 1. Einheit', value: 'Kontrolle' }
-        ]}
+        ])}
         onChange={action('onChange')}
       />
     );
@@ -144,11 +148,11 @@ storiesOf('Base/TextFieldTable', module)
     setupMaterialComponents();
     return (
       <ComponentProvider.TextFieldTable
-        rows={[
+        rows={object('Rows', [
           { caption: 'W1 - 1. Einheit', value: 'Einführung Thema' },
           { caption: 'W1 - 2. Einheit', value: 'Weiterführung Thema' },
           { caption: 'W2 - 1. Einheit', value: 'Kontrolle' }
-        ]}
+        ])}
         onChange={action('onChange')}
       />
     );
@@ -159,8 +163,11 @@ storiesOf('Base/Chip', module)
     resetCustomComponents();
     return (
       <ComponentProvider.Chip
-        firstLabel="Stufe E"
-        secondLabel="Kennzeichen der Fortpflanzung sowie Stadien der Entwicklung von Organismen beschreiben"
+        firstLabel={text('First Label', 'Stufe E')}
+        secondLabel={text(
+          'Second Label',
+          'Kennzeichen der Fortpflanzung sowie Stadien der Entwicklung von Organismen beschreiben'
+        )}
         onDeleteClick={action('onDeleteClick')}
       />
     );
@@ -169,8 +176,11 @@ storiesOf('Base/Chip', module)
     setupMaterialComponents();
     return (
       <ComponentProvider.Chip
-        firstLabel="Stufe E"
-        secondLabel="Kennzeichen der Fortpflanzung sowie Stadien der Entwicklung von Organismen beschreiben"
+        firstLabel={text('First Label', 'Stufe E')}
+        secondLabel={text(
+          'Second Label',
+          'Kennzeichen der Fortpflanzung sowie Stadien der Entwicklung von Organismen beschreiben'
+        )}
         onDeleteClick={action('onDeleteClick')}
       />
     );
@@ -181,15 +191,17 @@ storiesOf('Base/SelectorInput', module)
     resetCustomComponents();
     return (
       <ComponentProvider.SelectorInput
-        typeOptions={[
+        typeOptions={object('Type Options', [
           { text: 'Mündlich', value: 'spoken' },
           { text: 'Schriftlich', value: 'written' }
-        ]}
-        timeOptions={[
+        ])}
+        timeOptions={object('Time Options', [
           { text: '1. Woche', value: '1w' },
           { text: '2.Woche', value: '2w' }
-        ]}
-        values={[{ typeValue: 'spoken', timeValue: '1w', textValue: 'Test' }]}
+        ])}
+        values={object('Values', [
+          { typeValue: 'spoken', timeValue: '1w', textValue: 'Test' }
+        ])}
         onChange={action('onChange')}
       />
     );
@@ -198,15 +210,17 @@ storiesOf('Base/SelectorInput', module)
     setupMaterialComponents();
     return (
       <ComponentProvider.SelectorInput
-        typeOptions={[
+        typeOptions={object('Type Options', [
           { text: 'Mündlich', value: 'spoken' },
           { text: 'Schriftlich', value: 'written' }
-        ]}
-        timeOptions={[
+        ])}
+        timeOptions={object('Time Options', [
           { text: '1. Woche', value: '1w' },
           { text: '2.Woche', value: '2w' }
-        ]}
-        values={[{ typeValue: 'spoken', timeValue: '1w', textValue: 'Test' }]}
+        ])}
+        values={object('Values', [
+          { typeValue: 'spoken', timeValue: '1w', textValue: 'Test' }
+        ])}
         onChange={action('onChange')}
       />
     );
