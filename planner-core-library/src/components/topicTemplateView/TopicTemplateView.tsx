@@ -134,7 +134,9 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
               initialValue="biology"
               values={[{ value: 'biology', text: 'Biologie' }]}
               caption="Fach"
-              onChange={() => {}}
+              onChange={event =>
+                this.onFormChange(event.currentTarget.value, 'subject')
+              }
             />
           </InlineTextFieldDiv>
           <InlineTextFieldDiv>
@@ -142,7 +144,9 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
               initialValue="8"
               values={[{ value: '8', text: '8' }]}
               caption="Jahrgang"
-              onChange={() => {}}
+              onChange={event =>
+                this.onFormChange(event.currentTarget.value, 'classLevel')
+              }
             />
           </InlineTextFieldDiv>
           <FormElementDiv>
