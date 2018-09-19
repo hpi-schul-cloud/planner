@@ -12,6 +12,7 @@ import InteractiveRasterRow from '../src/components/planner/InteractiveRasterRow
 import InteractiveRasterUnit from '../src/components/planner/InteractiveRasterUnit';
 import RasterUnitContainer from '../src/components/planner/RasterUnitContainer';
 import ClassConfigurationView from '../src/components/planner/ClassConfigurationView';
+import YearlyCalendar from '../src/components/calendarView/YearlyCalendar';
 
 import { action } from '@storybook/addon-actions';
 import {
@@ -27,7 +28,8 @@ import {
   getClassInstances,
   getTopicTemplates,
   getAllClassInstances,
-  getAllTopicTemplates
+  getAllTopicTemplates,
+  getClassTopicsData
 } from './storyHelpers';
 import {
   setupMaterialComponents,
@@ -226,6 +228,39 @@ storiesOf('Base/SelectorInput', module)
           { typeValue: 'spoken', timeValue: '1w', textValue: 'Test' }
         ])}
         onChange={action('onChange')}
+      />
+    );
+  });
+storiesOf('CalendarView/YearlyCalendar', module)
+  .add('default', () => {
+    resetCustomComponents();
+    const schoolYearStart = 1534716000000;
+
+    return (
+      <YearlyCalendar
+        classTopicsData={object(
+          'Class Topics Data',
+          getClassTopicsData(schoolYearStart)
+        )}
+        holidaysData={object('', [])}
+        otherEventsData={object('', [])}
+        onTopicInstanceClick={action('onTopicInstanceClick')}
+      />
+    );
+  })
+  .add('with Material Design', () => {
+    const schoolYearStart = 1534716000000;
+    setupMaterialComponents();
+
+    return (
+      <YearlyCalendar
+        classTopicsData={object(
+          'Class Topics Data',
+          getClassTopicsData(schoolYearStart)
+        )}
+        holidaysData={object('', [])}
+        otherEventsData={object('', [])}
+        onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );
   });
