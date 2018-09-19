@@ -12,13 +12,6 @@ interface PropsType {
   onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
 }
 
-const StyledSelectorLabel = styled.div`
-  font-family: sans-serif;
-  font-size: 14px;
-  color: #4a4a4a;
-  padding-bottom: 3px;
-`;
-
 const StyledSelect = styled.select`
   background: #ffffff;
   border: 1px solid #979797;

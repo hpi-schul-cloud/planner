@@ -19,15 +19,6 @@ const StyledTextArea = styled.textarea`
   padding: 7px 10px;
 `;
 
-const StyledLabel = styled.div`
-  display: inline-block;
-  margin-right: 5px;
-  font-family: sans-serif;
-  font-size: 14px;
-  color: #4a4a4a;
-  padding-bottom: 3px;
-`;
-
 const StyledTextAreaContainer = styled.div`
   margin: 5px 0px;
   display: inline-flex;

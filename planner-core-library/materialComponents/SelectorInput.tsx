@@ -1,6 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
-import Button from './Button';
 import Select from './Select';
 import TextField from './TextField';
 import IconButton from '@material-ui/core/IconButton';
@@ -19,18 +17,6 @@ interface PropsType {
   values: ItemType[];
   onChange: (values: ItemType[]) => void;
 }
-
-const ItemDiv = styled.div`
-  > * {
-    margin-right: 10px;
-    :last-child {
-      margin-right: 0px;
-    }
-  }
-  :last-child {
-    padding-bottom: 0px;
-  }
-`;
 
 function SelectorInput(props: PropsType) {
   function removeItem(index: number) {
@@ -66,7 +52,7 @@ function SelectorInput(props: PropsType) {
   return (
     <div>
       {values.map((value, index) => (
-        <ItemDiv>
+        <div>
           <Select
             initialValue={value.typeValue}
             onChange={event =>
@@ -96,7 +82,7 @@ function SelectorInput(props: PropsType) {
           <IconButton onClick={() => removeItem(index)} aria-label="Clear">
             <ClearIcon />
           </IconButton>
-        </ItemDiv>
+        </div>
       ))}
       <IconButton onClick={addField} aria-label="Add">
         <AddIcon />
