@@ -42,9 +42,13 @@ type FormValuesType = {
 type FormFieldType = keyof FormValuesType;
 
 export interface PropsType {
+  onCreate: (values: FormValuesType) => void;
   onSave: (values: FormValuesType) => void;
+  onDelete: (id: string) => void;
+  mode: "NEW" | "EDIT";
   initialValues?: FormValuesType;
-}
+  id: string;
+};
 
 interface StateType {
   currentValues: FormValuesType;
@@ -80,8 +84,8 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
       });
   }
 
-  onSaveButtonClick = () => {
-    this.props.onSave(this.state.currentValues);
+  onCreateButtonClick = () => {
+    this.props.onCreate(this.state.currentValues);
   };
 
   onFormChange = (
@@ -215,11 +219,18 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
           </FlexContainer>
         </FormElementDiv>
         <ComponentProvider.Button
-          onClick={this.onSaveButtonClick}
-          caption="Save"
+          onClick={this.onCreateButtonClick}
+          caption="Erstellen"
           color="primary"
         />
       </SchicViewDiv>
     );
+  }
+
+  static defaultProps = {
+    onCreate: () => {},
+    onSave: () => {},
+    onDelete: () => {},
+    mode: "NEW"
   }
 }
