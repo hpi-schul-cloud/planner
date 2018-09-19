@@ -54,10 +54,10 @@ const LEFT = 'LEFT';
 
 class ResizableRasterTopicElement extends Component<PropsType> {
   private topicElementRef: React.RefObject<HTMLDivElement>;
-  initialX: number;
-  startIndex: number;
-  endIndex: number;
-  dragSide: typeof RIGHT | typeof LEFT;
+  initialX: number = 0;
+  startIndex: number = 0;
+  endIndex: number = 0;
+  dragSide: typeof RIGHT | typeof LEFT = 'LEFT';
 
   constructor(props: PropsType) {
     super(props);
