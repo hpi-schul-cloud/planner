@@ -1,6 +1,9 @@
 import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
-import { TopicTemplateView } from '../src/components/topicTemplateView';
+import {
+  TopicTemplateView,
+  TopicInstanceView
+} from '../src/components/topicTemplateView';
 import ComponentProvider from '../src/components/provider/componentProvider';
 import TopicElement from '../src/components/planner/TopicElement';
 import RasterTopicElement from '../src/components/planner/RasterTopicElement';
@@ -13,6 +16,7 @@ import ClassConfigurationView from '../src/components/planner/ClassConfiguration
 import { action } from '@storybook/addon-actions';
 import {
   withKnobs,
+  selectV2,
   text,
   color,
   object,
@@ -230,12 +234,60 @@ storiesOf('CreateTemplate/TopicTemplateView', module)
   .add('default', () => {
     resetCustomComponents();
 
-    return <TopicTemplateView onSave={action('onSave')} />;
+    return (
+      <TopicTemplateView
+        onCreate={action('onCreate')}
+        onSave={action('onSave')}
+        onDelete={action('onDelete')}
+        mode={selectV2('Mode', { new: 'NEW', edit: 'EDIT' }, 'NEW')}
+        id={text('ID', '1')}
+      />
+    );
   })
   .add('with Material Design', () => {
     setupMaterialComponents();
 
-    return <TopicTemplateView onSave={action('onSave')} />;
+    return (
+      <TopicTemplateView
+        onCreate={action('onCreate')}
+        onSave={action('onSave')}
+        onDelete={action('onDelete')}
+        mode={selectV2('Mode', { new: 'NEW', edit: 'EDIT' }, 'NEW')}
+        id={text('ID', '1')}
+      />
+    );
+  });
+
+storiesOf('EditInstace/TopicInstanceView', module)
+  .add('default', () => {
+    resetCustomComponents();
+
+    return (
+      <TopicInstanceView
+        onSave={action('onSave')}
+        onDelete={action('onDelete')}
+        initialValues={object('Initial Values', {
+          subject: 'Biologie',
+          classLevel: 'Klasse 8a'
+        })}
+        id={text('ID', '1')}
+      />
+    );
+  })
+  .add('with Material Design', () => {
+    setupMaterialComponents();
+
+    return (
+      <TopicInstanceView
+        onSave={action('onSave')}
+        onDelete={action('onDelete')}
+        initialValues={object('Initial Values', {
+          subject: 'Biologie',
+          classLevel: 'Klasse 8a'
+        })}
+        id={text('ID', '1')}
+      />
+    );
   });
 
 storiesOf('MyClass/TopicElement', module).add('with all values', () => (
