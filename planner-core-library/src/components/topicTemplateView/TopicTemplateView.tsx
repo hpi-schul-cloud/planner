@@ -4,8 +4,6 @@ import range from 'lodash/range';
 import ComponentProvider from '../provider/componentProvider';
 import CompetenceChips from './CompetenceChips';
 
-const SchicViewDiv = styled.div``;
-
 const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,10 +43,10 @@ export interface PropsType {
   onCreate: (values: FormValuesType) => void;
   onSave: (values: FormValuesType) => void;
   onDelete: (id: string) => void;
-  mode: "NEW" | "EDIT";
+  mode: 'NEW' | 'EDIT';
   initialValues?: FormValuesType;
   id: string;
-};
+}
 
 interface StateType {
   currentValues: FormValuesType;
@@ -65,14 +63,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
       content: '',
       subjectUnits: [],
       examinations: [],
-      competences: [
-        {
-          id: '1',
-          level: 'Stufe E',
-          text:
-            'Diagramme mit zwei Variablen beschreiben und aus ihnen Daten entnehmen'
-        }
-      ]
+      competences: []
     }
   };
 
@@ -86,6 +77,14 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
 
   onCreateButtonClick = () => {
     this.props.onCreate(this.state.currentValues);
+  };
+
+  onSaveButtonClick = () => {
+    this.props.onSave(this.state.currentValues);
+  };
+
+  onDeleteButtonClick = () => {
+    this.props.onDelete(this.props.id);
   };
 
   onFormChange = (
@@ -127,7 +126,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
     }));
 
     return (
-      <SchicViewDiv>
+      <div>
         <ComponentProvider.Headline caption="Themenvorlage erstellen" />
         <FormElementDiv>
           <InlineTextFieldDiv>
@@ -218,12 +217,28 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
             />
           </FlexContainer>
         </FormElementDiv>
-        <ComponentProvider.Button
-          onClick={this.onCreateButtonClick}
-          caption="Erstellen"
-          color="primary"
-        />
-      </SchicViewDiv>
+        {this.props.mode === 'NEW' ? (
+          <ComponentProvider.Button
+            onClick={this.onCreateButtonClick}
+            caption="Erstellen"
+            color="primary"
+          />
+        ) : (
+          <>
+            <ComponentProvider.Button
+              onClick={this.onDeleteButtonClick}
+              caption="Löschen"
+              color="default"
+              type="thin"
+            />
+            <ComponentProvider.Button
+              onClick={this.onSaveButtonClick}
+              caption="Speichern"
+              color="primary"
+            />
+          </>
+        )}
+      </div>
     );
   }
 
@@ -231,6 +246,6 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
     onCreate: () => {},
     onSave: () => {},
     onDelete: () => {},
-    mode: "NEW"
-  }
+    mode: 'NEW'
+  };
 }
