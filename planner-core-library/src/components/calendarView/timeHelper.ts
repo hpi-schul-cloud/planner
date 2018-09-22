@@ -10,8 +10,9 @@ export function getDayDifference(first: Date, second: Date) {
 
 export function getWeekDifference(first: Date, second: Date) {
   const dayDifference = getDayDifference(first, second);
+  const numberOfFullWeeks = Math.floor(dayDifference / 7);
 
-  return Math.floor(dayDifference / 7);
+  return dayDifference % 7 !== 0 ? numberOfFullWeeks + 1 : numberOfFullWeeks;
 }
 
 export function getMonthAndYearString(date: Date) {
