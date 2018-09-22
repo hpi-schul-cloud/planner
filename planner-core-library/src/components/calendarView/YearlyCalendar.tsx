@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { getMonthAndYearString } from './timeHelper';
 import RowCaptions from './RowCaptions';
+import ClassRows from './ClassRows';
 import { TopicElementsType, EventType } from '../types';
+import StylesProvider from '../provider/generalStylesProvider';
 
 type PropsType = {
   schoolYear: {
@@ -27,15 +29,22 @@ const StyledFlexContainer = styled.div`
   display: flex;
 `;
 
+const StyledFlexChild = styled.div`
+  display: inline-block;
+  font-family: ${StylesProvider.generalStyles['font-family']};
+  font-size: 14px;
+  color: ${StylesProvider.generalStyles.defaultTextColor};
+`;
+
 class YearlyCalendar extends Component<PropsType> {
   render() {
     const {
       schoolYear: { startDate, endDate },
-      // today,
-      classTopicsData
-      // holidaysData,
-      // otherEventsData,
-      // onTopicInstanceClick
+      today,
+      classTopicsData,
+      holidaysData,
+      otherEventsData,
+      onTopicInstanceClick
     } = this.props;
     const startDateString = getMonthAndYearString(new Date(startDate));
     const endDateString = getMonthAndYearString(new Date(endDate));
@@ -46,10 +55,21 @@ class YearlyCalendar extends Component<PropsType> {
 
     return (
       <div>
-        {startDateString}
-        {endDateString}
+        <StyledFlexContainer>
+          <StyledFlexChild>{startDateString}</StyledFlexChild>
+          <StyledFlexChild>{endDateString}</StyledFlexChild>
+        </StyledFlexContainer>
         <StyledFlexContainer>
           <RowCaptions labels={labels} />
+          <ClassRows
+            rasterSize={15}
+            schoolYear={this.props.schoolYear}
+            today={today}
+            classTopicsData={classTopicsData}
+            holidaysData={holidaysData}
+            otherEventsData={otherEventsData}
+            onTopicInstanceClick={onTopicInstanceClick}
+          />
         </StyledFlexContainer>
       </div>
     );
