@@ -231,35 +231,29 @@ storiesOf('Base/SelectorInput', module)
       />
     );
   });
+
+const schoolYearStart = 1534716000000;
+const classTopicsData = getClassTopicsData(schoolYearStart);
 storiesOf('CalendarView/YearlyCalendar', module)
   .add('default', () => {
     resetCustomComponents();
-    const schoolYearStart = 1534716000000;
-
     return (
       <YearlyCalendar
-        classTopicsData={object(
-          'Class Topics Data',
-          getClassTopicsData(schoolYearStart)
-        )}
-        holidaysData={object('', [])}
-        otherEventsData={object('', [])}
+        classTopicsData={object('Class Topics Data', classTopicsData)}
+        holidaysData={object('Holidays Data', [])}
+        otherEventsData={object('Other Events Data', [])}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );
   })
   .add('with Material Design', () => {
-    const schoolYearStart = 1534716000000;
     setupMaterialComponents();
 
     return (
       <YearlyCalendar
-        classTopicsData={object(
-          'Class Topics Data',
-          getClassTopicsData(schoolYearStart)
-        )}
-        holidaysData={object('', [])}
-        otherEventsData={object('', [])}
+        classTopicsData={object('Class Topics Data', classTopicsData)}
+        holidaysData={object('Holidays Data', [])}
+        otherEventsData={object('Other Events Data', [])}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );
