@@ -9,6 +9,7 @@ type ContainerType = {
 };
 
 const ElementContainer = styled.div`
+  box-sizing: border-box;
   width: ${({ width }: ContainerType) =>
     width ? `${width}px` : 'fit-content'};
   background: ${({ color }: ContainerType) => color};
