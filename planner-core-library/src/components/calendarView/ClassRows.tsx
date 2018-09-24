@@ -34,6 +34,27 @@ const RasterRowContainer = styled.div`
 `;
 
 class ClassRows extends Component<PropsType> {
+  getRasterColumnColorMap = (events: EventType) => {
+    const columnColorMap = {};
+    const schoolYearStartDate = new Date(this.props.schoolYear.startDate);
+    events.forEach(event => {
+      const startIndex = getWeekDifference(
+        schoolYearStartDate,
+        new Date(event.startDate),
+        true
+      );
+      const endIndex = getWeekDifference(
+        schoolYearStartDate,
+        new Date(event.endDate),
+        false
+      );
+      for (let i = startIndex; i <= endIndex; i++) {
+        columnColorMap[i] = event.color;
+      }
+    });
+    return columnColorMap;
+  };
+
   transformToIndexTopics = (topics: TopicElementsType[]) => {
     return topics.map(topic => {
       const { startDate, endDate, ...otherProps } = topic;
@@ -99,11 +120,16 @@ class ClassRows extends Component<PropsType> {
       new Date(endDate)
     );
     const rows = this.getClassRows(classTopicsData, rasterCount);
+    const columnMap = this.getRasterColumnColorMap([
+      ...holidaysData,
+      ...otherEventsData
+    ]);
 
     return (
       <TimeRasterWrapper
         rasterCount={rasterCount}
         rasterSize={rasterSize}
+        rasterColumnColorMap={columnMap}
         className={className}
       >
         {rows}
