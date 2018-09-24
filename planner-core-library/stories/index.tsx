@@ -248,6 +248,14 @@ const holidaysData = [
     endDate: 1546642800000
   }
 ];
+const eventsData = [
+  {
+    name: 'Projektwoche',
+    color: '#e9e8e8',
+    startDate: 1548630000000,
+    endDate: 1548975600000
+  }
+];
 storiesOf('CalendarView/YearlyCalendar', module)
   .add('default', () => {
     resetCustomComponents();
@@ -255,7 +263,7 @@ storiesOf('CalendarView/YearlyCalendar', module)
       <YearlyCalendar
         classTopicsData={object('Class Topics Data', classTopicsData)}
         holidaysData={object('Holidays Data', holidaysData)}
-        otherEventsData={object('Other Events Data', [])}
+        otherEventsData={object('Other Events Data', eventsData)}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );
@@ -267,7 +275,7 @@ storiesOf('CalendarView/YearlyCalendar', module)
       <YearlyCalendar
         classTopicsData={object('Class Topics Data', classTopicsData)}
         holidaysData={object('Holidays Data', holidaysData)}
-        otherEventsData={object('Other Events Data', [])}
+        otherEventsData={object('Other Events Data', eventsData)}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );
