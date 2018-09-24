@@ -36,6 +36,10 @@ const StyledFlexChild = styled.div`
   color: ${StylesProvider.generalStyles.defaultTextColor};
 `;
 
+const StyledClassRows = styled(ClassRows)`
+  margin-top: 20px;
+`;
+
 class YearlyCalendar extends Component<PropsType> {
   render() {
     const {
@@ -61,7 +65,7 @@ class YearlyCalendar extends Component<PropsType> {
         </StyledFlexContainer>
         <StyledFlexContainer>
           <RowCaptions labels={labels} />
-          <ClassRows
+          <StyledClassRows
             rasterSize={15}
             schoolYear={this.props.schoolYear}
             today={today}

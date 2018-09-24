@@ -15,6 +15,7 @@ type ClassTopicsDataType = {
 }[];
 
 type PropsType = {
+  className?: string;
   rasterSize: number;
   schoolYear: {
     startDate: number; // first day of school
@@ -84,6 +85,7 @@ class ClassRows extends Component<PropsType> {
 
   render() {
     const {
+      className,
       schoolYear: { startDate, endDate },
       rasterSize,
       today,
@@ -99,7 +101,11 @@ class ClassRows extends Component<PropsType> {
     const rows = this.getClassRows(classTopicsData, rasterCount);
 
     return (
-      <TimeRasterWrapper rasterCount={rasterCount} rasterSize={rasterSize}>
+      <TimeRasterWrapper
+        rasterCount={rasterCount}
+        rasterSize={rasterSize}
+        className={className}
+      >
         {rows}
       </TimeRasterWrapper>
     );

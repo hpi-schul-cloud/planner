@@ -30,7 +30,7 @@ const StyledSubLabel = styled.div`
 `;
 
 const StyledLabels = styled.div`
-  padding-top: 40px;
+  padding-top: 10px;
   padding-right: 10px;
   white-space: nowrap;
   max-width: 100px;
