@@ -65,8 +65,8 @@ class RasterUnitContainer extends Component<PropsType> {
       <TimeRasterWrapper
         rasterCount={this.props.rasterCount}
         rasterSize={this.props.rasterSize}
-        rasterColumnColorMap={rasterColumnColorMap}
-        rasterColumnLabelMap={rasterColumnStringMap}
+        columnColorMap={rasterColumnColorMap}
+        topLabelsMap={rasterColumnStringMap}
       >
         {children}
       </TimeRasterWrapper>

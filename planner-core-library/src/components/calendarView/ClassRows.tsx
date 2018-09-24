@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { TopicElementsType, EventType } from '../types';
 import TimeRasterWrapper from '../planner/TimeRasterWrapper';
+import { MONTHS_MAP } from '../constants';
 import { getWeekDifference } from './timeHelper';
 import RasterRow from './RasterRow';
 
@@ -33,8 +34,37 @@ const RasterRowContainer = styled.div`
     isFirstSubject ? '20px 0px 15px 0px' : '0px 0px 15px 0px'};
 `;
 
+const WEEK = 1000 * 60 * 60 * 24 * 7;
+
 class ClassRows extends Component<PropsType> {
-  getRasterColumnColorMap = (events: EventType) => {
+  getEventLabels = (events: EventType) => {
+    const labelMap = {};
+    const schoolYearStartDate = new Date(this.props.schoolYear.startDate);
+    events.forEach(event => {
+      const endIndex = getWeekDifference(
+        schoolYearStartDate,
+        new Date(event.endDate),
+        false
+      );
+      labelMap[endIndex] = event.name;
+    });
+    return labelMap;
+  };
+  getMonthLabels = (startDate: number, endDate: number) => {
+    const monthMap = {};
+    let currentMonth = new Date(startDate).getMonth();
+
+    for (let i = 0; startDate + i * WEEK <= endDate; i++) {
+      const currentDate = new Date(startDate + i * WEEK);
+      if (currentDate.getMonth() !== currentMonth) {
+        currentMonth = currentDate.getMonth();
+        monthMap[i] = MONTHS_MAP[currentMonth];
+      }
+    }
+
+    return monthMap;
+  };
+  getColumnColorMap = (events: EventType) => {
     const columnColorMap = {};
     const schoolYearStartDate = new Date(this.props.schoolYear.startDate);
     events.forEach(event => {
@@ -120,16 +150,20 @@ class ClassRows extends Component<PropsType> {
       new Date(endDate)
     );
     const rows = this.getClassRows(classTopicsData, rasterCount);
-    const columnMap = this.getRasterColumnColorMap([
+    const columnColorMap = this.getColumnColorMap([
       ...holidaysData,
       ...otherEventsData
     ]);
+    const topLabelMap = this.getMonthLabels(startDate, endDate);
+    const bottomLabelsMap = this.getEventLabels(otherEventsData);
 
     return (
       <TimeRasterWrapper
         rasterCount={rasterCount}
         rasterSize={rasterSize}
-        rasterColumnColorMap={columnMap}
+        columnColorMap={columnColorMap}
+        topLabelsMap={topLabelMap}
+        bottomLabelsMap={bottomLabelsMap}
         className={className}
       >
         {rows}

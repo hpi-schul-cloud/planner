@@ -11,8 +11,9 @@ interface PropsType {
   className?: string;
   rasterCount: number;
   rasterSize: number;
-  rasterColumnColorMap?: StringMapType;
-  rasterColumnLabelMap?: StringMapType;
+  columnColorMap?: StringMapType;
+  topLabelsMap?: StringMapType;
+  bottomLabelsMap?: StringMapType;
 }
 const StyledOverflowContainer = styled.div`
   overflow-x: scroll;
@@ -22,15 +23,20 @@ const StyledOverflowContainer = styled.div`
   font-size: 1px;
 `;
 
-const StyledTopLabel = styled.div`
+const StyledLabel = styled.div`
   display: inline-block;
-  width: ${({ width }: { width: number }) => `${width}px`};
+  position: absolute;
+  left: ${({ left }: { left: number }) => `${left}px`};
   text-overflow: ellipsis;
   overflow-x: hidden;
   font-family: ${StylesProvider.generalStyles['font-family']};
   font-size: 12px;
   color: ${StylesProvider.generalStyles.lightTextColor};
   vertical-align: top;
+`;
+const StyledBottomLabel = styled(StyledLabel)`
+  /* Centered to middle of text */
+  transform: translate(-50%, 0);
 `;
 
 type StyledRasterColumnPropsType = {
@@ -61,37 +67,33 @@ const StyledWidthContainer = styled.div`
     border-left: none;
   }
 `;
+const StyledTopLabelContainer = styled(StyledWidthContainer)`
+  height: 14px;
+`;
+const StyledBottomLabelContainer = styled(StyledTopLabelContainer)`
+  margin-top: 5px;
+`;
 
 const generateTopLabels = (
-  rasterCount: number,
   rasterSize: number,
   rasterColumnLabelMap: StringMapType = {}
 ) => {
-  const result = [];
-  let lastText = '';
-  let lastIndex = 0;
-  let i;
+  return Object.keys(rasterColumnLabelMap).map(key => (
+    <StyledLabel left={+key * rasterSize} key={key}>
+      {rasterColumnLabelMap[key].slice(0, 3)}
+    </StyledLabel>
+  ));
+};
 
-  for (i = 0; i < rasterCount; i++) {
-    if (rasterColumnLabelMap[i]) {
-      if (lastIndex !== i) {
-        result.push(
-          <StyledTopLabel width={(i - lastIndex) * rasterSize} key={i}>
-            {lastText.slice(0, 3)}
-          </StyledTopLabel>
-        );
-      }
-      lastIndex = i;
-      lastText = rasterColumnLabelMap[i];
-    }
-  }
-  result.push(
-    <StyledTopLabel width={(rasterCount - lastIndex) * rasterSize} key={i}>
-      {lastText.slice(0, 3)}
-    </StyledTopLabel>
-  );
-
-  return result;
+const generateBottomLabels = (
+  rasterSize: number,
+  rasterColumnLabelMap: StringMapType = {}
+) => {
+  return Object.keys(rasterColumnLabelMap).map(key => (
+    <StyledBottomLabel left={+key * rasterSize} key={key}>
+      {rasterColumnLabelMap[key]}
+    </StyledBottomLabel>
+  ));
 };
 
 const generateRaster = (
@@ -122,19 +124,29 @@ const TimeRasterWrapper = (props: PropsType) => {
     className,
     rasterSize,
     rasterCount,
-    rasterColumnColorMap,
-    rasterColumnLabelMap
+    columnColorMap,
+    topLabelsMap,
+    bottomLabelsMap
   } = props;
 
   return (
     <StyledOverflowContainer className={className}>
-      <StyledWidthContainer width={props.rasterCount * props.rasterSize}>
-        {generateTopLabels(rasterCount, rasterSize, rasterColumnLabelMap)}
-      </StyledWidthContainer>
+      {topLabelsMap && (
+        <StyledTopLabelContainer width={props.rasterCount * props.rasterSize}>
+          {generateTopLabels(rasterSize, topLabelsMap)}
+        </StyledTopLabelContainer>
+      )}
       <StyledWidthContainer width={props.rasterCount * props.rasterSize}>
         {props.children}
-        {generateRaster(rasterCount, rasterSize, rasterColumnColorMap)}
+        {generateRaster(rasterCount, rasterSize, columnColorMap)}
       </StyledWidthContainer>
+      {bottomLabelsMap && (
+        <StyledBottomLabelContainer
+          width={props.rasterCount * props.rasterSize}
+        >
+          {generateBottomLabels(rasterSize, bottomLabelsMap)}
+        </StyledBottomLabelContainer>
+      )}
     </StyledOverflowContainer>
   );
 };
