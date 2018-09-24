@@ -234,13 +234,27 @@ storiesOf('Base/SelectorInput', module)
 
 const schoolYearStart = 1534716000000;
 const classTopicsData = getClassTopicsData(schoolYearStart);
+const holidaysData = [
+  {
+    name: 'Herbstferien',
+    color: '#FBFFCF',
+    startDate: 1540159200000,
+    endDate: 1541113200000
+  },
+  {
+    name: 'Weihnachtsferien',
+    color: '#FBFFCF',
+    startDate: 1545433200000,
+    endDate: 1546642800000
+  }
+];
 storiesOf('CalendarView/YearlyCalendar', module)
   .add('default', () => {
     resetCustomComponents();
     return (
       <YearlyCalendar
         classTopicsData={object('Class Topics Data', classTopicsData)}
-        holidaysData={object('Holidays Data', [])}
+        holidaysData={object('Holidays Data', holidaysData)}
         otherEventsData={object('Other Events Data', [])}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
@@ -252,7 +266,7 @@ storiesOf('CalendarView/YearlyCalendar', module)
     return (
       <YearlyCalendar
         classTopicsData={object('Class Topics Data', classTopicsData)}
-        holidaysData={object('Holidays Data', [])}
+        holidaysData={object('Holidays Data', holidaysData)}
         otherEventsData={object('Other Events Data', [])}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
