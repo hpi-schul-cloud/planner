@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { TopicElementsType, EventType } from '../types';
 import TimeRasterWrapper from '../planner/TimeRasterWrapper';
 import { MONTHS_MAP } from '../constants';
-import { getWeekDifference } from './timeHelper';
+import { getWeekDifference, getDayDifference } from './timeHelper';
 import RasterRow from './RasterRow';
 
 type ClassTopicsDataType = {
@@ -156,6 +156,10 @@ class ClassRows extends Component<PropsType> {
     ]);
     const topLabelMap = this.getMonthLabels(startDate, endDate);
     const bottomLabelsMap = this.getEventLabels(otherEventsData);
+    const todayLineIndex =
+      today - startDate > 0
+        ? Math.floor(getDayDifference(new Date(today), new Date(startDate)) / 7)
+        : 0;
 
     return (
       <TimeRasterWrapper
@@ -165,6 +169,7 @@ class ClassRows extends Component<PropsType> {
         topLabelsMap={topLabelMap}
         bottomLabelsMap={bottomLabelsMap}
         className={className}
+        todayLineIndex={todayLineIndex}
       >
         {rows}
       </TimeRasterWrapper>

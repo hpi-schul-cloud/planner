@@ -264,6 +264,7 @@ storiesOf('CalendarView/YearlyCalendar', module)
         classTopicsData={object('Class Topics Data', classTopicsData)}
         holidaysData={object('Holidays Data', holidaysData)}
         otherEventsData={object('Other Events Data', eventsData)}
+        today={number('Today', 1537811512343)}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );
@@ -276,6 +277,7 @@ storiesOf('CalendarView/YearlyCalendar', module)
         classTopicsData={object('Class Topics Data', classTopicsData)}
         holidaysData={object('Holidays Data', holidaysData)}
         otherEventsData={object('Other Events Data', eventsData)}
+        today={number('Today', 1537811512343)}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );

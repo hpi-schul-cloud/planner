@@ -14,7 +14,18 @@ interface PropsType {
   columnColorMap?: StringMapType;
   topLabelsMap?: StringMapType;
   bottomLabelsMap?: StringMapType;
+  todayLineIndex?: number;
 }
+
+const StyledTodayLine = styled.div`
+  top: -5px;
+  bottom: -5px;
+  position: absolute;
+  z-index: -1;
+  width: 2px;
+  background: #ea3e3e;
+  left: ${({ left }: { left: number }) => `${left}px`};
+`;
 const StyledOverflowContainer = styled.div`
   overflow-x: scroll;
   margin-bottom: 20px;
@@ -126,24 +137,32 @@ const TimeRasterWrapper = (props: PropsType) => {
     rasterCount,
     columnColorMap,
     topLabelsMap,
-    bottomLabelsMap
+    bottomLabelsMap,
+    todayLineIndex
   } = props;
+  const todayLineLeft =
+    todayLineIndex !== undefined
+      ? todayLineIndex <= 0
+        ? 0
+        : todayLineIndex > rasterCount - 1
+          ? rasterCount * rasterSize - 2
+          : todayLineIndex * rasterSize + 0.5 * rasterSize
+      : null;
 
   return (
     <StyledOverflowContainer className={className}>
       {topLabelsMap && (
-        <StyledTopLabelContainer width={props.rasterCount * props.rasterSize}>
+        <StyledTopLabelContainer width={rasterCount * rasterSize}>
           {generateTopLabels(rasterSize, topLabelsMap)}
         </StyledTopLabelContainer>
       )}
-      <StyledWidthContainer width={props.rasterCount * props.rasterSize}>
+      <StyledWidthContainer width={rasterCount * rasterSize}>
         {props.children}
         {generateRaster(rasterCount, rasterSize, columnColorMap)}
+        {todayLineLeft !== null && <StyledTodayLine left={todayLineLeft} />}
       </StyledWidthContainer>
       {bottomLabelsMap && (
-        <StyledBottomLabelContainer
-          width={props.rasterCount * props.rasterSize}
-        >
+        <StyledBottomLabelContainer width={rasterCount * rasterSize}>
           {generateBottomLabels(rasterSize, bottomLabelsMap)}
         </StyledBottomLabelContainer>
       )}
