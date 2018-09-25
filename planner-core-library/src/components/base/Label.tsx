@@ -11,10 +11,15 @@ const StyledLabel = styled.div`
 
 interface PropsType {
   caption: string;
+  type?: 'small' | 'medium' | 'large';
   className?: string;
 }
 
-const Label: React.SFC<PropsType> = ({ caption, className }) => {
+const Label: React.SFC<PropsType> = ({
+  caption,
+  className,
+  type = 'medium'
+}) => {
   return <StyledLabel className={className}>{caption}</StyledLabel>;
 };
 

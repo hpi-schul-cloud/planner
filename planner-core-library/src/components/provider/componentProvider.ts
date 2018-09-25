@@ -42,6 +42,7 @@ type HeadlinePropsType = {
 };
 type LabelPropsType = {
   caption: string;
+  type?: 'small' | 'medium' | 'large';
   className?: string;
 };
 type ButtonPropsType = {
