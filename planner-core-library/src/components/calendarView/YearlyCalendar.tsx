@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { getMonthAndYearString } from './timeHelper';
 import RowCaptions from './RowCaptions';
 import ClassRows from './ClassRows';
 import { TopicElementsType, EventType } from '../types';
-import StylesProvider from '../provider/generalStylesProvider';
 
 type PropsType = {
+  rasterSize: number;
   schoolYear: {
     startDate: number; // first day of school
     endDate: number; // last day of school
@@ -29,29 +28,17 @@ const StyledFlexContainer = styled.div`
   display: flex;
 `;
 
-const StyledFlexChild = styled.div`
-  display: inline-block;
-  font-family: ${StylesProvider.generalStyles['font-family']};
-  font-size: 14px;
-  color: ${StylesProvider.generalStyles.defaultTextColor};
-`;
-
-const StyledClassRows = styled(ClassRows)`
-  margin-top: 20px;
-`;
-
 class YearlyCalendar extends Component<PropsType> {
   render() {
     const {
-      schoolYear: { startDate, endDate },
       today,
+      rasterSize,
       classTopicsData,
       holidaysData,
       otherEventsData,
       onTopicInstanceClick
     } = this.props;
-    const startDateString = getMonthAndYearString(new Date(startDate));
-    const endDateString = getMonthAndYearString(new Date(endDate));
+
     const labels = classTopicsData.map(classTopic => ({
       topLabel: classTopic.className,
       subLabels: classTopic.classes.map(classTopic => classTopic.subjectName)
@@ -60,13 +47,9 @@ class YearlyCalendar extends Component<PropsType> {
     return (
       <div>
         <StyledFlexContainer>
-          <StyledFlexChild>{startDateString}</StyledFlexChild>
-          <StyledFlexChild>{endDateString}</StyledFlexChild>
-        </StyledFlexContainer>
-        <StyledFlexContainer>
           <RowCaptions labels={labels} />
-          <StyledClassRows
-            rasterSize={15}
+          <ClassRows
+            rasterSize={rasterSize}
             schoolYear={this.props.schoolYear}
             today={today}
             classTopicsData={classTopicsData}
@@ -80,6 +63,7 @@ class YearlyCalendar extends Component<PropsType> {
   }
 
   static defaultProps = {
+    rasterSize: 15,
     schoolYear: {
       startDate: 1534716000000, // (20.08.2018) Erster Schultag Brandenburg
       endDate: 1560895200000 // (19.06.2019) Letzer Schultag Brandenburg

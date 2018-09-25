@@ -14,6 +14,7 @@ type PropsType = {
   topicElements: TopicElementsType[];
   rasterSize: number;
   rasterCount: number;
+  onTopicInstanceClick: (id: string) => void;
 };
 
 const FillerElement = styled.div`
@@ -28,7 +29,12 @@ const RasterRowContainer = styled.div`
 
 class InteractiveRasterRow extends Component<PropsType> {
   generateElements = () => {
-    const { topicElements, rasterSize, rasterCount } = this.props;
+    const {
+      topicElements,
+      rasterSize,
+      rasterCount,
+      onTopicInstanceClick
+    } = this.props;
     let elements = [];
     let nextIndex = 0;
     let i = 0;
@@ -52,7 +58,7 @@ class InteractiveRasterRow extends Component<PropsType> {
           color={color}
           text={text}
           key={id}
-          onClick={() => {}}
+          onClick={() => onTopicInstanceClick(id)}
           // size
         />
       );
