@@ -40,4 +40,5 @@ export const setupMaterialComponents = () => {
 
 export const resetCustomComponents = () => {
   setupComponentMap({});
+  setupCustomStyles({});
 };
