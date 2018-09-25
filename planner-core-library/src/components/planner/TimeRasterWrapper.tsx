@@ -8,6 +8,7 @@ type StringMapType = {
 
 interface PropsType {
   children: JSX.Element | JSX.Element[];
+  topChildren?: JSX.Element | JSX.Element[];
   className?: string;
   rasterCount: number;
   rasterSize: number;
@@ -133,6 +134,7 @@ const generateRaster = (
 const TimeRasterWrapper = (props: PropsType) => {
   const {
     className,
+    topChildren,
     rasterSize,
     rasterCount,
     columnColorMap,
@@ -151,6 +153,9 @@ const TimeRasterWrapper = (props: PropsType) => {
 
   return (
     <StyledOverflowContainer className={className}>
+      <StyledWidthContainer width={rasterCount * rasterSize}>
+        {topChildren}
+      </StyledWidthContainer>
       {topLabelsMap && (
         <StyledTopLabelContainer width={rasterCount * rasterSize}>
           {generateTopLabels(rasterSize, topLabelsMap)}
