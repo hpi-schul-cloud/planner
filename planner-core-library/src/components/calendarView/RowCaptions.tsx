@@ -15,7 +15,7 @@ const StyledTopLabel = styled.div`
   color: ${StylesProvider.generalStyles.defaultTextColor};
   overflow-x: hidden;
   text-overflow: clip;
-  margin-top: 15px;
+  margin-top: 13px;
 `;
 
 const StyledSubLabel = styled.div`
@@ -25,17 +25,20 @@ const StyledSubLabel = styled.div`
   text-align: center;
   overflow-x: hidden;
   text-overflow: clip;
-  padding-top: 15px;
+  padding-top: 9px;
   padding-left: 25px;
 `;
 
 const StyledLabels = styled.div`
-  padding-top: 10px;
+  padding-top: 40px;
   padding-right: 10px;
   white-space: nowrap;
   max-width: 100px;
   ${StyledTopLabel}:first-child {
     margin-top: 0px;
+  }
+  ${StyledSubLabel} + ${StyledSubLabel} {
+    padding-top: 17px;
   }
 `;
 
