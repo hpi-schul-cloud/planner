@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { TopicElementsType, EventType } from '../types';
 import TimeRasterWrapper from '../planner/TimeRasterWrapper';
+import StylesProvider from '../provider/generalStylesProvider';
 import { MONTHS_MAP } from '../constants';
-import { getWeekDifference, getDayDifference } from './timeHelper';
+import {
+  getMonthAndYearString,
+  getWeekDifference,
+  getDayDifference
+} from './timeHelper';
 import RasterRow from './RasterRow';
 
 type ClassTopicsDataType = {
@@ -32,6 +37,19 @@ type PropsType = {
 const RasterRowContainer = styled.div`
   padding: ${({ isFirstSubject }: { isFirstSubject: boolean }) =>
     isFirstSubject ? '20px 0px 15px 0px' : '0px 0px 15px 0px'};
+`;
+
+const StyledFlexContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+`;
+
+const StyledFlexChild = styled.div`
+  display: inline-block;
+  font-family: ${StylesProvider.generalStyles['font-family']};
+  font-size: 14px;
+  color: ${StylesProvider.generalStyles.defaultTextColor};
 `;
 
 const WEEK = 1000 * 60 * 60 * 24 * 7;
@@ -120,11 +138,15 @@ class ClassRows extends Component<PropsType> {
           subject.topics
         );
         result.push(
-          <RasterRowContainer isFirstSubject={isFirstSubject}>
+          <RasterRowContainer
+            isFirstSubject={isFirstSubject}
+            key={`${classData.className}-${subject.subjectId}`}
+          >
             <RasterRow
               topicElements={transformedTopicElements}
               rasterSize={this.props.rasterSize}
               rasterCount={rasterCount}
+              onTopicInstanceClick={this.props.onTopicInstanceClick}
             />
           </RasterRowContainer>
         );
@@ -142,9 +164,10 @@ class ClassRows extends Component<PropsType> {
       today,
       classTopicsData,
       holidaysData,
-      otherEventsData,
-      onTopicInstanceClick
+      otherEventsData
     } = this.props;
+    const startDateString = getMonthAndYearString(new Date(startDate));
+    const endDateString = getMonthAndYearString(new Date(endDate));
     const rasterCount = getWeekDifference(
       new Date(startDate),
       new Date(endDate)
@@ -162,17 +185,25 @@ class ClassRows extends Component<PropsType> {
         : 0;
 
     return (
-      <TimeRasterWrapper
-        rasterCount={rasterCount}
-        rasterSize={rasterSize}
-        columnColorMap={columnColorMap}
-        topLabelsMap={topLabelMap}
-        bottomLabelsMap={bottomLabelsMap}
-        className={className}
-        todayLineIndex={todayLineIndex}
-      >
-        {rows}
-      </TimeRasterWrapper>
+      <>
+        <TimeRasterWrapper
+          rasterCount={rasterCount}
+          rasterSize={rasterSize}
+          columnColorMap={columnColorMap}
+          topLabelsMap={topLabelMap}
+          bottomLabelsMap={bottomLabelsMap}
+          className={className}
+          todayLineIndex={todayLineIndex}
+          topChildren={
+            <StyledFlexContainer>
+              <StyledFlexChild>{startDateString}</StyledFlexChild>
+              <StyledFlexChild>{endDateString}</StyledFlexChild>
+            </StyledFlexContainer>
+          }
+        >
+          {rows}
+        </TimeRasterWrapper>
+      </>
     );
   }
 }
