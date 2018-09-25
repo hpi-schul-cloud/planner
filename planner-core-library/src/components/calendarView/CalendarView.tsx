@@ -91,7 +91,10 @@ class CalendarView extends Component<PropsType, StateType> {
           }
         />
         <StyledLabelContainer>
-          <ComponentProvider.Label caption={this.getCurrentDayString()} />
+          <ComponentProvider.Label
+            caption={this.getCurrentDayString()}
+            type="large"
+          />
         </StyledLabelContainer>
         {calendar}
       </>

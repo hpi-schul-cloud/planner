@@ -194,7 +194,10 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         </FormElementDiv>
         <FormElementDiv>
           <FlexContainer>
-            <ComponentProvider.Label caption="Unterrichtseinheiten" />
+            <ComponentProvider.Label
+              caption="Unterrichtseinheiten"
+              type="small"
+            />
             <ComponentProvider.TextFieldTable
               rows={rows}
               onChange={rows =>
@@ -204,7 +207,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
           </FlexContainer>
         </FormElementDiv>
         <FormElementDiv>
-          <ComponentProvider.Label caption="Leistungserfassung" />
+          <ComponentProvider.Label caption="Leistungserfassung" type="small" />
           <ComponentProvider.SelectorInput
             typeOptions={[{ text: 'Mündlich', value: 'spoken' }]}
             timeOptions={[{ text: '1.Woche', value: '1W' }]}

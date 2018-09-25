@@ -47,7 +47,7 @@ class CompetenceChips extends Component<PropsType> {
     const { caption, competences } = this.props;
     return (
       <StyledChipsContainer>
-        <ComponentProvider.Label caption={caption} />
+        <ComponentProvider.Label caption={caption} type="small" />
         {competences.map((competence, index) => (
           <StyledChipContainer>
             <ComponentProvider.Chip
