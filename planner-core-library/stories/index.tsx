@@ -13,6 +13,7 @@ import InteractiveRasterUnit from '../src/components/planner/InteractiveRasterUn
 import RasterUnitContainer from '../src/components/planner/RasterUnitContainer';
 import ClassConfigurationView from '../src/components/planner/ClassConfigurationView';
 import YearlyCalendar from '../src/components/calendarView/YearlyCalendar';
+import CalendarView from '../src/components/calendarView/CalendarView';
 
 import { action } from '@storybook/addon-actions';
 import {
@@ -232,8 +233,11 @@ storiesOf('Base/SelectorInput', module)
     );
   });
 
-const schoolYearStart = 1534716000000;
-const classTopicsData = getClassTopicsData(schoolYearStart);
+const schoolYear = {
+  startDate: 1534716000000, // (20.08.2018) Erster Schultag Brandenburg
+  endDate: 1560895200000 // (19.06.2019) Letzer Schultag Brandenburg
+};
+const classTopicsData = getClassTopicsData(schoolYear.startDate);
 const holidaysData = [
   {
     name: 'Herbstferien',
@@ -271,9 +275,36 @@ storiesOf('CalendarView/YearlyCalendar', module)
   })
   .add('with Material Design', () => {
     setupMaterialComponents();
-
     return (
       <YearlyCalendar
+        classTopicsData={object('Class Topics Data', classTopicsData)}
+        holidaysData={object('Holidays Data', holidaysData)}
+        otherEventsData={object('Other Events Data', eventsData)}
+        today={number('Today', 1537811512343)}
+        onTopicInstanceClick={action('onTopicInstanceClick')}
+      />
+    );
+  });
+
+storiesOf('CalendarView/CalendarView', module)
+  .add('default', () => {
+    resetCustomComponents();
+    return (
+      <CalendarView
+        schoolYear={object('School Year', schoolYear)}
+        classTopicsData={object('Class Topics Data', classTopicsData)}
+        holidaysData={object('Holidays Data', holidaysData)}
+        otherEventsData={object('Other Events Data', eventsData)}
+        today={number('Today', 1537811512343)}
+        onTopicInstanceClick={action('onTopicInstanceClick')}
+      />
+    );
+  })
+  .add('with Material Design', () => {
+    setupMaterialComponents();
+    return (
+      <CalendarView
+        schoolYear={object('School Year', schoolYear)}
         classTopicsData={object('Class Topics Data', classTopicsData)}
         holidaysData={object('Holidays Data', holidaysData)}
         otherEventsData={object('Other Events Data', eventsData)}
