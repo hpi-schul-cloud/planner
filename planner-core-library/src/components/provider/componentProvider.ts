@@ -33,7 +33,7 @@ type TabsPropsType = {
   items: {
     id: string;
     text: string;
-    color: string;
+    color?: string;
   }[];
   onChange: (id: string) => void;
 };

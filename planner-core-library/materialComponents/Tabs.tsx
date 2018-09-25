@@ -35,7 +35,7 @@ interface PropsType extends WithStyles<typeof styles> {
   items: {
     id: string;
     text: string;
-    color: string;
+    color?: string;
   }[];
   onChange: (id: string) => void;
 }

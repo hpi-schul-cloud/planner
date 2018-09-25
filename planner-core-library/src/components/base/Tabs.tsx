@@ -6,7 +6,7 @@ type PropsType = {
   items: {
     id: string;
     text: string;
-    color: string;
+    color?: string;
   }[];
   onChange: (id: string) => void;
 };
@@ -62,7 +62,7 @@ const Tabs: React.SFC<PropsType> = props => {
         <StyledItem
           key={item.id}
           isSelected={selected === item.id}
-          color={item.color}
+          color={item.color || '#4a4a4a'}
           onClick={() => onClick(item.id)}
         >
           {item.text}
