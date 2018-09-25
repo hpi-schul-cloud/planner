@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import StylesProvider from '../provider/generalStylesProvider';
+import StylesProvider, {
+  GeneralStylesType
+} from '../provider/generalStylesProvider';
 
 type ContainerType = {
   color: string;
@@ -25,50 +27,56 @@ const ElementContainer = styled.div`
   vertical-align: top;
 `;
 
+type TextContainerProps = {
+  styles: GeneralStylesType;
+  size: 'small' | 'medium' | 'large';
+};
 const TextContainer = styled.div`
   user-select: none;
   pointer-events: none;
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: ${StylesProvider.generalStyles['font-family']};
+  font-family: ${({ styles }: TextContainerProps) => styles['font-family']};
   font-size: 13px;
-  padding: ${({ size }: { size: 'small' | 'medium' | 'large' }) => {
+  padding: ${({ size }: TextContainerProps) => {
     if (size === 'small') return '0px 5px';
     else if (size === 'medium') return '2px 5px';
     else return '4px 10px';
   }};
-  color: ${StylesProvider.generalStyles.strongTextColor};
+  color: ${({ styles }: TextContainerProps) => styles.strongTextColor};
 `;
 
 export interface PropsType {
   width?: number;
   text?: string;
-  color?: string;
+  color: string;
   onClick?: () => void;
-  size?: 'small' | 'medium' | 'large';
+  size: 'small' | 'medium' | 'large';
 }
 
 class TopicElement extends Component<PropsType> {
-  static defaultProps = {
-    size: 'small',
-    color: '#FFFFFF'
-  };
-
   render() {
     const { size, color, text, width, onClick } = this.props;
 
     return (
       <ElementContainer
         width={width}
-        color={color!}
+        color={color}
         isInteractive={!!onClick}
         onClick={onClick}
       >
-        <TextContainer size={size!}>{text}</TextContainer>
+        <TextContainer size={size} styles={StylesProvider.styles}>
+          {text}
+        </TextContainer>
       </ElementContainer>
     );
   }
+
+  static defaultProps = {
+    size: 'small',
+    color: '#FFFFFF'
+  };
 }
 
 export default TopicElement;

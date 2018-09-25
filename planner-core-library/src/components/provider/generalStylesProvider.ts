@@ -1,4 +1,4 @@
-type GeneralStylesType = {
+export type GeneralStylesType = {
   'font-family': string;
   primaryColor: string;
   secondaryColor: string;
@@ -22,7 +22,7 @@ class GeneralStylesProvider {
     this.customStyles = customStyles;
   }
 
-  get generalStyles() {
+  get styles() {
     return {
       ...this.defaultStyles,
       ...this.customStyles

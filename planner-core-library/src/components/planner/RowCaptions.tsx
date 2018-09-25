@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import StylesProvider from '../provider/generalStylesProvider';
+import StylesProvider, {
+  GeneralStylesType
+} from '../provider/generalStylesProvider';
 
 interface PropsType {
   labels: {
@@ -20,9 +22,11 @@ const StyledLabelArea = styled.div`
 `;
 
 const StyledLabel = styled.div`
-  font-family: ${StylesProvider.generalStyles['font-family']};
+  font-family: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles['font-family']};
   font-size: 14px;
-  color: ${StylesProvider.generalStyles.defaultTextColor};
+  color: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles.defaultTextColor};
   overflow-x: hidden;
   text-overflow: clip;
 `;
@@ -31,9 +35,11 @@ const StyledLastLabelArea = styled(StyledLabelArea)`
 `;
 
 const StyledSubLabel = styled.div`
-  font-family: ${StylesProvider.generalStyles['font-family']};
+  font-family: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles['font-family']};
   font-size: 12px;
-  color: ${StylesProvider.generalStyles.lightTextColor};
+  color: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles.lightTextColor};
   text-align: center;
   overflow-x: hidden;
   text-overflow: clip;
@@ -50,21 +56,31 @@ const RowCaptions: React.SFC<PropsType> = ({ labels }) => {
         (label, i) =>
           labels.length - 1 === i ? (
             <StyledLastLabelArea key={i}>
-              <StyledLabel>{label.text}</StyledLabel>
+              <StyledLabel styles={StylesProvider.styles}>
+                {label.text}
+              </StyledLabel>
               {label.subText && (
-                <StyledSubLabel>{label.subText}</StyledSubLabel>
+                <StyledSubLabel styles={StylesProvider.styles}>
+                  {label.subText}
+                </StyledSubLabel>
               )}
             </StyledLastLabelArea>
           ) : (
             <StyledLabelArea key={i}>
-              <StyledLabel>{label.text}</StyledLabel>
+              <StyledLabel styles={StylesProvider.styles}>
+                {label.text}
+              </StyledLabel>
               {label.subText && (
-                <StyledSubLabel>{label.subText}</StyledSubLabel>
+                <StyledSubLabel styles={StylesProvider.styles}>
+                  {label.subText}
+                </StyledSubLabel>
               )}
             </StyledLabelArea>
           )
       )}
-      <StyledTopicLabel>Themen:</StyledTopicLabel>
+      <StyledTopicLabel styles={StylesProvider.styles}>
+        Themen:
+      </StyledTopicLabel>
     </StyledLabels>
   );
 };

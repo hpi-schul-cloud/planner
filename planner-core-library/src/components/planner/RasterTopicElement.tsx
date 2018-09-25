@@ -11,7 +11,9 @@ export type PropsType = {
   startIndex: number;
   endIndex: number;
   id: string;
-} & Omit<TopicElementPropsType, 'width'>;
+  color?: string;
+  size?: 'small' | 'medium' | 'large';
+} & Omit<TopicElementPropsType, 'width' | 'color' | 'size'>;
 
 class RasterTopicElement extends Component<PropsType> {
   render() {

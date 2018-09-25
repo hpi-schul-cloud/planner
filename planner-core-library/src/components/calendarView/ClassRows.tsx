@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { TopicElementsType, EventType } from '../types';
 import TimeRasterWrapper from '../planner/TimeRasterWrapper';
-import StylesProvider from '../provider/generalStylesProvider';
+import StylesProvider, {
+  GeneralStylesType
+} from '../provider/generalStylesProvider';
 import { MONTHS_MAP } from '../constants';
 import {
   getMonthAndYearString,
@@ -47,9 +49,11 @@ const StyledFlexContainer = styled.div`
 
 const StyledFlexChild = styled.div`
   display: inline-block;
-  font-family: ${StylesProvider.generalStyles['font-family']};
+  font-family: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles['font-family']};
   font-size: 14px;
-  color: ${StylesProvider.generalStyles.defaultTextColor};
+  color: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles.defaultTextColor};
 `;
 
 const WEEK = 1000 * 60 * 60 * 24 * 7;
@@ -196,8 +200,12 @@ class ClassRows extends Component<PropsType> {
           todayLineIndex={todayLineIndex}
           topChildren={
             <StyledFlexContainer>
-              <StyledFlexChild>{startDateString}</StyledFlexChild>
-              <StyledFlexChild>{endDateString}</StyledFlexChild>
+              <StyledFlexChild styles={StylesProvider.styles}>
+                {startDateString}
+              </StyledFlexChild>
+              <StyledFlexChild styles={StylesProvider.styles}>
+                {endDateString}
+              </StyledFlexChild>
             </StyledFlexContainer>
           }
         >

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import StylesProvider from '../provider/generalStylesProvider';
+import StylesProvider, {
+  GeneralStylesType
+} from '../provider/generalStylesProvider';
 
 type StringMapType = {
   [index: number]: string;
@@ -41,9 +43,11 @@ const StyledLabel = styled.div`
   left: ${({ left }: { left: number }) => `${left}px`};
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-family: ${StylesProvider.generalStyles['font-family']};
+  font-family: ${({ styles }: { left: number; styles: GeneralStylesType }) =>
+    styles['font-family']};
   font-size: 12px;
-  color: ${StylesProvider.generalStyles.lightTextColor};
+  color: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles.lightTextColor};
   vertical-align: top;
 `;
 const StyledBottomLabel = styled(StyledLabel)`
@@ -91,7 +95,11 @@ const generateTopLabels = (
   rasterColumnLabelMap: StringMapType = {}
 ) => {
   return Object.keys(rasterColumnLabelMap).map(key => (
-    <StyledLabel left={+key * rasterSize} key={key}>
+    <StyledLabel
+      styles={StylesProvider.styles}
+      left={+key * rasterSize}
+      key={key}
+    >
       {rasterColumnLabelMap[key].slice(0, 3)}
     </StyledLabel>
   ));
@@ -102,7 +110,11 @@ const generateBottomLabels = (
   rasterColumnLabelMap: StringMapType = {}
 ) => {
   return Object.keys(rasterColumnLabelMap).map(key => (
-    <StyledBottomLabel left={+key * rasterSize} key={key}>
+    <StyledBottomLabel
+      styles={StylesProvider.styles}
+      left={+key * rasterSize}
+      key={key}
+    >
       {rasterColumnLabelMap[key]}
     </StyledBottomLabel>
   ));

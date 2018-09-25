@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import StylesProvider from '../provider/generalStylesProvider';
+import StylesProvider, {
+  GeneralStylesType
+} from '../provider/generalStylesProvider';
 
 interface PropsType {
   labels: {
@@ -10,18 +12,22 @@ interface PropsType {
 }
 
 const StyledTopLabel = styled.div`
-  font-family: ${StylesProvider.generalStyles['font-family']};
+  font-family: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles['font-family']};
   font-size: 14px;
-  color: ${StylesProvider.generalStyles.defaultTextColor};
+  color: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles.defaultTextColor};
   overflow-x: hidden;
   text-overflow: clip;
   margin-top: 13px;
 `;
 
 const StyledSubLabel = styled.div`
-  font-family: ${StylesProvider.generalStyles['font-family']};
+  font-family: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles['font-family']};
   font-size: 14px;
-  color: ${StylesProvider.generalStyles.defaultTextColor};
+  color: ${({ styles }: { styles: GeneralStylesType }) =>
+    styles.defaultTextColor};
   text-align: center;
   overflow-x: hidden;
   text-overflow: clip;
@@ -51,10 +57,16 @@ const RowCaptions: React.SFC<PropsType> = ({ labels }) => {
   ) {
     const result: JSX.Element[] = [];
     labels.forEach((label, i) => {
-      result.push(<StyledTopLabel key={i}>{label.topLabel}</StyledTopLabel>);
+      result.push(
+        <StyledTopLabel key={i} styles={StylesProvider.styles}>
+          {label.topLabel}
+        </StyledTopLabel>
+      );
       label.subLabels.forEach((subLabel, j) => {
         result.push(
-          <StyledSubLabel key={`${i}-${j}`}>{subLabel}</StyledSubLabel>
+          <StyledSubLabel key={`${i}-${j}`} styles={StylesProvider.styles}>
+            {subLabel}
+          </StyledSubLabel>
         );
       });
     });
