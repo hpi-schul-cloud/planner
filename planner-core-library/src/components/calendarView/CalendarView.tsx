@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import ComponentProvider from '../provider/componentProvider';
 import { TopicElementsType, EventType } from '../types';
 import YearlyCalendar from './YearlyCalendar';
+import ThreeMonthCalendar from './ThreeMonthCalendar';
+import TwoWeekCalendar from './TwoWeekCalendar';
 
 type PropsType = {
   rasterSize: number;
@@ -42,10 +44,14 @@ class CalendarView extends Component<PropsType, StateType> {
   }
 
   buildTwoWeekCalendar = () => {
-    return <div>2 Weeks</div>;
+    const { rasterSize, ...otherProps } = this.props;
+
+    return <TwoWeekCalendar rasterSize={50} {...otherProps} />;
   };
   buildThreeMonthCalendar = () => {
-    return <div>3 Months</div>;
+    const { rasterSize, ...otherProps } = this.props;
+
+    return <ThreeMonthCalendar rasterSize={55} {...otherProps} />;
   };
   buildYearlyCalendar = () => {
     return <YearlyCalendar {...this.props} />;
@@ -61,9 +67,11 @@ class CalendarView extends Component<PropsType, StateType> {
     }
   };
 
-  getCurrentDayString() {
-    const today = new Date();
-    return `Heute ist der ${today.getDate()}.${today.getMonth() + 1}.`;
+  getCurrentDayString(utcToday: number) {
+    const today = new Date(utcToday);
+    console.log(today.getTime());
+    console.log(today.getUTCDate());
+    return `Heute ist der ${today.getUTCDate()}.${today.getUTCMonth() + 1}.`;
   }
 
   onCalendarTypeChange = (calendarType: 'YEAR' | '3MONTH' | '2WEEKS') => {
@@ -92,7 +100,7 @@ class CalendarView extends Component<PropsType, StateType> {
         />
         <StyledLabelContainer>
           <ComponentProvider.Label
-            caption={this.getCurrentDayString()}
+            caption={this.getCurrentDayString(this.props.utcToday)}
             type="large"
           />
         </StyledLabelContainer>
