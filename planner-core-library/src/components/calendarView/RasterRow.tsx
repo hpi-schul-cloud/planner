@@ -14,12 +14,19 @@ type PropsType = {
   topicElements: TopicElementsType[];
   rasterSize: number;
   rasterCount: number;
+  topicElementSize?: 'small' | 'medium' | 'large';
   onTopicInstanceClick: (id: string) => void;
 };
 
-const FillerElement = styled.div`
-  width: ${({ width }: { width: number }) => `${width}px`};
-  height: 1px;
+type FillerElementPropsType = {
+  size?: 'small' | 'medium' | 'large';
+  width: number;
+};
+
+const FillerElement = styled.div<FillerElementPropsType>`
+  width: ${({ width }) => `${width}px`};
+  height: ${({ size }) =>
+    size === 'medium' ? '21px' : size === 'large' ? '25px' : '17px'};
   display: inline-block;
 `;
 
@@ -33,6 +40,7 @@ class InteractiveRasterRow extends Component<PropsType> {
       topicElements,
       rasterSize,
       rasterCount,
+      topicElementSize,
       onTopicInstanceClick
     } = this.props;
     let elements = [];
@@ -45,6 +53,7 @@ class InteractiveRasterRow extends Component<PropsType> {
         elements.push(
           <FillerElement
             width={(startIndex - nextIndex) * rasterSize}
+            size={topicElementSize}
             key={`Filler-${i}`}
           />
         );
@@ -59,7 +68,7 @@ class InteractiveRasterRow extends Component<PropsType> {
           text={text}
           key={id}
           onClick={() => onTopicInstanceClick(id)}
-          // size
+          size={topicElementSize}
         />
       );
       nextIndex = endIndex + 1;
@@ -68,6 +77,7 @@ class InteractiveRasterRow extends Component<PropsType> {
       elements.push(
         <FillerElement
           width={(rasterCount - nextIndex) * rasterSize}
+          size={topicElementSize}
           key={`Filler-${i}`}
         />
       );
