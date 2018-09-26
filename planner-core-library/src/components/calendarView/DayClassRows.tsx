@@ -5,8 +5,19 @@ import TimeRasterWrapper from '../planner/TimeRasterWrapper';
 import StylesProvider, {
   GeneralStylesType
 } from '../provider/generalStylesProvider';
-import { getDayAndMonthString, getDayDifference } from './timeHelper';
-import RasterRow from './RasterRow';
+import {
+  getDayAndMonthString,
+  getDayDifference,
+  getDayCount
+} from './timeHelper';
+import {
+  determineIndices,
+  getEventMaps,
+  EventMapType
+} from './dayClassRowsHelper';
+import RasterRow, {
+  TopicElementsType as RasterTopicElementsType
+} from './RasterRow';
 
 type ClassTopicsDataType = {
   className: string;
@@ -31,9 +42,16 @@ type PropsType = {
   onTopicInstanceClick: (id: string) => void;
 };
 
+type RowContainerPropsType = {
+  isFirstRowOfClass: boolean;
+  isFirstRow: boolean;
+  isLastRow: boolean;
+};
 const RasterRowContainer = styled.div`
-  padding: ${({ isFirstSubject }: { isFirstSubject: boolean }) =>
-    isFirstSubject ? '25px 0px 12px 0px' : '0px 0px 12px 0px'};
+  padding-top: ${({ isFirstRow, isFirstRowOfClass }: RowContainerPropsType) =>
+    isFirstRow ? '21px' : isFirstRowOfClass ? '37px' : '14px'};
+  padding-bottom: ${({ isLastRow }: RowContainerPropsType) =>
+    isLastRow ? '21px' : '0px'};
 `;
 
 const StyledFlexContainer = styled.div`
@@ -51,83 +69,57 @@ const StyledFlexChild = styled.div`
     styles.defaultTextColor};
 `;
 
-const DAY = 1000 * 60 * 60 * 24;
-
 class ClassRows extends Component<PropsType> {
-  getDayCount = (utcStartDate: number, utcEndDate: number) =>
-    getDayDifference(new Date(utcStartDate), new Date(utcEndDate)) + 1;
+  transformToIndexTopics = (
+    topics: TopicElementsType[],
+    eventsMap: EventMapType
+  ) => {
+    const result: RasterTopicElementsType[] = [];
 
-  getColumnColorMap = (events: EventType) => {
-    const columnColorMap = {};
-    const utcStartDate = new Date(this.props.rowPeriod.utcStartDate);
-    const deltaDays = this.getDayCount(
-      this.props.rowPeriod.utcStartDate,
-      this.props.rowPeriod.utcEndDate
-    );
-
-    events.forEach(event => {
-      const startIndex = getDayDifference(
-        utcStartDate,
-        new Date(event.utcStartDate)
-      );
-      const endIndex = getDayDifference(
-        utcStartDate,
-        new Date(event.utcEndDate)
-      );
-      for (let i = startIndex; i <= endIndex && i < deltaDays; i++) {
-        columnColorMap[i] = event.color;
-      }
-    });
-    for (let i = 0; i < deltaDays; i++) {
-      const currentDay = new Date(utcStartDate.getTime() + i * DAY);
-      const day = currentDay.getUTCDay();
-      // Saturday or Sunday
-      if (day === 0 || day === 6) {
-        columnColorMap[i] = '#DFDFDF';
-      }
-    }
-    return columnColorMap;
-  };
-
-  transformToIndexTopics = (topics: TopicElementsType[]) => {
-    return topics.map(topic => {
+    topics.forEach(topic => {
       const { utcStartDate, utcEndDate, ...otherProps } = topic;
-      const deltaDays = this.getDayCount(
-        this.props.rowPeriod.utcStartDate,
-        this.props.rowPeriod.utcEndDate
-      );
+      const topicUtcStartDate = new Date(topic.utcStartDate);
       const rowUtcStartDate = new Date(this.props.rowPeriod.utcStartDate);
-      const startIndex =
-        rowUtcStartDate.getTime() <= topic.utcStartDate
-          ? getDayDifference(rowUtcStartDate, new Date(topic.utcStartDate))
-          : 0;
-      const endIndex =
-        this.props.rowPeriod.utcEndDate < topic.utcEndDate
-          ? deltaDays - 1
-          : getDayDifference(rowUtcStartDate, new Date(topic.utcEndDate));
-
-      return {
-        ...otherProps,
-        startIndex,
-        endIndex
-      };
+      const indices = determineIndices({
+        topicStartDate: topicUtcStartDate,
+        topicEndDate: new Date(topic.utcEndDate),
+        rowStartDate: rowUtcStartDate,
+        rowEndDate: new Date(this.props.rowPeriod.utcEndDate),
+        eventsMap
+      });
+      if (indices) {
+        result.push({
+          ...otherProps,
+          ...indices
+        });
+      }
     });
+
+    return result;
   };
 
   getClassRows = (
     classTopicsData: ClassTopicsDataType,
-    rasterCount: number
+    rasterCount: number,
+    eventsMap: EventMapType
   ) => {
     const result: JSX.Element[] = [];
-    classTopicsData.forEach(classData => {
+    classTopicsData.forEach((classData, classIndex) => {
       classData.classes.forEach((subject, index) => {
-        const isFirstSubject = index === 0;
+        const isFirstRow = classIndex === 0 && index === 0;
+        const isFirstRowOfClass = index === 0;
+        const isLastRow =
+          classIndex === classTopicsData.length - 1 &&
+          index === classData.classes.length - 1;
         const transformedTopicElements = this.transformToIndexTopics(
-          subject.topics
+          subject.topics,
+          eventsMap
         );
         result.push(
           <RasterRowContainer
-            isFirstSubject={isFirstSubject}
+            isFirstRow={isFirstRow}
+            isFirstRowOfClass={isFirstRowOfClass}
+            isLastRow={isLastRow}
             key={`${classData.className}-${subject.subjectId}`}
           >
             <RasterRow
@@ -157,15 +149,16 @@ class ClassRows extends Component<PropsType> {
     } = this.props;
     const utcStartDateString = getDayAndMonthString(new Date(utcStartDate));
     const utcEndDateString = getDayAndMonthString(new Date(utcEndDate));
-    const rasterCount = this.getDayCount(
+    const rasterCount = getDayCount(
       this.props.rowPeriod.utcStartDate,
       this.props.rowPeriod.utcEndDate
     );
-    const rows = this.getClassRows(classTopicsData, rasterCount);
-    const columnColorMap = this.getColumnColorMap([
-      ...holidaysData,
-      ...otherEventsData
-    ]);
+    const { columnColorMap, eventTypeMap } = getEventMaps(
+      holidaysData,
+      otherEventsData,
+      this.props.rowPeriod
+    );
+    const rows = this.getClassRows(classTopicsData, rasterCount, eventTypeMap);
     const todayLineIndex =
       utcToday - utcStartDate > 0
         ? getDayDifference(new Date(utcToday), new Date(utcStartDate))
