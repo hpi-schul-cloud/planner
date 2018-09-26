@@ -185,5 +185,20 @@ export const getClassTopicsData = (schoolYearStart: number) => [
         ]
       }
     ]
+  },
+  {
+    className: 'Klasse 10a',
+    classes: [
+      {
+        subjectId: 'chemistry',
+        subjectName: 'Chemie',
+        topics: [
+          getTopic(schoolYearStart, 0, 4, '#DBC192'),
+          getTopic(schoolYearStart, 4, 6, '#DBC192'),
+          getTopic(schoolYearStart, 6, 10, '#DBC192'),
+          getTopic(schoolYearStart, 10, 15, '#DBC192')
+        ]
+      }
+    ]
   }
 ];
