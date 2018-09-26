@@ -28,3 +28,35 @@ export function getMonthAndYearString(date: Date) {
 
   return `${monthString} ${yearString}`;
 }
+
+export function getDayAndMonthString(date: Date) {
+  const dayString = date.getUTCDate().toString();
+  const monthString = MONTHS_MAP[date.getUTCMonth()];
+
+  return `${dayString}. ${monthString}`;
+}
+
+export function dayIsSmallerOrEquals(date1: Date, date2: Date) {
+  return (
+    date1.getUTCFullYear() < date2.getUTCFullYear() ||
+    (date1.getUTCFullYear() === date2.getUTCFullYear() &&
+      date1.getUTCMonth() < date2.getUTCMonth()) ||
+    (date1.getUTCFullYear() === date2.getUTCFullYear() &&
+      date1.getUTCMonth() === date2.getUTCMonth() &&
+      date1.getUTCDate() <= date2.getUTCDate())
+  );
+}
+
+export function dayIsGreaterThan(date1: Date, date2: Date) {
+  return (
+    date1.getUTCFullYear() > date2.getUTCFullYear() ||
+    (date1.getUTCFullYear() === date2.getUTCFullYear() &&
+      date1.getUTCMonth() > date2.getUTCMonth()) ||
+    (date1.getUTCFullYear() === date2.getUTCFullYear() &&
+      date1.getUTCMonth() === date2.getUTCMonth() &&
+      date1.getUTCDate() > date2.getUTCDate())
+  );
+}
+
+export const getDayCount = (utcStartDate: number, utcEndDate: number) =>
+  getDayDifference(new Date(utcStartDate), new Date(utcEndDate)) + 1;
