@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import RowCaptions from './RowCaptions';
-import ClassRows from './WeekClassRows';
+import WeekClassRows from './WeekClassRows';
 import { TopicElementsType, EventType } from '../types';
 
 type PropsType = {
@@ -51,7 +51,7 @@ class YearlyCalendar extends Component<PropsType> {
       <div>
         <StyledFlexContainer>
           <StyledRowCaptions labels={labels} />
-          <ClassRows
+          <WeekClassRows
             rasterSize={rasterSize}
             rowPeriod={this.props.schoolYear}
             utcToday={utcToday}
