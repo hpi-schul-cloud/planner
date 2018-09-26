@@ -14,6 +14,7 @@ import RasterUnitContainer from '../src/components/planner/RasterUnitContainer';
 import ClassConfigurationView from '../src/components/planner/ClassConfigurationView';
 import YearlyCalendar from '../src/components/calendarView/YearlyCalendar';
 import CalendarView from '../src/components/calendarView/CalendarView';
+import TwoWeekCalendar from '../src/components/calendarView/TwoWeekCalendar';
 
 import { action } from '@storybook/addon-actions';
 import {
@@ -260,6 +261,40 @@ const eventsData = [
     utcEndDate: 1548979200000
   }
 ];
+const today = new Date();
+const utcToday = Date.UTC(
+  today.getFullYear(),
+  today.getMonth(),
+  today.getDate()
+);
+storiesOf('CalendarView/TwoWeekCalendar', module)
+  .add('default', () => {
+    resetCustomComponents();
+    return (
+      <TwoWeekCalendar
+        rasterSize={55}
+        classTopicsData={object('Class Topics Data', classTopicsData)}
+        holidaysData={object('Holidays Data', holidaysData)}
+        otherEventsData={object('Other Events Data', eventsData)}
+        utcToday={number('Today', utcToday)}
+        onTopicInstanceClick={action('onTopicInstanceClick')}
+      />
+    );
+  })
+  .add('with Material Design', () => {
+    setupMaterialComponents();
+    return (
+      <TwoWeekCalendar
+        rasterSize={55}
+        classTopicsData={object('Class Topics Data', classTopicsData)}
+        holidaysData={object('Holidays Data', holidaysData)}
+        otherEventsData={object('Other Events Data', eventsData)}
+        utcToday={number('Today', utcToday)}
+        onTopicInstanceClick={action('onTopicInstanceClick')}
+      />
+    );
+  });
+
 storiesOf('CalendarView/YearlyCalendar', module)
   .add('default', () => {
     resetCustomComponents();
