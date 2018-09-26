@@ -5,6 +5,7 @@ import StylesProvider, {
 } from '../provider/generalStylesProvider';
 
 interface PropsType {
+  className?: string;
   labels: {
     topLabel: string;
     subLabels: string[];
@@ -19,7 +20,7 @@ const StyledTopLabel = styled.div`
     styles.defaultTextColor};
   overflow-x: hidden;
   text-overflow: clip;
-  margin-top: 13px;
+  margin-top: 21px;
 `;
 
 const StyledSubLabel = styled.div`
@@ -31,12 +32,11 @@ const StyledSubLabel = styled.div`
   text-align: center;
   overflow-x: hidden;
   text-overflow: clip;
-  padding-top: 9px;
+  padding-top: 10px;
   padding-left: 25px;
 `;
 
 const StyledLabels = styled.div`
-  padding-top: 40px;
   padding-right: 10px;
   white-space: nowrap;
   max-width: 100px;
@@ -44,11 +44,11 @@ const StyledLabels = styled.div`
     margin-top: 0px;
   }
   ${StyledSubLabel} + ${StyledSubLabel} {
-    padding-top: 17px;
+    padding-top: 21px;
   }
 `;
 
-const RowCaptions: React.SFC<PropsType> = ({ labels }) => {
+const RowCaptions: React.SFC<PropsType> = ({ labels, className }) => {
   function generateLabels(
     labels: {
       topLabel: string;
@@ -75,7 +75,7 @@ const RowCaptions: React.SFC<PropsType> = ({ labels }) => {
   }
   const labelComponents = generateLabels(labels);
 
-  return <StyledLabels>{labelComponents}</StyledLabels>;
+  return <StyledLabels className={className}>{labelComponents}</StyledLabels>;
 };
 
 export default RowCaptions;
