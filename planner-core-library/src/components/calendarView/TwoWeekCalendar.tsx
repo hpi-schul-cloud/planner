@@ -23,7 +23,7 @@ const StyledFlexContainer = styled.div`
   display: flex;
 `;
 const StyledRowCaptions = styled(RowCaptions)`
-  padding-top: 31px;
+  padding-top: 45px;
 `;
 
 class TwoWeekCalendar extends Component<PropsType> {

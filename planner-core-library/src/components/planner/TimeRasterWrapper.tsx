@@ -173,11 +173,9 @@ const TimeRasterWrapper = (props: PropsType) => {
       <StyledWidthContainer width={rasterCount * rasterSize}>
         {topChildren}
       </StyledWidthContainer>
-      {topLabelsMap && (
-        <StyledTopLabelContainer width={rasterCount * rasterSize}>
-          {generateTopLabels(rasterSize, topLabelsMap)}
-        </StyledTopLabelContainer>
-      )}
+      <StyledTopLabelContainer width={rasterCount * rasterSize}>
+        {generateTopLabels(rasterSize, topLabelsMap)}
+      </StyledTopLabelContainer>
       <StyledWidthContainer width={rasterCount * rasterSize}>
         {props.children}
         {generateRaster(rasterCount, rasterSize, columnColorMap)}
