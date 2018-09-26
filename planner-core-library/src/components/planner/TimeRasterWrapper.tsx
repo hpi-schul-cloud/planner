@@ -31,6 +31,7 @@ const StyledTodayLine = styled.div`
 `;
 const StyledOverflowContainer = styled.div`
   overflow-x: scroll;
+  overflow-y: hidden;
   margin-bottom: 20px;
   vertical-align: top;
   /* To adjust the size of inline-block elements https://stackoverflow.com/questions/27536428/inline-block-element-height-issue */
@@ -60,16 +61,20 @@ type StyledRasterColumnPropsType = {
   backgroundColor: string;
   left: number;
 };
-const StyledRasterColumn = styled.div`
+const StyledRasterColumn = styled.div.attrs<StyledRasterColumnPropsType>({
+  width: (props: StyledRasterColumnPropsType) => `${props.width}px` || '0px',
+  backgroundColor: (props: StyledRasterColumnPropsType) =>
+    `${props.backgroundColor}` || 'none',
+  left: (props: StyledRasterColumnPropsType) => `${props.left}px` || '0px'
+})`
   z-index: -1;
   box-sizing: border-box;
   position: absolute;
   top: 0px;
   bottom: 0px;
-  left: ${({ left }: StyledRasterColumnPropsType) => `${left}px`};
-  width: ${({ width }: StyledRasterColumnPropsType) => `${width}px`};
-  background: ${({ backgroundColor }: StyledRasterColumnPropsType) =>
-    backgroundColor};
+  left: ${props => props.left};
+  width: ${props => props.width};
+  background: ${props => props.backgroundColor};
 `;
 
 const StyledWidthContainer = styled.div`
@@ -87,7 +92,7 @@ const StyledTopLabelContainer = styled(StyledWidthContainer)`
   height: 14px;
 `;
 const StyledBottomLabelContainer = styled(StyledTopLabelContainer)`
-  margin-top: 5px;
+  padding-top: 5px;
 `;
 
 const generateTopLabels = (
@@ -156,7 +161,7 @@ const TimeRasterWrapper = (props: PropsType) => {
   } = props;
   const todayLineLeft =
     todayLineIndex !== undefined
-      ? todayLineIndex <= 0
+      ? todayLineIndex < 0
         ? 0
         : todayLineIndex > rasterCount - 1
           ? rasterCount * rasterSize - 2
