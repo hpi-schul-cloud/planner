@@ -51,7 +51,7 @@ const StyledLabel = styled.div`
     styles.lightTextColor};
   vertical-align: top;
 `;
-const StyledBottomLabel = styled(StyledLabel)`
+const StyledCenteredLabel = styled(StyledLabel)`
   /* Centered to middle of text */
   transform: translate(-50%, 0);
 `;
@@ -115,13 +115,13 @@ const generateBottomLabels = (
   rasterColumnLabelMap: StringMapType = {}
 ) => {
   return Object.keys(rasterColumnLabelMap).map(key => (
-    <StyledBottomLabel
+    <StyledCenteredLabel
       styles={StylesProvider.styles}
-      left={+key * rasterSize}
+      left={+key * rasterSize + 0.5 * rasterSize}
       key={key}
     >
       {rasterColumnLabelMap[key]}
-    </StyledBottomLabel>
+    </StyledCenteredLabel>
   ));
 };
 
