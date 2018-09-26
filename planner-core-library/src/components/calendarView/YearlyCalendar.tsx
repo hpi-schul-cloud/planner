@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import RowCaptions from './RowCaptions';
-import ClassRows from './ClassRows';
+import ClassRows from './WeekClassRows';
 import { TopicElementsType, EventType } from '../types';
 
 type PropsType = {
   rasterSize: number;
   schoolYear: {
-    startDate: number; // first day of school
-    endDate: number; // last day of school
+    utcStartDate: number; // first day of school
+    utcEndDate: number; // last day of school
   };
-  today: number;
+  utcToday: number;
   classTopicsData: {
     className: string;
     classes: {
@@ -27,11 +27,14 @@ type PropsType = {
 const StyledFlexContainer = styled.div`
   display: flex;
 `;
+const StyledRowCaptions = styled(RowCaptions)`
+  padding-top: 45px;
+`;
 
 class YearlyCalendar extends Component<PropsType> {
   render() {
     const {
-      today,
+      utcToday,
       rasterSize,
       classTopicsData,
       holidaysData,
@@ -47,11 +50,11 @@ class YearlyCalendar extends Component<PropsType> {
     return (
       <div>
         <StyledFlexContainer>
-          <RowCaptions labels={labels} />
+          <StyledRowCaptions labels={labels} />
           <ClassRows
             rasterSize={rasterSize}
             schoolYear={this.props.schoolYear}
-            today={today}
+            utcToday={utcToday}
             classTopicsData={classTopicsData}
             holidaysData={holidaysData}
             otherEventsData={otherEventsData}
@@ -65,10 +68,10 @@ class YearlyCalendar extends Component<PropsType> {
   static defaultProps = {
     rasterSize: 15,
     schoolYear: {
-      startDate: 1534716000000, // (20.08.2018) Erster Schultag Brandenburg
-      endDate: 1560895200000 // (19.06.2019) Letzer Schultag Brandenburg
+      utcStartDate: 1534716000000, // (20.08.2018) Erster Schultag Brandenburg
+      utcEndDate: 1560895200000 // (19.06.2019) Letzer Schultag Brandenburg
     },
-    today: 1537308000000,
+    utcToday: 1537308000000,
     holidaysData: [],
     otherEventsData: [],
     onTopicInstanceClick: () => {}

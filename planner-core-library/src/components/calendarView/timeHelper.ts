@@ -1,11 +1,11 @@
 import { MONTHS_MAP } from '../constants';
 
+/* All values are expected to be UTC dates ! */
+const DAY = 1000 * 60 * 60 * 24;
 export function getDayDifference(first: Date, second: Date) {
   // Take the difference between the dates and divide by milliseconds per day.
   // Round to nearest whole number to deal with DST.
-  return Math.round(
-    Math.abs(first.getTime() - second.getTime()) / (1000 * 60 * 60 * 24)
-  );
+  return Math.floor(Math.abs(first.getTime() - second.getTime()) / DAY);
 }
 
 export function getWeekDifference(
@@ -23,8 +23,8 @@ export function getWeekDifference(
 }
 
 export function getMonthAndYearString(date: Date) {
-  const monthString = MONTHS_MAP[date.getMonth()];
-  const yearString = date.getFullYear().toString();
+  const monthString = MONTHS_MAP[date.getUTCMonth()];
+  const yearString = date.getUTCFullYear().toString();
 
   return `${monthString} ${yearString}`;
 }

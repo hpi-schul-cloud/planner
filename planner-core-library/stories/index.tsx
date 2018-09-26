@@ -234,30 +234,30 @@ storiesOf('Base/SelectorInput', module)
   });
 
 const schoolYear = {
-  startDate: 1534716000000, // (20.08.2018) Erster Schultag Brandenburg
-  endDate: 1560895200000 // (19.06.2019) Letzer Schultag Brandenburg
+  utcStartDate: 1534723200000, // (20.08.2018) Erster Schultag Brandenburg
+  utcEndDate: 1560902400000 // (19.06.2019) Letzer Schultag Brandenburg
 };
-const classTopicsData = getClassTopicsData(schoolYear.startDate);
+const classTopicsData = getClassTopicsData(schoolYear.utcStartDate);
 const holidaysData = [
   {
     name: 'Herbstferien',
     color: '#FBFFCF',
-    startDate: 1540159200000,
-    endDate: 1541113200000
+    utcStartDate: 1540166400000,
+    utcEndDate: 1541116800000
   },
   {
     name: 'Weihnachtsferien',
     color: '#FBFFCF',
-    startDate: 1545433200000,
-    endDate: 1546642800000
+    utcStartDate: 1545436800000,
+    utcEndDate: 1546646400000
   }
 ];
 const eventsData = [
   {
     name: 'Projektwoche',
     color: '#e9e8e8',
-    startDate: 1548630000000,
-    endDate: 1548975600000
+    utcStartDate: 1548633600000,
+    utcEndDate: 1548979200000
   }
 ];
 storiesOf('CalendarView/YearlyCalendar', module)
@@ -268,7 +268,7 @@ storiesOf('CalendarView/YearlyCalendar', module)
         classTopicsData={object('Class Topics Data', classTopicsData)}
         holidaysData={object('Holidays Data', holidaysData)}
         otherEventsData={object('Other Events Data', eventsData)}
-        today={number('Today', 1537811512343)}
+        utcToday={number('Today', utcToday)}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );
@@ -280,7 +280,7 @@ storiesOf('CalendarView/YearlyCalendar', module)
         classTopicsData={object('Class Topics Data', classTopicsData)}
         holidaysData={object('Holidays Data', holidaysData)}
         otherEventsData={object('Other Events Data', eventsData)}
-        today={number('Today', 1537811512343)}
+        utcToday={number('Today', utcToday)}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );
@@ -295,7 +295,7 @@ storiesOf('CalendarView/CalendarView', module)
         classTopicsData={object('Class Topics Data', classTopicsData)}
         holidaysData={object('Holidays Data', holidaysData)}
         otherEventsData={object('Other Events Data', eventsData)}
-        today={number('Today', 1537811512343)}
+        utcToday={number('Today', utcToday)}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );
@@ -308,7 +308,7 @@ storiesOf('CalendarView/CalendarView', module)
         classTopicsData={object('Class Topics Data', classTopicsData)}
         holidaysData={object('Holidays Data', holidaysData)}
         otherEventsData={object('Other Events Data', eventsData)}
-        today={number('Today', 1537811512343)}
+        utcToday={number('Today', utcToday)}
         onTopicInstanceClick={action('onTopicInstanceClick')}
       />
     );

@@ -24,14 +24,14 @@ export type TopicElementsType = {
   id: string;
   text: string;
   color: string;
-  startDate: number;
-  endDate: number;
+  utcStartDate: number;
+  utcEndDate: number;
 };
 
 // Data type for events
 export type EventType = {
   name: string;
   color?: string;
-  startDate: number;
-  endDate: number;
+  utcStartDate: number;
+  utcEndDate: number;
 }[];

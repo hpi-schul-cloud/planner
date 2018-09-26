@@ -144,8 +144,8 @@ const getTopic = (
     id,
     text: id,
     color,
-    startDate: schoolYearStart + startWeek * ONE_WEEK,
-    endDate: schoolYearStart + endWeek * ONE_WEEK - 1
+    utcStartDate: schoolYearStart + startWeek * ONE_WEEK,
+    utcEndDate: schoolYearStart + endWeek * ONE_WEEK - 1
   };
 };
 export const getClassTopicsData = (schoolYearStart: number) => [

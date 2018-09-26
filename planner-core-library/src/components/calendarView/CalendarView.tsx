@@ -7,10 +7,10 @@ import YearlyCalendar from './YearlyCalendar';
 type PropsType = {
   rasterSize: number;
   schoolYear: {
-    startDate: number; // first day of school
-    endDate: number; // last day of school
+    utcStartDate: number; // first day of school
+    utcEndDate: number; // last day of school
   };
-  today: number;
+  utcToday: number;
   classTopicsData: {
     className: string;
     classes: {

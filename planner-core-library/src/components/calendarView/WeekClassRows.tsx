@@ -26,10 +26,10 @@ type PropsType = {
   className?: string;
   rasterSize: number;
   schoolYear: {
-    startDate: number; // first day of school
-    endDate: number; // last day of school
+    utcStartDate: number; // first day of school
+    utcEndDate: number; // last day of school
   };
-  today: number;
+  utcToday: number;
   classTopicsData: ClassTopicsDataType;
   holidaysData: EventType;
   otherEventsData: EventType;
@@ -38,7 +38,7 @@ type PropsType = {
 
 const RasterRowContainer = styled.div`
   padding: ${({ isFirstSubject }: { isFirstSubject: boolean }) =>
-    isFirstSubject ? '20px 0px 15px 0px' : '0px 0px 15px 0px'};
+    isFirstSubject ? '25px 0px 20px 0px' : '0px 0px 20px 0px'};
 `;
 
 const StyledFlexContainer = styled.div`
@@ -61,25 +61,25 @@ const WEEK = 1000 * 60 * 60 * 24 * 7;
 class ClassRows extends Component<PropsType> {
   getEventLabels = (events: EventType) => {
     const labelMap = {};
-    const schoolYearStartDate = new Date(this.props.schoolYear.startDate);
+    const schoolYearStartDate = new Date(this.props.schoolYear.utcStartDate);
     events.forEach(event => {
       const endIndex = getWeekDifference(
         schoolYearStartDate,
-        new Date(event.endDate),
+        new Date(event.utcEndDate),
         false
       );
       labelMap[endIndex] = event.name;
     });
     return labelMap;
   };
-  getMonthLabels = (startDate: number, endDate: number) => {
+  getMonthLabels = (utcStartDate: number, utcEndDate: number) => {
     const monthMap = {};
-    let currentMonth = new Date(startDate).getMonth();
+    let currentMonth = new Date(utcStartDate).getUTCMonth();
 
-    for (let i = 0; startDate + i * WEEK <= endDate; i++) {
-      const currentDate = new Date(startDate + i * WEEK);
-      if (currentDate.getMonth() !== currentMonth) {
-        currentMonth = currentDate.getMonth();
+    for (let i = 0; utcStartDate + i * WEEK <= utcEndDate; i++) {
+      const currentDate = new Date(utcStartDate + i * WEEK);
+      if (currentDate.getUTCMonth() !== currentMonth) {
+        currentMonth = currentDate.getUTCMonth();
         monthMap[i] = MONTHS_MAP[currentMonth];
       }
     }
@@ -88,16 +88,16 @@ class ClassRows extends Component<PropsType> {
   };
   getColumnColorMap = (events: EventType) => {
     const columnColorMap = {};
-    const schoolYearStartDate = new Date(this.props.schoolYear.startDate);
+    const schoolYearStartDate = new Date(this.props.schoolYear.utcStartDate);
     events.forEach(event => {
       const startIndex = getWeekDifference(
         schoolYearStartDate,
-        new Date(event.startDate),
+        new Date(event.utcStartDate),
         true
       );
       const endIndex = getWeekDifference(
         schoolYearStartDate,
-        new Date(event.endDate),
+        new Date(event.utcEndDate),
         false
       );
       for (let i = startIndex; i <= endIndex; i++) {
@@ -109,16 +109,16 @@ class ClassRows extends Component<PropsType> {
 
   transformToIndexTopics = (topics: TopicElementsType[]) => {
     return topics.map(topic => {
-      const { startDate, endDate, ...otherProps } = topic;
-      const schoolYearStartDate = new Date(this.props.schoolYear.startDate);
+      const { utcStartDate, utcEndDate, ...otherProps } = topic;
+      const schoolYearStartDate = new Date(this.props.schoolYear.utcStartDate);
       const startIndex = getWeekDifference(
         schoolYearStartDate,
-        new Date(topic.startDate),
+        new Date(topic.utcStartDate),
         false
       );
       const endIndex = getWeekDifference(
         schoolYearStartDate,
-        new Date(topic.endDate),
+        new Date(topic.utcEndDate),
         false
       );
 
@@ -163,29 +163,31 @@ class ClassRows extends Component<PropsType> {
   render() {
     const {
       className,
-      schoolYear: { startDate, endDate },
+      schoolYear: { utcStartDate, utcEndDate },
       rasterSize,
-      today,
+      utcToday,
       classTopicsData,
       holidaysData,
       otherEventsData
     } = this.props;
-    const startDateString = getMonthAndYearString(new Date(startDate));
-    const endDateString = getMonthAndYearString(new Date(endDate));
+    const utcStartDateString = getMonthAndYearString(new Date(utcStartDate));
+    const utcEndDateString = getMonthAndYearString(new Date(utcEndDate));
     const rasterCount = getWeekDifference(
-      new Date(startDate),
-      new Date(endDate)
+      new Date(utcStartDate),
+      new Date(utcEndDate)
     );
     const rows = this.getClassRows(classTopicsData, rasterCount);
     const columnColorMap = this.getColumnColorMap([
       ...holidaysData,
       ...otherEventsData
     ]);
-    const topLabelMap = this.getMonthLabels(startDate, endDate);
+    const topLabelMap = this.getMonthLabels(utcStartDate, utcEndDate);
     const bottomLabelsMap = this.getEventLabels(otherEventsData);
     const todayLineIndex =
-      today - startDate > 0
-        ? Math.floor(getDayDifference(new Date(today), new Date(startDate)) / 7)
+      utcToday - utcStartDate > 0
+        ? Math.floor(
+            getDayDifference(new Date(utcToday), new Date(utcStartDate)) / 7
+          )
         : 0;
 
     return (
@@ -201,10 +203,10 @@ class ClassRows extends Component<PropsType> {
           topChildren={
             <StyledFlexContainer>
               <StyledFlexChild styles={StylesProvider.styles}>
-                {startDateString}
+                {utcStartDateString}
               </StyledFlexChild>
               <StyledFlexChild styles={StylesProvider.styles}>
-                {endDateString}
+                {utcEndDateString}
               </StyledFlexChild>
             </StyledFlexContainer>
           }
