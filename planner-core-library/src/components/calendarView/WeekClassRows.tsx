@@ -25,7 +25,7 @@ type ClassTopicsDataType = {
 type PropsType = {
   className?: string;
   rasterSize: number;
-  schoolYear: {
+  rowPeriod: {
     utcStartDate: number; // first day of school
     utcEndDate: number; // last day of school
   };
@@ -36,9 +36,16 @@ type PropsType = {
   onTopicInstanceClick: (id: string) => void;
 };
 
+type RowContainerPropsType = {
+  isFirstRowOfClass: boolean;
+  isFirstRow: boolean;
+  isLastRow: boolean;
+};
 const RasterRowContainer = styled.div`
-  padding: ${({ isFirstSubject }: { isFirstSubject: boolean }) =>
-    isFirstSubject ? '25px 0px 20px 0px' : '0px 0px 20px 0px'};
+  padding-top: ${({ isFirstRow, isFirstRowOfClass }: RowContainerPropsType) =>
+    isFirstRow ? '26px' : isFirstRowOfClass ? '46px' : '20px'};
+  padding-bottom: ${({ isLastRow }: RowContainerPropsType) =>
+    isLastRow ? '26px' : '0px'};
 `;
 
 const StyledFlexContainer = styled.div`
@@ -61,10 +68,10 @@ const WEEK = 1000 * 60 * 60 * 24 * 7;
 class ClassRows extends Component<PropsType> {
   getEventLabels = (events: EventType) => {
     const labelMap = {};
-    const schoolYearStartDate = new Date(this.props.schoolYear.utcStartDate);
+    const rowPeriodStartDate = new Date(this.props.rowPeriod.utcStartDate);
     events.forEach(event => {
       const endIndex = getWeekDifference(
-        schoolYearStartDate,
+        rowPeriodStartDate,
         new Date(event.utcEndDate),
         false
       );
@@ -88,15 +95,15 @@ class ClassRows extends Component<PropsType> {
   };
   getColumnColorMap = (events: EventType) => {
     const columnColorMap = {};
-    const schoolYearStartDate = new Date(this.props.schoolYear.utcStartDate);
+    const rowPeriodStartDate = new Date(this.props.rowPeriod.utcStartDate);
     events.forEach(event => {
       const startIndex = getWeekDifference(
-        schoolYearStartDate,
+        rowPeriodStartDate,
         new Date(event.utcStartDate),
         true
       );
       const endIndex = getWeekDifference(
-        schoolYearStartDate,
+        rowPeriodStartDate,
         new Date(event.utcEndDate),
         false
       );
@@ -110,15 +117,20 @@ class ClassRows extends Component<PropsType> {
   transformToIndexTopics = (topics: TopicElementsType[]) => {
     return topics.map(topic => {
       const { utcStartDate, utcEndDate, ...otherProps } = topic;
-      const schoolYearStartDate = new Date(this.props.schoolYear.utcStartDate);
+      const rowPeriodStartDate = new Date(this.props.rowPeriod.utcStartDate);
+      const rowPeriodEndDate = new Date(this.props.rowPeriod.utcEndDate);
       const startIndex = getWeekDifference(
-        schoolYearStartDate,
-        new Date(topic.utcStartDate),
+        rowPeriodStartDate,
+        topic.utcStartDate < rowPeriodStartDate.getTime()
+          ? rowPeriodStartDate
+          : new Date(topic.utcStartDate),
         false
       );
       const endIndex = getWeekDifference(
-        schoolYearStartDate,
-        new Date(topic.utcEndDate),
+        rowPeriodStartDate,
+        topic.utcEndDate > rowPeriodEndDate.getTime()
+          ? rowPeriodEndDate
+          : new Date(topic.utcEndDate),
         false
       );
 
@@ -135,15 +147,21 @@ class ClassRows extends Component<PropsType> {
     rasterCount: number
   ) => {
     const result: JSX.Element[] = [];
-    classTopicsData.forEach(classData => {
+    classTopicsData.forEach((classData, classIndex) => {
       classData.classes.forEach((subject, index) => {
-        const isFirstSubject = index === 0;
+        const isFirstRow = classIndex === 0 && index === 0;
+        const isFirstRowOfClass = index === 0;
+        const isLastRow =
+          classIndex === classTopicsData.length - 1 &&
+          index === classData.classes.length - 1;
         const transformedTopicElements = this.transformToIndexTopics(
           subject.topics
         );
         result.push(
           <RasterRowContainer
-            isFirstSubject={isFirstSubject}
+            isFirstRow={isFirstRow}
+            isFirstRowOfClass={isFirstRowOfClass}
+            isLastRow={isLastRow}
             key={`${classData.className}-${subject.subjectId}`}
           >
             <RasterRow
@@ -163,7 +181,7 @@ class ClassRows extends Component<PropsType> {
   render() {
     const {
       className,
-      schoolYear: { utcStartDate, utcEndDate },
+      rowPeriod: { utcStartDate, utcEndDate },
       rasterSize,
       utcToday,
       classTopicsData,
@@ -184,11 +202,11 @@ class ClassRows extends Component<PropsType> {
     const topLabelMap = this.getMonthLabels(utcStartDate, utcEndDate);
     const bottomLabelsMap = this.getEventLabels(otherEventsData);
     const todayLineIndex =
-      utcToday - utcStartDate > 0
+      utcToday - utcStartDate >= 0
         ? Math.floor(
             getDayDifference(new Date(utcToday), new Date(utcStartDate)) / 7
           )
-        : 0;
+        : -1;
 
     return (
       <>
