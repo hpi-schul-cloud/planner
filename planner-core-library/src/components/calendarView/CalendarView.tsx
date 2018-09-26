@@ -70,7 +70,10 @@ class CalendarView extends Component<PropsType, StateType> {
   getCurrentDayString(utcToday: number) {
     const today = new Date(utcToday);
 
-    return `Heute ist der ${today.getUTCDate()}.${today.getUTCMonth() + 1}.`;
+    return `Heute ist der ${`${today.getUTCDate()}`.padStart(
+      2,
+      '0'
+    )}.${`${today.getUTCMonth() + 1}`.padStart(2, '0')}.`;
   }
 
   onCalendarTypeChange = (calendarType: 'YEAR' | '3MONTH' | '2WEEKS') => {
