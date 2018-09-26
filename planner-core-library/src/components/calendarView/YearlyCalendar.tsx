@@ -53,7 +53,7 @@ class YearlyCalendar extends Component<PropsType> {
           <StyledRowCaptions labels={labels} />
           <ClassRows
             rasterSize={rasterSize}
-            schoolYear={this.props.schoolYear}
+            rowPeriod={this.props.schoolYear}
             utcToday={utcToday}
             classTopicsData={classTopicsData}
             holidaysData={holidaysData}
