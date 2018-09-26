@@ -130,6 +130,54 @@ const addItemToEventTypeMap = (
     map[index] = [item];
   }
 };
+
+const buildEventArray = (eventIndexMap: StringMapType, deltaDays: number) => {
+  const result: { startIndex: number; endIndex: number; name: string }[] = [];
+  let startIndex = 0;
+  let endIndex = 0;
+  let currentValue = null;
+  for (let i = 0; i < deltaDays; i++) {
+    if (eventIndexMap[i]) {
+      if (currentValue) {
+        if (currentValue === eventIndexMap[i]) {
+          endIndex = i;
+        } else {
+          result.push({
+            startIndex,
+            endIndex,
+            name: currentValue
+          });
+          startIndex = i;
+          endIndex = i;
+          currentValue = eventIndexMap[i];
+        }
+      } else {
+        startIndex = i;
+        endIndex = i;
+        currentValue = eventIndexMap[i];
+      }
+    } else if (currentValue) {
+      result.push({
+        startIndex,
+        endIndex,
+        name: currentValue
+      });
+      startIndex = 0;
+      endIndex = 0;
+      currentValue = null;
+    }
+  }
+  if (currentValue) {
+    result.push({
+      startIndex,
+      endIndex,
+      name: currentValue
+    });
+  }
+
+  return result;
+};
+
 export const getEventMaps = (
   holidayEvents: EventType,
   otherEvents: EventType,
@@ -140,6 +188,7 @@ export const getEventMaps = (
 ) => {
   const columnColorMap: StringMapType = {};
   const eventTypeMap: EventMapType = {};
+  const eventIndexMap: StringMapType = {};
   const utcStartDate = new Date(rowPeriod.utcStartDate);
   const deltaDays = getDayCount(rowPeriod.utcStartDate, rowPeriod.utcEndDate);
   const setupMapsForEvents = (
@@ -159,6 +208,7 @@ export const getEventMaps = (
       );
       for (let i = startIndex; i <= endIndex && i < deltaDays; i++) {
         columnColorMap[i] = event.color || 'none';
+        eventIndexMap[i] = event.name;
         addItemToEventTypeMap(type, eventTypeMap, i);
       }
     });
@@ -173,11 +223,15 @@ export const getEventMaps = (
     // Saturday or Sunday
     if (day === 0 || day === 6) {
       columnColorMap[i] = '#DFDFDF';
+      delete eventIndexMap[i];
       addItemToEventTypeMap('WEEKEND', eventTypeMap, i);
     }
   }
+  const eventArray = buildEventArray(eventIndexMap, deltaDays);
+
   return {
     columnColorMap,
-    eventTypeMap
+    eventTypeMap,
+    eventArray
   };
 };

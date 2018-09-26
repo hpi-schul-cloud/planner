@@ -69,8 +69,7 @@ class CalendarView extends Component<PropsType, StateType> {
 
   getCurrentDayString(utcToday: number) {
     const today = new Date(utcToday);
-    console.log(today.getTime());
-    console.log(today.getUTCDate());
+
     return `Heute ist der ${today.getUTCDate()}.${today.getUTCMonth() + 1}.`;
   }
 

@@ -5,6 +5,7 @@ import TimeRasterWrapper from '../planner/TimeRasterWrapper';
 import StylesProvider, {
   GeneralStylesType
 } from '../provider/generalStylesProvider';
+import LabelOverlays from './LabelOverlays';
 import {
   getDayAndMonthString,
   getDayDifference,
@@ -153,7 +154,7 @@ class ClassRows extends Component<PropsType> {
       this.props.rowPeriod.utcStartDate,
       this.props.rowPeriod.utcEndDate
     );
-    const { columnColorMap, eventTypeMap } = getEventMaps(
+    const { columnColorMap, eventTypeMap, eventArray } = getEventMaps(
       holidaysData,
       otherEventsData,
       this.props.rowPeriod
@@ -183,7 +184,14 @@ class ClassRows extends Component<PropsType> {
             </StyledFlexContainer>
           }
         >
-          {rows}
+          <>
+            {rows}
+            <LabelOverlays
+              rasterCount={rasterCount}
+              rasterSize={rasterSize}
+              labelArray={eventArray}
+            />
+          </>
         </TimeRasterWrapper>
       </>
     );
