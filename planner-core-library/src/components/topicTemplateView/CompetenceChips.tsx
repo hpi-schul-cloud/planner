@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import ComponentProvider from '../provider/componentProvider';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
 
 type PropsType = {
   caption: string;
@@ -58,9 +56,10 @@ class CompetenceChips extends Component<PropsType> {
             />
           </StyledChipContainer>
         ))}
-        <IconButton onClick={this.addCompetence} aria-label="Add">
-          <AddIcon />
-        </IconButton>
+        <ComponentProvider.IconButton
+          onClick={this.addCompetence}
+          iconType="ADD"
+        />
       </StyledChipsContainer>
     );
   }
