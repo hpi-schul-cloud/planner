@@ -5,6 +5,7 @@ import BaseTabs from '../base/Tabs';
 import BaseHeadline from '../base/Headline';
 import BaseLabel from '../base/Label';
 import BaseButton from '../base/Button';
+import BaseIconButton from '../base/IconButton';
 import BaseText from '../base/Text';
 import BaseTextField from '../base/TextField';
 import BaseTextFieldTable from '../base/TextFieldTable';
@@ -53,6 +54,10 @@ type ButtonPropsType = {
   size?: 'small' | 'medium' | 'large';
   type?: 'default' | 'bold' | 'thin';
   onClick?: () => void;
+};
+type IconButtonPropsType = {
+  iconType: 'ADD';
+  onClick: () => void;
 };
 type TextPropsType = {
   label?: string;
@@ -103,6 +108,7 @@ type ComponentMapType = Readonly<{
   headline: ComponentType<HeadlinePropsType>;
   label: ComponentType<LabelPropsType>;
   button: ComponentType<ButtonPropsType>;
+  iconButton: ComponentType<IconButtonPropsType>;
   text: ComponentType<TextPropsType>;
   textField: ComponentType<TextFieldPropsType>;
   textFieldTable: ComponentType<TextFieldTablePropsType>;
@@ -119,6 +125,7 @@ class ComponentProvider {
     headline: BaseHeadline,
     label: BaseLabel,
     button: BaseButton,
+    iconButton: BaseIconButton,
     text: BaseText,
     textField: BaseTextField,
     textFieldTable: BaseTextFieldTable,
@@ -158,6 +165,10 @@ class ComponentProvider {
 
   get Button() {
     return this.getElement('button')!;
+  }
+
+  get IconButton() {
+    return this.getElement('iconButton')!;
   }
 
   get Text() {

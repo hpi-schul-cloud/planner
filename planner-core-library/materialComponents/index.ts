@@ -4,6 +4,7 @@ import Tabs from './Tabs';
 import Headline from './Headline';
 import Label from './Label';
 import Button from './Button';
+import IconButton from './IconButton';
 import Text from './Text';
 import TextField from './TextField';
 import TextArea from './TextArea';
@@ -18,6 +19,7 @@ export {
   Headline,
   Label,
   Button,
+  IconButton,
   Text,
   TextField,
   TextArea,
