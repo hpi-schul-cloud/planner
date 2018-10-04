@@ -35,3 +35,8 @@ export type EventType = {
   utcStartDate: number;
   utcEndDate: number;
 }[];
+
+export type SchoolYearType = {
+  utcStartDate: number; // first day of school
+  utcEndDate: number; // last day of school
+};
