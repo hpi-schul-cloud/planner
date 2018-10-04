@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import InteractiveRasterUnit from './InteractiveRasterUnit';
 import { TopicElementsType } from './InteractiveRasterRow';
-import TimeRasterWrapper from './TimeRasterWrapper';
+import { TimeRasterWrapper } from '../plannerBase';
 import RowCaptions from './RowCaptions';
 import ComponentProvider from '../provider/componentProvider';
 

@@ -105,7 +105,7 @@ const generateTopLabels = (
       left={+key * rasterSize}
       key={key}
     >
-      {rasterColumnLabelMap[key].slice(0, 3)}
+      {rasterColumnLabelMap[key]}
     </StyledLabel>
   ));
 };

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { TopicElementsType, EventType } from '../types';
-import TimeRasterWrapper from '../planner/TimeRasterWrapper';
+import {
+  TimeRasterWrapper,
+  generateMonthLabelMap,
+  generateWeeklyColorMap
+} from '../plannerBase';
 import StylesProvider, {
   GeneralStylesType
 } from '../provider/generalStylesProvider';
-import { MONTHS_MAP } from '../constants';
 import {
   getMonthAndYearString,
   getWeekDifference,
@@ -63,8 +66,6 @@ const StyledFlexChild = styled.div`
     styles.defaultTextColor};
 `;
 
-const WEEK = 1000 * 60 * 60 * 24 * 7;
-
 class ClassRows extends Component<PropsType> {
   getEventLabels = (events: EventType) => {
     const labelMap = {};
@@ -78,40 +79,6 @@ class ClassRows extends Component<PropsType> {
       labelMap[endIndex] = event.name;
     });
     return labelMap;
-  };
-  getMonthLabels = (utcStartDate: number, utcEndDate: number) => {
-    const monthMap = {};
-    let currentMonth = new Date(utcStartDate).getUTCMonth();
-
-    for (let i = 0; utcStartDate + i * WEEK <= utcEndDate; i++) {
-      const currentDate = new Date(utcStartDate + i * WEEK);
-      if (currentDate.getUTCMonth() !== currentMonth) {
-        currentMonth = currentDate.getUTCMonth();
-        monthMap[i] = MONTHS_MAP[currentMonth];
-      }
-    }
-
-    return monthMap;
-  };
-  getColumnColorMap = (events: EventType) => {
-    const columnColorMap = {};
-    const rowPeriodStartDate = new Date(this.props.rowPeriod.utcStartDate);
-    events.forEach(event => {
-      const startIndex = getWeekDifference(
-        rowPeriodStartDate,
-        new Date(event.utcStartDate),
-        true
-      );
-      const endIndex = getWeekDifference(
-        rowPeriodStartDate,
-        new Date(event.utcEndDate),
-        false
-      );
-      for (let i = startIndex; i <= endIndex; i++) {
-        columnColorMap[i] = event.color;
-      }
-    });
-    return columnColorMap;
   };
 
   transformToIndexTopics = (topics: TopicElementsType[]) => {
@@ -195,11 +162,11 @@ class ClassRows extends Component<PropsType> {
       new Date(utcEndDate)
     );
     const rows = this.getClassRows(classTopicsData, rasterCount);
-    const columnColorMap = this.getColumnColorMap([
-      ...holidaysData,
-      ...otherEventsData
-    ]);
-    const topLabelMap = this.getMonthLabels(utcStartDate, utcEndDate);
+    const columnColorMap = generateWeeklyColorMap(
+      [...holidaysData, ...otherEventsData],
+      this.props.rowPeriod.utcStartDate
+    );
+    const topLabelMap = generateMonthLabelMap(utcStartDate, utcEndDate);
     const bottomLabelsMap = this.getEventLabels(otherEventsData);
     const todayLineIndex =
       utcToday - utcStartDate >= 0

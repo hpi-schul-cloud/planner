@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import RowCaptions from './RowCaptions';
 import WeekClassRows from './WeekClassRows';
-import { TopicElementsType, EventType } from '../types';
+import { TopicElementsType, EventType, SchoolYearType } from '../types';
 
 type PropsType = {
   rasterSize: number;
-  schoolYear: {
-    utcStartDate: number; // first day of school
-    utcEndDate: number; // last day of school
-  };
+  schoolYear: SchoolYearType;
   utcToday: number;
   classTopicsData: {
     className: string;
