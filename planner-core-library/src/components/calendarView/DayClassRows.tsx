@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { TopicElementsType, EventType } from '../types';
-import TimeRasterWrapper from '../planner/TimeRasterWrapper';
+import { TimeRasterWrapper, generateDayLabelMap } from '../plannerBase';
 import StylesProvider, {
   GeneralStylesType
 } from '../provider/generalStylesProvider';
@@ -159,6 +159,7 @@ class ClassRows extends Component<PropsType> {
       otherEventsData,
       this.props.rowPeriod
     );
+    const topLabelMap = generateDayLabelMap(utcStartDate, utcEndDate);
     const rows = this.getClassRows(classTopicsData, rasterCount, eventTypeMap);
     const todayLineIndex =
       utcToday - utcStartDate > 0
@@ -171,6 +172,7 @@ class ClassRows extends Component<PropsType> {
           rasterCount={rasterCount}
           rasterSize={rasterSize}
           columnColorMap={columnColorMap}
+          topLabelsMap={topLabelMap}
           className={className}
           todayLineIndex={todayLineIndex}
           topChildren={
