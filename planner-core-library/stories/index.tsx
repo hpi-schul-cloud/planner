@@ -513,6 +513,8 @@ storiesOf('MyClass/RasterUnitContainer', module).add('default', () => {
       rasterCount={number('Raster Count', 30)}
       rasterSize={number('Raster Size', 20)}
       classLevelId={text('ClassLevelId', '1')}
+      schoolYear={object('School Year', schoolYear)}
+      eventData={[...holidaysData, ...eventsData]}
       onAddTemplateClick={action('onAddTemplateClick')}
       onUpdate={action('onUpdate')}
     />
@@ -527,6 +529,8 @@ storiesOf('MyClass/ClassConfigurationView', module)
       <ClassConfigurationView
         allClassTopics={getAllClassInstances()}
         allTopicTemplates={getAllTopicTemplates()}
+        schoolYear={object('School Year', schoolYear)}
+        eventData={[...holidaysData, ...eventsData]}
         onAddTemplate={action('onAddTemplate')}
         onSaveClassInstances={action('onSaveClassInstances')}
       />
@@ -539,6 +543,8 @@ storiesOf('MyClass/ClassConfigurationView', module)
       <ClassConfigurationView
         allClassTopics={getAllClassInstances()}
         allTopicTemplates={getAllTopicTemplates()}
+        schoolYear={object('School Year', schoolYear)}
+        eventData={[...holidaysData, ...eventsData]}
         onAddTemplate={action('onAddTemplate')}
         onSaveClassInstances={action('onSaveClassInstances')}
       />
