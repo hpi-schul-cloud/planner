@@ -7,12 +7,16 @@ import {
   ClassInstanceType,
   TemplatesOfClassLevelType
 } from './types';
+import { EventType, SchoolYearType } from '../types';
 import ComponentProvider from '../provider/componentProvider';
+import { getWeekDifference } from '../calendarView/timeHelper';
 
 interface PropsType {
   allClassTopics: AllClassInstancesType;
   allTopicTemplates: AllTopicTemplatesType;
   initialSchoolYearId?: string;
+  schoolYear: SchoolYearType;
+  eventData: EventType;
   onAddTemplate: (selectedSubjectId: string, classLevelId: string) => void;
   onSaveClassInstances: (instances: AllClassInstancesType) => void;
 }
@@ -38,7 +42,6 @@ const FlexContainer = styled.div`
 `;
 
 const RASTER_SIZE = 15;
-const RASTER_COUNT = 48;
 
 function getColorForSubjectId(id: string) {
   const colorMap = {
@@ -153,6 +156,10 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     const classLevelArray = Object.values(instancesAndTemplates.instances);
     const { templates } = instancesAndTemplates;
     const { selectedSchoolYearId, selectedSubjectId } = this.state;
+    const rasterCount = getWeekDifference(
+      new Date(this.props.schoolYear.utcStartDate),
+      new Date(this.props.schoolYear.utcEndDate)
+    );
 
     return classLevelArray.length > 0 ? (
       classLevelArray.map(classLevel => (
@@ -165,11 +172,13 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
           >
             <RasterUnitDiv>
               <RasterUnitContainer
-                rasterCount={RASTER_COUNT}
+                rasterCount={rasterCount}
                 rasterSize={RASTER_SIZE}
                 topicTemplates={templates[classLevel.classLevelId]}
                 classLevelId={classLevel.classLevelId}
                 classInstances={classLevel.classes}
+                schoolYear={this.props.schoolYear}
+                eventData={this.props.eventData}
                 onAddTemplateClick={(classLevelId: string) =>
                   this.props.onAddTemplate(selectedSubjectId, classLevelId)
                 }
