@@ -1,7 +1,13 @@
-import { ClassConfigurationView } from './components/planner';
+import { ClassConfigurationView } from './components/classConfigurationView';
 import {
   TopicTemplateView,
   TopicInstanceView
 } from './components/topicTemplateView';
+import { CalendarView } from './components/calendarView';
 
-export { ClassConfigurationView, TopicTemplateView, TopicInstanceView };
+export {
+  ClassConfigurationView,
+  CalendarView,
+  TopicTemplateView,
+  TopicInstanceView
+};

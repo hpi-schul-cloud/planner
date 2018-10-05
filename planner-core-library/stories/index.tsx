@@ -5,13 +5,13 @@ import {
   TopicInstanceView
 } from '../src/components/topicTemplateView';
 import ComponentProvider from '../src/components/provider/componentProvider';
-import TopicElement from '../src/components/planner/TopicElement';
-import RasterTopicElement from '../src/components/planner/RasterTopicElement';
-import ResizableRasterTopicElement from '../src/components/planner/ResizableRasterTopicElement';
-import InteractiveRasterRow from '../src/components/planner/InteractiveRasterRow';
-import InteractiveRasterUnit from '../src/components/planner/InteractiveRasterUnit';
-import RasterUnitContainer from '../src/components/planner/RasterUnitContainer';
-import ClassConfigurationView from '../src/components/planner/ClassConfigurationView';
+import TopicElement from '../src/components/classConfigurationView/TopicElement';
+import RasterTopicElement from '../src/components/classConfigurationView/RasterTopicElement';
+import ResizableRasterTopicElement from '../src/components/classConfigurationView/ResizableRasterTopicElement';
+import InteractiveRasterRow from '../src/components/classConfigurationView/InteractiveRasterRow';
+import InteractiveRasterUnit from '../src/components/classConfigurationView/InteractiveRasterUnit';
+import RasterUnitContainer from '../src/components/classConfigurationView/RasterUnitContainer';
+import ClassConfigurationView from '../src/components/classConfigurationView/ClassConfigurationView';
 import YearlyCalendar from '../src/components/calendarView/YearlyCalendar';
 import CalendarView from '../src/components/calendarView/CalendarView';
 import TwoWeekCalendar from '../src/components/calendarView/TwoWeekCalendar';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { TopicIndexType } from '../types';
-import RasterTopicElement from '../planner/RasterTopicElement';
+import RasterTopicElement from '../classConfigurationView/RasterTopicElement';
 
 type PropsType = {
   topicElements: TopicIndexType[];
