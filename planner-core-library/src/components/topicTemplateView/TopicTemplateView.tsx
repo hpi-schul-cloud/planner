@@ -127,7 +127,11 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
 
     return (
       <div>
-        <ComponentProvider.Headline caption="Themenvorlage erstellen" />
+        <ComponentProvider.Headline
+          caption={`Themenvorlage ${
+            this.props.mode === 'NEW' ? 'erstellen' : 'bearbeiten'
+          }`}
+        />
         <FormElementDiv>
           <InlineTextFieldDiv>
             <ComponentProvider.Select
@@ -209,7 +213,11 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         <FormElementDiv>
           <ComponentProvider.Label caption="Leistungserfassung" type="small" />
           <ComponentProvider.SelectorInput
-            typeOptions={[{ text: 'Mündlich', value: 'spoken' }]}
+            typeOptions={[
+              { text: 'Mündlich', value: 'spoken' },
+              { text: 'Schriftlich', value: 'written' },
+              { text: 'Anders', value: 'other' }
+            ]}
             timeOptions={[{ text: '1.Woche', value: '1W' }]}
             values={this.state.currentValues.examinations}
             onChange={value => this.onFormChange(value, 'examinations')}

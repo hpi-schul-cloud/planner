@@ -52,11 +52,14 @@ function SelectorInput(props: PropsType) {
   return (
     <div>
       {values.map((value, index) => (
-        <div>
+        <div key={index}>
           <Select
             initialValue={value.typeValue}
             onChange={event =>
-              changeField(index, { typeValue: event.currentTarget.value })
+              changeField(index, {
+                // @ts-ignore
+                typeValue: event.target.value
+              })
             }
             values={typeOptions.map(option => ({
               text: option.text,
@@ -66,7 +69,10 @@ function SelectorInput(props: PropsType) {
           <Select
             initialValue={value.timeValue}
             onChange={event =>
-              changeField(index, { timeValue: event.currentTarget.value })
+              changeField(index, {
+                // @ts-ignore
+                timeValue: event.target.value
+              })
             }
             values={timeOptions.map(option => ({
               text: option.text,
