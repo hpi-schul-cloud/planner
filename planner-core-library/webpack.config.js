@@ -1,19 +1,21 @@
-const { CheckerPlugin } = require("awesome-typescript-loader");
-const libraryName = "rucola-core-lib";
-const outputFile = libraryName + ".js";
+const { CheckerPlugin } = require('awesome-typescript-loader');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
+const libraryName = 'rucola-core-lib';
+const outputFile = libraryName + '.js';
 
 module.exports = {
-  entry: __dirname + "/src/index.ts",
-  devtool: "source-map",
+  entry: __dirname + '/src/index.ts',
+  devtool: 'source-map',
   output: {
-    path: __dirname + "/lib",
+    path: __dirname + '/lib',
     filename: outputFile,
     library: libraryName,
-    libraryTarget: "umd",
+    libraryTarget: 'umd',
     umdNamedDefine: true
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx"]
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
 
   module: {
@@ -22,10 +24,10 @@ module.exports = {
         test: /\.(t|j)sx?$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: "awesome-typescript-loader"
+          loader: 'awesome-typescript-loader'
         }
       }
     ]
   },
-  plugins: [new CheckerPlugin()]
+  plugins: [new CheckerPlugin(), new BundleAnalyzerPlugin()]
 };

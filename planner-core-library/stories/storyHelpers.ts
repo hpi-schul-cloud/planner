@@ -2,7 +2,7 @@ import uniqueId from 'lodash/uniqueId';
 import {
   AllClassInstancesType,
   AllTopicTemplatesType
-} from '../src/components/planner/types';
+} from '../src/components/classConfigurationView/types';
 
 const getSubjects = () => ({
   biology: {
