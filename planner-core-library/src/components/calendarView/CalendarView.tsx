@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import ComponentProvider from '../provider/componentProvider';
-import { TopicElementsType, EventType } from '../types';
+import { TopicDateType, EventType } from '../types';
 import YearlyCalendar from './YearlyCalendar';
 import ThreeMonthCalendar from './ThreeMonthCalendar';
 import TwoWeekCalendar from './TwoWeekCalendar';
@@ -18,7 +18,7 @@ type PropsType = {
     classes: {
       subjectId: string;
       subjectName: string;
-      topics: TopicElementsType[];
+      topics: TopicDateType[];
     }[];
   }[];
   holidaysData: EventType;

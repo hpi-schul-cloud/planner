@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import RowCaptions from './RowCaptions';
 import DayClassRows from './DayClassRows';
 import {
-  ClassTopicsDataType,
   filterRelevantElementData,
   getFilteredClassTopicsData,
   getWeekPeriodForDate
 } from './calendarHelper';
 import { EventType } from '../types';
+import { ClassTopicsDataType } from './types';
 
 type PropsType = {
   rasterSize: number;
@@ -57,20 +57,18 @@ class TwoWeekCalendar extends Component<PropsType> {
     );
 
     return (
-      <div>
-        <StyledFlexContainer>
-          <StyledRowCaptions labels={labels} />
-          <DayClassRows
-            rasterSize={rasterSize}
-            rowPeriod={twoWeekTimePeriod}
-            utcToday={utcToday}
-            classTopicsData={filteredClassTopicsData}
-            holidaysData={filteredHolidaysData}
-            otherEventsData={filteredOtherEventsData}
-            onTopicInstanceClick={onTopicInstanceClick}
-          />
-        </StyledFlexContainer>
-      </div>
+      <StyledFlexContainer>
+        <StyledRowCaptions labels={labels} />
+        <DayClassRows
+          rasterSize={rasterSize}
+          rowPeriod={twoWeekTimePeriod}
+          utcToday={utcToday}
+          classTopicsData={filteredClassTopicsData}
+          holidaysData={filteredHolidaysData}
+          otherEventsData={filteredOtherEventsData}
+          onTopicInstanceClick={onTopicInstanceClick}
+        />
+      </StyledFlexContainer>
     );
   }
 

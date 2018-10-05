@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { TopicIndexType } from '../types';
 import RasterTopicElement from '../planner/RasterTopicElement';
 
-export type TopicElementsType = {
-  id: string;
-  text: string;
-  color: string;
-  startIndex: number;
-  endIndex: number;
-};
-
 type PropsType = {
-  topicElements: TopicElementsType[];
+  topicElements: TopicIndexType[];
   rasterSize: number;
   rasterCount: number;
   topicElementSize?: 'small' | 'medium' | 'large';

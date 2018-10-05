@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { TopicElementsType, EventType } from '../types';
+import { TopicDateType, EventType } from '../types';
 import {
   TimeRasterWrapper,
   generateMonthLabelMap,
@@ -15,15 +15,7 @@ import {
   getDayDifference
 } from './timeHelper';
 import RasterRow from './RasterRow';
-
-type ClassTopicsDataType = {
-  className: string;
-  classes: {
-    subjectId: string;
-    subjectName: string;
-    topics: TopicElementsType[];
-  }[];
-}[];
+import { ClassTopicsDataType } from './types';
 
 type PropsType = {
   className?: string;
@@ -81,7 +73,7 @@ class ClassRows extends Component<PropsType> {
     return labelMap;
   };
 
-  transformToIndexTopics = (topics: TopicElementsType[]) => {
+  transformToIndexTopics = (topics: TopicDateType[]) => {
     return topics.map(topic => {
       const { utcStartDate, utcEndDate, ...otherProps } = topic;
       const rowPeriodStartDate = new Date(this.props.rowPeriod.utcStartDate);
@@ -176,29 +168,27 @@ class ClassRows extends Component<PropsType> {
         : -1;
 
     return (
-      <>
-        <TimeRasterWrapper
-          rasterCount={rasterCount}
-          rasterSize={rasterSize}
-          columnColorMap={columnColorMap}
-          topLabelsMap={topLabelMap}
-          bottomLabelsMap={bottomLabelsMap}
-          className={className}
-          todayLineIndex={todayLineIndex}
-          topChildren={
-            <StyledFlexContainer>
-              <StyledFlexChild styles={StylesProvider.styles}>
-                {utcStartDateString}
-              </StyledFlexChild>
-              <StyledFlexChild styles={StylesProvider.styles}>
-                {utcEndDateString}
-              </StyledFlexChild>
-            </StyledFlexContainer>
-          }
-        >
-          {rows}
-        </TimeRasterWrapper>
-      </>
+      <TimeRasterWrapper
+        rasterCount={rasterCount}
+        rasterSize={rasterSize}
+        columnColorMap={columnColorMap}
+        topLabelsMap={topLabelMap}
+        bottomLabelsMap={bottomLabelsMap}
+        className={className}
+        todayLineIndex={todayLineIndex}
+        topChildren={
+          <StyledFlexContainer>
+            <StyledFlexChild styles={StylesProvider.styles}>
+              {utcStartDateString}
+            </StyledFlexChild>
+            <StyledFlexChild styles={StylesProvider.styles}>
+              {utcEndDateString}
+            </StyledFlexChild>
+          </StyledFlexContainer>
+        }
+      >
+        {rows}
+      </TimeRasterWrapper>
     );
   }
 }

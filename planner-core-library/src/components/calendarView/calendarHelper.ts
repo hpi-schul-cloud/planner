@@ -1,14 +1,5 @@
-import { TopicElementsType } from '../types';
+import { ClassTopicsDataType } from './types';
 const DAY = 1000 * 60 * 60 * 24;
-
-export type ClassTopicsDataType = {
-  className: string;
-  classes: {
-    subjectId: string;
-    subjectName: string;
-    topics: TopicElementsType[];
-  }[];
-}[];
 
 export function filterRelevantElementData<
   K extends { utcStartDate: number; utcEndDate: number }

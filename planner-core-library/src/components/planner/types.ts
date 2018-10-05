@@ -1,3 +1,5 @@
+import { TopicIndexType } from '../types';
+
 /* Topic Instances */
 // Includes all school years, with their respective subjects
 // and their respective class levels and their actual classes
@@ -25,16 +27,8 @@ export type ClassInstanceType = {
   [classId: string]: {
     id: string;
     name: string;
-    topics: TopicElementsType[];
+    topics: TopicIndexType[];
   };
-};
-
-export type TopicElementsType = {
-  id: string;
-  text: string;
-  color: string;
-  startIndex: number;
-  endIndex: number;
 };
 
 /* Topic Templates */

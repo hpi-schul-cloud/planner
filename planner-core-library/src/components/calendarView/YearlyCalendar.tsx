@@ -2,20 +2,14 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import RowCaptions from './RowCaptions';
 import WeekClassRows from './WeekClassRows';
-import { TopicElementsType, EventType, SchoolYearType } from '../types';
+import { EventType, SchoolYearType } from '../types';
+import { ClassTopicsDataType } from './types';
 
 type PropsType = {
   rasterSize: number;
   schoolYear: SchoolYearType;
   utcToday: number;
-  classTopicsData: {
-    className: string;
-    classes: {
-      subjectId: string;
-      subjectName: string;
-      topics: TopicElementsType[];
-    }[];
-  }[];
+  classTopicsData: ClassTopicsDataType;
   holidaysData: EventType;
   otherEventsData: EventType;
   onTopicInstanceClick: (id: string) => void;
@@ -45,20 +39,18 @@ class YearlyCalendar extends Component<PropsType> {
     }));
 
     return (
-      <div>
-        <StyledFlexContainer>
-          <StyledRowCaptions labels={labels} />
-          <WeekClassRows
-            rasterSize={rasterSize}
-            rowPeriod={this.props.schoolYear}
-            utcToday={utcToday}
-            classTopicsData={classTopicsData}
-            holidaysData={holidaysData}
-            otherEventsData={otherEventsData}
-            onTopicInstanceClick={onTopicInstanceClick}
-          />
-        </StyledFlexContainer>
-      </div>
+      <StyledFlexContainer>
+        <StyledRowCaptions labels={labels} />
+        <WeekClassRows
+          rasterSize={rasterSize}
+          rowPeriod={this.props.schoolYear}
+          utcToday={utcToday}
+          classTopicsData={classTopicsData}
+          holidaysData={holidaysData}
+          otherEventsData={otherEventsData}
+          onTopicInstanceClick={onTopicInstanceClick}
+        />
+      </StyledFlexContainer>
     );
   }
 

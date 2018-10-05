@@ -16,14 +16,26 @@ export type ClassInstanceType = {
   [classId: string]: {
     id: string;
     name: string;
-    topics: TopicElementsType[];
+    topics: TopicDateType[];
   };
 };
 
-export type TopicElementsType = {
+/* Topics can be 
+    (1) in raw form (with dates) 
+    (2) in parsed form with indices
+*/
+type TopicType = {
   id: string;
   text: string;
   color: string;
+};
+
+export type TopicIndexType = TopicType & {
+  startIndex: number;
+  endIndex: number;
+};
+
+export type TopicDateType = TopicType & {
   utcStartDate: number;
   utcEndDate: number;
 };

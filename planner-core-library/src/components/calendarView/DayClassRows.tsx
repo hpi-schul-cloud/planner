@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { TopicElementsType, EventType } from '../types';
+import { TopicDateType, TopicIndexType, EventType } from '../types';
 import { TimeRasterWrapper, generateDayLabelMap } from '../plannerBase';
 import StylesProvider, {
   GeneralStylesType
@@ -16,18 +16,8 @@ import {
   getEventMaps,
   EventMapType
 } from './dayClassRowsHelper';
-import RasterRow, {
-  TopicElementsType as RasterTopicElementsType
-} from './RasterRow';
-
-type ClassTopicsDataType = {
-  className: string;
-  classes: {
-    subjectId: string;
-    subjectName: string;
-    topics: TopicElementsType[];
-  }[];
-}[];
+import RasterRow from './RasterRow';
+import { ClassTopicsDataType } from './types';
 
 type PropsType = {
   className?: string;
@@ -72,10 +62,10 @@ const StyledFlexChild = styled.div`
 
 class ClassRows extends Component<PropsType> {
   transformToIndexTopics = (
-    topics: TopicElementsType[],
+    topics: TopicDateType[],
     eventsMap: EventMapType
   ) => {
-    const result: RasterTopicElementsType[] = [];
+    const result: TopicIndexType[] = [];
 
     topics.forEach(topic => {
       const { utcStartDate, utcEndDate, ...otherProps } = topic;
@@ -167,35 +157,33 @@ class ClassRows extends Component<PropsType> {
         : 0;
 
     return (
-      <>
-        <TimeRasterWrapper
-          rasterCount={rasterCount}
-          rasterSize={rasterSize}
-          columnColorMap={columnColorMap}
-          topLabelsMap={topLabelMap}
-          className={className}
-          todayLineIndex={todayLineIndex}
-          topChildren={
-            <StyledFlexContainer>
-              <StyledFlexChild styles={StylesProvider.styles}>
-                {utcStartDateString}
-              </StyledFlexChild>
-              <StyledFlexChild styles={StylesProvider.styles}>
-                {utcEndDateString}
-              </StyledFlexChild>
-            </StyledFlexContainer>
-          }
-        >
-          <>
-            {rows}
-            <LabelOverlays
-              rasterCount={rasterCount}
-              rasterSize={rasterSize}
-              labelArray={eventArray}
-            />
-          </>
-        </TimeRasterWrapper>
-      </>
+      <TimeRasterWrapper
+        rasterCount={rasterCount}
+        rasterSize={rasterSize}
+        columnColorMap={columnColorMap}
+        topLabelsMap={topLabelMap}
+        className={className}
+        todayLineIndex={todayLineIndex}
+        topChildren={
+          <StyledFlexContainer>
+            <StyledFlexChild styles={StylesProvider.styles}>
+              {utcStartDateString}
+            </StyledFlexChild>
+            <StyledFlexChild styles={StylesProvider.styles}>
+              {utcEndDateString}
+            </StyledFlexChild>
+          </StyledFlexContainer>
+        }
+      >
+        <>
+          {rows}
+          <LabelOverlays
+            rasterCount={rasterCount}
+            rasterSize={rasterSize}
+            labelArray={eventArray}
+          />
+        </>
+      </TimeRasterWrapper>
     );
   }
 }

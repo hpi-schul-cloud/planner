@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import RowCaptions from './RowCaptions';
 import WeekClassRows from './WeekClassRows';
 import {
-  ClassTopicsDataType,
   filterRelevantElementData,
   getFilteredClassTopicsData,
   getWeekPeriodForDate
 } from './calendarHelper';
+import { ClassTopicsDataType } from './types';
 import { EventType } from '../types';
 
 type PropsType = {
@@ -57,20 +57,18 @@ class ThreeMonthCalendar extends Component<PropsType> {
     );
 
     return (
-      <div>
-        <StyledFlexContainer>
-          <StyledRowCaptions labels={labels} />
-          <WeekClassRows
-            rasterSize={rasterSize}
-            rowPeriod={threeMonthTimePeriod}
-            utcToday={utcToday}
-            classTopicsData={filteredClassTopicsData}
-            holidaysData={filteredHolidaysData}
-            otherEventsData={filteredOtherEventsData}
-            onTopicInstanceClick={onTopicInstanceClick}
-          />
-        </StyledFlexContainer>
-      </div>
+      <StyledFlexContainer>
+        <StyledRowCaptions labels={labels} />
+        <WeekClassRows
+          rasterSize={rasterSize}
+          rowPeriod={threeMonthTimePeriod}
+          utcToday={utcToday}
+          classTopicsData={filteredClassTopicsData}
+          holidaysData={filteredHolidaysData}
+          otherEventsData={filteredOtherEventsData}
+          onTopicInstanceClick={onTopicInstanceClick}
+        />
+      </StyledFlexContainer>
     );
   }
 
