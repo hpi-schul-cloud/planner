@@ -5,6 +5,7 @@ import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 import ResizableRasterTopicElement from './ResizableRasterTopicElement';
 import { TOPIC_INSTANCE, TOPIC_TEMPLATE } from './constants';
+import TopicTooltip from './TopicTooltip';
 
 export type TopicElementsType = {
   id: string;
@@ -280,22 +281,29 @@ class InteractiveRasterRow extends Component<PropsType> {
         );
       }
       elements.push(
-        <ResizableRasterTopicElement
-          id={id}
-          index={i}
-          rowId={rowId}
-          type={TOPIC_INSTANCE}
-          isTransparentWhileDragging={false}
-          onChangeSizeLeft={this.handleElementSizeChangeLeft}
-          onChangeSizeRight={this.handleElementSizeChangeRight}
-          onElementDidNotDrop={onElementDidNotDrop}
-          rasterSize={rasterSize}
-          startIndex={startIndex}
-          endIndex={endIndex}
-          color={color}
-          text={text}
-          key={id}
-        />
+        <TopicTooltip
+          isDisabled={this.props.isOver}
+          onEditClick={() => {
+            console.log('edit ' + id);
+          }}
+        >
+          <ResizableRasterTopicElement
+            id={id}
+            index={i}
+            rowId={rowId}
+            type={TOPIC_INSTANCE}
+            isTransparentWhileDragging={false}
+            onChangeSizeLeft={this.handleElementSizeChangeLeft}
+            onChangeSizeRight={this.handleElementSizeChangeRight}
+            onElementDidNotDrop={onElementDidNotDrop}
+            rasterSize={rasterSize}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            color={color}
+            text={text}
+            key={id}
+          />
+        </TopicTooltip>
       );
       nextIndex = endIndex + 1;
     }

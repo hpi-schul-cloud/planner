@@ -90,6 +90,7 @@ const StyledWidthContainer = styled.div`
 `;
 const StyledTopLabelContainer = styled(StyledWidthContainer)`
   height: 14px;
+  margin-bottom: 2px;
 `;
 const StyledBottomLabelContainer = styled(StyledTopLabelContainer)`
   padding-top: 5px;
@@ -170,9 +171,11 @@ const TimeRasterWrapper = (props: PropsType) => {
 
   return (
     <StyledOverflowContainer className={className}>
-      <StyledWidthContainer width={rasterCount * rasterSize}>
-        {topChildren}
-      </StyledWidthContainer>
+      {topChildren && (
+        <StyledWidthContainer width={rasterCount * rasterSize}>
+          {topChildren}
+        </StyledWidthContainer>
+      )}
       <StyledTopLabelContainer width={rasterCount * rasterSize}>
         {generateTopLabels(rasterSize, topLabelsMap)}
       </StyledTopLabelContainer>

@@ -19,7 +19,7 @@ const StyledFlexContainer = styled.div`
   display: flex;
 `;
 const StyledRowCaptions = styled(RowCaptions)`
-  padding-top: 45px;
+  padding-top: 47px;
 `;
 
 class YearlyCalendar extends Component<PropsType> {

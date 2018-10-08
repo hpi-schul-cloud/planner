@@ -30,6 +30,8 @@ const StyledTopicElementContainer = styled.div`
 
 const elementSource = {
   beginDrag(props: PropsType) {
+    if (props.onElementStartDrag) props.onElementStartDrag();
+
     return {
       id: props.id,
       index: props.index,
@@ -68,6 +70,7 @@ export type PropsType = RasterTopicElementPropsType &
     rowId?: string;
     index?: number;
     classLevelId?: string;
+    onElementStartDrag?: () => void;
     onElementDidNotDrop: () => void;
   };
 

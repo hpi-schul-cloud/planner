@@ -12,7 +12,7 @@ interface PropsType {
 }
 
 const StyledLabels = styled.div`
-  padding-top: 40px;
+  padding-top: 42px;
   padding-right: 10px;
   white-space: nowrap;
   max-width: 70px;

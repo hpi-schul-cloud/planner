@@ -14,6 +14,7 @@ import {
   getClassTopicsAfterInsertion,
   getClassTopicsAfterMove
 } from './helper';
+import TopicTooltip from './TopicTooltip';
 
 type ClassInstanceType = {
   [classId: string]: {
@@ -98,6 +99,13 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
       isDragging: false
     };
   }
+
+  setDraggingState = () => {
+    this.setState({
+      ...this.state,
+      isDragging: true
+    });
+  };
 
   resetDragState = () => {
     // Cancel throttling
@@ -242,19 +250,32 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
         <FlexContainer>
           <FlexChild>
             {topicTemplates.map(topicTemplate => (
-              <DraggableRasterElement
-                id={topicTemplate.id}
-                classLevelId={classLevelId}
-                key={topicTemplate.id}
-                type={TOPIC_TEMPLATE}
-                color={topicTemplate.color}
-                isTransparentWhileDragging={false}
-                onElementDidNotDrop={this.resetDragState}
-                text={topicTemplate.text}
-                rasterSize={rasterSize}
-                startIndex={0}
-                endIndex={topicTemplate.width}
-              />
+              <TopicTooltip
+                isDisabled={this.state.isDragging}
+                onDeleteClick={() => {
+                  console.log('delete ' + topicTemplate.id);
+                }}
+                onEditClick={() => {
+                  console.log('edit ' + topicTemplate.id);
+                }}
+              >
+                <span>
+                  <DraggableRasterElement
+                    id={topicTemplate.id}
+                    classLevelId={classLevelId}
+                    key={topicTemplate.id}
+                    type={TOPIC_TEMPLATE}
+                    color={topicTemplate.color}
+                    isTransparentWhileDragging={false}
+                    onElementDidNotDrop={this.resetDragState}
+                    onElementStartDrag={this.setDraggingState}
+                    text={topicTemplate.text}
+                    rasterSize={rasterSize}
+                    startIndex={0}
+                    endIndex={topicTemplate.width}
+                  />
+                </span>
+              </TopicTooltip>
             ))}
           </FlexChild>
           <StyledTrashDrop onElementDidDrop={this.deleteTopic} />
