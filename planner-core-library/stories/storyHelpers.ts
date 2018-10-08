@@ -111,6 +111,33 @@ export const getClassInstances = (classLevel: number) => ({
         endIndex: 12
       }
     ]
+  },
+  [`${classLevel}c`]: {
+    id: `${classLevel}c`,
+    name: `Klasse ${classLevel}c`,
+    topics: [
+      {
+        id: '1',
+        text: '1.Topic',
+        color: '#92DB92',
+        startIndex: 0,
+        endIndex: 3
+      },
+      {
+        id: '2',
+        text: '2.Topic',
+        color: '#92DB92',
+        startIndex: 4,
+        endIndex: 6
+      },
+      {
+        id: '3',
+        text: '3.Topic',
+        color: '#92DB92',
+        startIndex: 8,
+        endIndex: 12
+      }
+    ]
   }
 });
 
