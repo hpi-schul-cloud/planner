@@ -1,7 +1,12 @@
-import React from "react";
-declare const Select: import("../../../../../../../../Users/gberecz/workspace/rucola/rucola-core-library/node_modules/styled-components").StyledComponentClass<React.ClassAttributes<HTMLSelectElement> & React.SelectHTMLAttributes<HTMLSelectElement> & {
-    styles?: string | undefined;
-}, any, React.ClassAttributes<HTMLSelectElement> & React.SelectHTMLAttributes<HTMLSelectElement> & {
-    styles?: string | undefined;
-}>;
+import React from 'react';
+interface PropsType {
+    caption?: string;
+    initialValue: string;
+    values: {
+        value: string;
+        text: string;
+    }[];
+    onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
+}
+declare const Select: React.SFC<PropsType>;
 export default Select;
