@@ -11,6 +11,7 @@ import TextArea from './TextArea';
 import Chip from './Chip';
 import SelectorInput from './SelectorInput';
 import TextFieldTable from './TextFieldTable';
+import TopicElement from './TopicElement';
 
 export {
   ExpansionPanel,
@@ -25,5 +26,6 @@ export {
   TextArea,
   Chip,
   SelectorInput,
-  TextFieldTable
+  TextFieldTable,
+  TopicElement
 };

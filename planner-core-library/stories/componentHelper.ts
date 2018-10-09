@@ -11,7 +11,8 @@ import {
   TextArea,
   Chip,
   SelectorInput,
-  TextFieldTable
+  TextFieldTable,
+  TopicElement
 } from '../materialComponents';
 import { setupComponentMap } from '../src/components/provider/componentProvider';
 import { setupCustomStyles } from '../src/components/provider/generalStylesProvider';
@@ -30,7 +31,8 @@ export const setupMaterialComponents = () => {
     textArea: TextArea,
     chip: Chip,
     selectorInput: SelectorInput,
-    textFieldTable: TextFieldTable
+    textFieldTable: TextFieldTable,
+    topicElement: TopicElement
   });
   setupCustomStyles({
     'font-family': 'Roboto, Helvetica, Arial, sans-serif',
