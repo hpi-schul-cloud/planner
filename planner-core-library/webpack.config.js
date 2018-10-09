@@ -21,6 +21,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
         test: /\.(t|j)sx?$/,
         exclude: /(node_modules|bower_components)/,
         use: {
