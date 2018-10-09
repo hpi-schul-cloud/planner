@@ -2,8 +2,8 @@ import React from 'react';
 import styled, { injectGlobal } from 'styled-components';
 import IconTrash from '../../assets/IconTrash';
 import IconEdit from '../../assets/IconEdit';
-import { Tooltip } from 'react-tippy';
-import 'react-tippy/dist/tippy.css';
+import Tippy from '@tippy.js/react';
+import 'tippy.js/dist/tippy.css';
 
 interface PropsType {
   isDisabled?: boolean;
@@ -29,6 +29,7 @@ injectGlobal`
 `;
 
 const StyledIcon = styled.div`
+  font-size: 1px;
   display: inline-block;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.54);
@@ -38,8 +39,11 @@ const StyledIcon = styled.div`
 `;
 
 const StyledTooltip = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: center;
   background: #e9e8e8;
-  padding: 2px 10px;
+  padding: 4px 10px;
   border-radius: 4px;
   ${StyledIcon} {
     margin-left: 5px;
@@ -50,36 +54,64 @@ const StyledTooltip = styled.div`
   }
 `;
 
-const TopicTooltip: React.SFC<PropsType> = props => {
-  return (
-    <Tooltip
-      size="small"
-      interactiveBorder={0}
-      animateFill={false}
-      disabled={props.isDisabled}
-      // [initial trigger after, leave trigger after] in ms
-      delay={[1000, 0]}
-      interactive={true}
-      theme="custom"
-      distance={5}
-      html={
-        <StyledTooltip>
-          {props.onEditClick && (
-            <StyledIcon onClick={props.onEditClick}>
-              <IconEdit height={20} width={20} />
-            </StyledIcon>
-          )}
-          {props.onDeleteClick && (
-            <StyledIcon onClick={props.onDeleteClick}>
-              <IconTrash height={20} width={20} />
-            </StyledIcon>
-          )}
-        </StyledTooltip>
+class TopicTooltip extends React.Component<PropsType> {
+  private tippyRef: React.RefObject<Object> | null = null;
+  componentDidUpdate(prevProps: PropsType) {
+    if (prevProps.isDisabled !== this.props.isDisabled) {
+      if (this.props.isDisabled) {
+        // @ts-ignore -
+        this.tippyRef.hide();
+        // @ts-ignore
+        this.tippyRef.disable();
+      } else {
+        // @ts-ignore
+        this.tippyRef.enable();
       }
-    >
-      {props.children}
-    </Tooltip>
-  );
-};
+    }
+  }
 
+  componentWillUnmount() {
+    // @ts-ignore
+    this.tippyRef.destroy();
+    // debugger;
+  }
+
+  render() {
+    const { children, onEditClick, onDeleteClick } = this.props;
+
+    return (
+      <span>
+        <Tippy
+          onCreate={(tip: React.RefObject<Object>) => {
+            this.tippyRef = tip;
+          }}
+          size="small"
+          animateFill={false}
+          // [initial trigger after, leave trigger after] in ms
+          delay={[1000, 0]}
+          duration={[0, 0]}
+          interactive={true}
+          theme="custom"
+          distance={5}
+          content={
+            <StyledTooltip>
+              {onEditClick && (
+                <StyledIcon onClick={onEditClick}>
+                  <IconEdit height={20} width={20} />
+                </StyledIcon>
+              )}
+              {onDeleteClick && (
+                <StyledIcon onClick={onDeleteClick}>
+                  <IconTrash height={20} width={20} />
+                </StyledIcon>
+              )}
+            </StyledTooltip>
+          }
+        >
+          {children}
+        </Tippy>
+      </span>
+    );
+  }
+}
 export default TopicTooltip;

@@ -1,4 +1,4 @@
-declare module 'react-tippy' {
+declare module '@tippy.js/react' {
   import * as React from 'react';
 
   export type Position =
@@ -19,8 +19,9 @@ declare module 'react-tippy' {
   export type Size = 'small' | 'regular' | 'big';
   export type Theme = string;
   export interface TooltipProps {
-    title?: string | null;
-    disabled?: boolean;
+    onCreate?: (tip: React.RefObject<Object>) => void;
+    duration?: number[];
+    delay?: number[];
     open?: boolean;
     useContext?: boolean;
     onRequestClose?: () => void;
@@ -29,13 +30,11 @@ declare module 'react-tippy' {
     tabIndex?: number;
     interactive?: boolean;
     interactiveBorder?: number;
-    delay?: number | number[];
     hideDelay?: number;
     animation?: Animation;
     arrow?: boolean;
     arrowSize?: Size;
     animateFill?: boolean;
-    duration?: number;
     hideDuration?: number;
     distance?: number;
     offset?: number;
@@ -45,7 +44,7 @@ declare module 'react-tippy' {
     inertia?: boolean;
     transitionFlip?: boolean;
     popperOptions?: any;
-    html?: React.ReactElement<any>;
+    content?: React.ReactElement<any>;
     unmountHTMLWhenHide?: boolean;
     size?: Size;
     sticky?: boolean;
@@ -58,9 +57,5 @@ declare module 'react-tippy' {
     className?: string;
     style?: React.CSSProperties;
   }
-  export class Tooltip extends React.Component<TooltipProps> {}
-  export function withTooltip<P>(
-    component: React.ComponentType<P>,
-    options: TooltipProps
-  ): JSX.Element;
+  export default class Tippy extends React.Component<TooltipProps> {}
 }

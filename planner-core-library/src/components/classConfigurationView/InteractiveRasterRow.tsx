@@ -275,12 +275,14 @@ class InteractiveRasterRow extends Component<PropsType> {
       }
       elements.push(
         <TopicTooltip
+          key={id}
           isDisabled={this.props.isOver}
           onEditClick={() => {
             console.log('edit ' + id);
           }}
         >
           <ResizableRasterTopicElement
+            key={id}
             id={id}
             index={i}
             rowId={rowId}
@@ -294,7 +296,6 @@ class InteractiveRasterRow extends Component<PropsType> {
             endIndex={endIndex}
             color={color}
             text={text}
-            key={id}
           />
         </TopicTooltip>
       );

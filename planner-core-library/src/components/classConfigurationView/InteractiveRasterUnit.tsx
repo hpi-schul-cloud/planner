@@ -250,6 +250,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
           <FlexChild>
             {topicTemplates.map(topicTemplate => (
               <TopicTooltip
+                key={topicTemplate.id}
                 isDisabled={this.state.isDragging}
                 onDeleteClick={() => {
                   console.log('delete ' + topicTemplate.id);
@@ -262,7 +263,6 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
                   <DraggableRasterElement
                     id={topicTemplate.id}
                     classLevelId={classLevelId}
-                    key={topicTemplate.id}
                     type={TOPIC_TEMPLATE}
                     color={topicTemplate.color}
                     isTransparentWhileDragging={false}

@@ -457,6 +457,14 @@
     react-modal "^3.4.5"
     react-treebeard "^2.1.0"
 
+"@tippy.js/react@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@tippy.js/react/-/react-1.0.0.tgz#fc3577a4ac69663bf6d1da801234ab6c2b9c8c7c"
+  integrity sha512-QlbRFjqZJABW69gqnKJpBXZRztK5EP9hpQE8gPlDOApulaXyqLn9lS1DpLohoy0jK915zfLmWeBZNvoEdvoFBg==
+  dependencies:
+    prop-types "^15.6.2"
+    tippy.js "^3.0.0"
+
 "@types/jss@^9.5.6":
   version "9.5.6"
   resolved "https://registry.yarnpkg.com/@types/jss/-/jss-9.5.6.tgz#96e1d246ddfbccc4867494077c714773cf29acde"
@@ -5936,7 +5944,7 @@ pkg-up@2.0.0:
   dependencies:
     find-up "^2.1.0"
 
-popper.js@^1.11.1, popper.js@^1.14.1:
+popper.js@^1.11.1, popper.js@^1.14.1, popper.js@^1.14.4:
   version "1.14.4"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.4.tgz#8eec1d8ff02a5a3a152dd43414a15c7b79fd69b6"
   integrity sha1-juwdj/AqWjoVLdQ0FKFce3n9abY=
@@ -7671,6 +7679,13 @@ tinycolor2@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
   integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
+
+tippy.js@^3.0.0:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-3.0.4.tgz#36b712f858f079e241b3226dc3b5e09d0be73f8f"
+  integrity sha512-yOpLt9c1BK5IefQPvixyYfW3uSWu6R+yM3vUGBhyNClNrELHt0CR5Y4K4nAMX14ED+zAU9UisIMvhLebyh9tLQ==
+  dependencies:
+    popper.js "^1.14.4"
 
 tmp@^0.0.33:
   version "0.0.33"

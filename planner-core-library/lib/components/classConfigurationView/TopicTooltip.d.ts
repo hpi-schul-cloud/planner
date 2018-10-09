@@ -1,9 +1,14 @@
 import React from 'react';
-import 'react-tippy/dist/tippy.css';
+import 'tippy.js/dist/tippy.css';
 interface PropsType {
     isDisabled?: boolean;
     onEditClick?: () => void;
     onDeleteClick?: () => void;
 }
-declare const TopicTooltip: React.SFC<PropsType>;
+declare class TopicTooltip extends React.Component<PropsType> {
+    private tippyRef;
+    componentDidUpdate(prevProps: PropsType): void;
+    componentWillUnmount(): void;
+    render(): JSX.Element;
+}
 export default TopicTooltip;
