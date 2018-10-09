@@ -1,9 +1,9 @@
-import { TopicElementsType } from './InteractiveRasterRow';
 import uniqueId from 'lodash/uniqueId';
+import { TopicIndexType } from '../types';
 
 export const getEmptySpaceSize = (
   rasterCount: number,
-  topicElements: TopicElementsType[]
+  topicElements: TopicIndexType[]
 ) => {
   return topicElements.reduce((emptySpace, topicElement): number => {
     emptySpace =
@@ -15,7 +15,7 @@ export const getEmptySpaceSize = (
 
 const getElementIndexAtPosition = (
   position: number,
-  topicElements: TopicElementsType[]
+  topicElements: TopicIndexType[]
 ) => {
   for (let i = 0; i < topicElements.length; i++) {
     const next = i + 1 < topicElements.length ? i + 1 : null;
@@ -44,9 +44,9 @@ const getElementIndexAtPosition = (
 export const getClassTopicsAfterInsertion = (
   insertStartIndex: number,
   width: number,
-  elementValues: Partial<TopicElementsType>,
+  elementValues: Partial<TopicIndexType>,
   rasterCount: number,
-  currentClassInstances: TopicElementsType[]
+  currentClassInstances: TopicIndexType[]
 ) => {
   let result = [...currentClassInstances];
   const {
@@ -123,9 +123,9 @@ export const getClassTopicsAfterMove = (
   insertStartIndex: number,
   elementIndex: number,
   width: number,
-  elementValues: Partial<TopicElementsType>,
+  elementValues: Partial<TopicIndexType>,
   rasterCount: number,
-  currentClassInstances: TopicElementsType[]
+  currentClassInstances: TopicIndexType[]
 ) => {
   let result;
   // Remove moving element from class instances for now

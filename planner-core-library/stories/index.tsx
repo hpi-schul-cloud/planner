@@ -6,7 +6,7 @@ import {
 } from '../src/components/topicTemplateView';
 import ComponentProvider from '../src/components/provider/componentProvider';
 import TopicElement from '../src/components/classConfigurationView/TopicElement';
-import RasterTopicElement from '../src/components/classConfigurationView/RasterTopicElement';
+import RasterTopicElement from '../src/components/plannerBase/RasterTopicElement';
 import ResizableRasterTopicElement from '../src/components/classConfigurationView/ResizableRasterTopicElement';
 import InteractiveRasterRow from '../src/components/classConfigurationView/InteractiveRasterRow';
 import InteractiveRasterUnit from '../src/components/classConfigurationView/InteractiveRasterUnit';

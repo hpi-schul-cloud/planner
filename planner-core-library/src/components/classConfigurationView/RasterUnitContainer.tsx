@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import InteractiveRasterUnit from './InteractiveRasterUnit';
-import { TopicElementsType } from './InteractiveRasterRow';
+import { TopicIndexType } from '../types';
 import { TimeRasterWrapper } from '../plannerBase';
 import RowCaptions from './RowCaptions';
 import { EventType, SchoolYearType } from '../types';
@@ -12,7 +12,7 @@ type ClassInstanceType = {
   [classId: string]: {
     id: string;
     name: string;
-    topics: TopicElementsType[];
+    topics: TopicIndexType[];
   };
 };
 

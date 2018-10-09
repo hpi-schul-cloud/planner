@@ -3,17 +3,10 @@ import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
+import { TopicIndexType } from '../types';
 import ResizableRasterTopicElement from './ResizableRasterTopicElement';
 import { TOPIC_INSTANCE, TOPIC_TEMPLATE } from './constants';
 import TopicTooltip from './TopicTooltip';
-
-export type TopicElementsType = {
-  id: string;
-  text: string;
-  color: string;
-  startIndex: number;
-  endIndex: number;
-};
 
 type DragDropRasterTopicElementType = {
   connectDropTarget?: ConnectDropTarget;
@@ -22,12 +15,12 @@ type DragDropRasterTopicElementType = {
 };
 
 type PropsType = {
-  topicElements: TopicElementsType[];
+  topicElements: TopicIndexType[];
   rasterSize: number;
   rasterCount: number;
   rowId: string;
   classLevelId: string;
-  updateElements: (topicElements: TopicElementsType[]) => void;
+  updateElements: (topicElements: TopicIndexType[]) => void;
   onElementDidNotDrop: () => void;
   onElementDidDrop: () => void;
   softRelocateTopicElement: (
@@ -35,13 +28,13 @@ type PropsType = {
     elementIndex: number,
     insertStartIndex: number,
     width: number,
-    elementValues: Partial<TopicElementsType>
+    elementValues: Partial<TopicIndexType>
   ) => void;
   softInsertTopicElement: (
     rowId: string,
     insertStartIndex: number,
     width: number,
-    elementValues: Partial<TopicElementsType>
+    elementValues: Partial<TopicIndexType>
   ) => void;
 } & DragDropRasterTopicElementType;
 
@@ -131,7 +124,7 @@ const cardTarget = {
 }))
 class InteractiveRasterRow extends Component<PropsType> {
   generateAndCommitElementChanges(changes: {
-    [index: number]: Partial<TopicElementsType>;
+    [index: number]: Partial<TopicIndexType>;
   }) {
     let newTopicElements = [...this.props.topicElements];
     Object.keys(changes).forEach(key => {

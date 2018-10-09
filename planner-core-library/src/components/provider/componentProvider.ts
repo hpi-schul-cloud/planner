@@ -12,6 +12,7 @@ import BaseTextFieldTable from '../base/TextFieldTable';
 import BaseTextArea from '../base/TextArea';
 import BaseChip from '../base/Chip';
 import BaseSelectorInput from '../base/SelectorInput';
+import BaseTopicElement from '../base/TopicElement';
 
 type ComponentType<Props> = React.SFC<Props> | React.ComponentClass<Props>;
 
@@ -100,6 +101,13 @@ type SelectorInputPropsType = {
     }[]
   ) => void;
 };
+type TopicElementPropsType = {
+  width: number;
+  height: number;
+  text?: string;
+  color: string;
+  onClick?: () => void;
+};
 
 type ComponentMapType = Readonly<{
   expansionPanel: ComponentType<ExpansionPanelPropsType>;
@@ -115,6 +123,7 @@ type ComponentMapType = Readonly<{
   textArea: ComponentType<TextAreaPropsType>;
   chip: ComponentType<ChipPropsType>;
   selectorInput: ComponentType<SelectorInputPropsType>;
+  topicElement: ComponentType<TopicElementPropsType>;
 }>;
 
 class ComponentProvider {
@@ -131,7 +140,8 @@ class ComponentProvider {
     textFieldTable: BaseTextFieldTable,
     textArea: BaseTextArea,
     chip: BaseChip,
-    selectorInput: BaseSelectorInput
+    selectorInput: BaseSelectorInput,
+    topicElement: BaseTopicElement
   };
   customComponentMap: Partial<ComponentMapType> = {};
 
@@ -193,6 +203,10 @@ class ComponentProvider {
 
   get SelectorInput() {
     return this.getElement('selectorInput')!;
+  }
+
+  get TopicElement() {
+    return this.getElement('topicElement')!;
   }
 }
 

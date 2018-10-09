@@ -10,7 +10,7 @@ import {
 } from 'react-dnd';
 import RasterTopicElement, {
   PropsType as RasterTopicElementPropsType
-} from '../RasterTopicElement';
+} from '../../plannerBase/RasterTopicElement';
 
 const StyledDragContainer = styled.div`
   display: inline-block;
@@ -58,18 +58,21 @@ const collect: DragSourceCollector<DragDropRasterTopicElementType> = (
   isDragging: monitor.isDragging()
 });
 
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 type DragDropRasterTopicElementType = {
   connectDragSource?: ConnectDragSource;
   isDragging?: boolean;
 };
 
-export type PropsType = RasterTopicElementPropsType &
+export type PropsType = Omit<RasterTopicElementPropsType, 'size'> &
   DragDropRasterTopicElementType & {
     isTransparentWhileDragging?: boolean;
     type: string;
     rowId?: string;
     index?: number;
     classLevelId?: string;
+    size?: 'small' | 'medium' | 'large';
     onElementStartDrag?: () => void;
     onElementDidNotDrop: () => void;
   };

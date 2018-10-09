@@ -4,9 +4,8 @@ import map from 'lodash/map';
 import throttle from 'lodash/throttle';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import InteractiveRasterRow, {
-  TopicElementsType
-} from './InteractiveRasterRow';
+import InteractiveRasterRow from './InteractiveRasterRow';
+import { TopicIndexType } from '../types';
 import DraggableRasterElement from './dragAndDrop/DraggableRasterElement';
 import TrashDrop from './TrashDrop';
 import { TOPIC_TEMPLATE } from './constants';
@@ -20,7 +19,7 @@ type ClassInstanceType = {
   [classId: string]: {
     id: string;
     name: string;
-    topics: TopicElementsType[];
+    topics: TopicIndexType[];
   };
 };
 
@@ -48,7 +47,7 @@ interface StateType {
     [classId: string]: {
       id: string;
       name: string;
-      topics: TopicElementsType[];
+      topics: TopicIndexType[];
     };
   };
   isDragging: boolean;
@@ -136,7 +135,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
       elementIndex: number,
       insertStartIndex: number,
       width: number,
-      elementValues: Partial<TopicElementsType>
+      elementValues: Partial<TopicIndexType>
     ) => {
       const newTemporaryClassTopics = getClassTopicsAfterMove(
         insertStartIndex,
@@ -167,7 +166,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
       rowId: string,
       insertStartIndex: number,
       width: number,
-      elementValues: Partial<TopicElementsType>
+      elementValues: Partial<TopicIndexType>
     ) => {
       const newTemporaryClassTopics = getClassTopicsAfterInsertion(
         insertStartIndex,
@@ -201,7 +200,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
     });
   };
 
-  updateClassInstance = (classId: string, topics: TopicElementsType[]) => {
+  updateClassInstance = (classId: string, topics: TopicIndexType[]) => {
     const newClassInstances = {
       ...this.props.classInstances,
       [classId]: {
