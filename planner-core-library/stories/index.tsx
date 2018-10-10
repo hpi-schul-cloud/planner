@@ -488,6 +488,7 @@ storiesOf('MyClass/InteractiveRasterRow', module).add('with small size', () => {
       softInsertTopicElement={() => {}}
       onElementDidNotDrop={() => {}}
       onElementDidDrop={() => {}}
+      onEditInstance={action('onEditInstance')}
     />
   );
 });
@@ -501,6 +502,9 @@ storiesOf('MyClass/InteractiveRasterUnit', module).add('default', () => {
       updateClassInstances={classInstaces => console.log(classInstaces)}
       rasterCount={number('Raster Count', 30)}
       rasterSize={number('Raster Size', 20)}
+      onEditTemplate={action('onEditTemplate')}
+      onDeleteTemplate={action('onDeleteTemplate')}
+      onEditInstance={action('onEditInstance')}
     />
   );
 });
@@ -516,6 +520,9 @@ storiesOf('MyClass/RasterUnitContainer', module).add('default', () => {
       schoolYear={object('School Year', schoolYear)}
       eventData={[...holidaysData, ...eventsData]}
       onAddTemplateClick={action('onAddTemplateClick')}
+      onEditTemplate={action('onEditTemplate')}
+      onDeleteTemplate={action('onDeleteTemplate')}
+      onEditInstance={action('onEditInstance')}
       onUpdate={action('onUpdate')}
     />
   );
@@ -532,6 +539,9 @@ storiesOf('MyClass/ClassConfigurationView', module)
         schoolYear={object('School Year', schoolYear)}
         eventData={[...holidaysData, ...eventsData]}
         onAddTemplate={action('onAddTemplate')}
+        onEditTemplate={action('onEditTemplate')}
+        onDeleteTemplate={action('onDeleteTemplate')}
+        onEditInstance={action('onEditInstance')}
         onSaveClassInstances={action('onSaveClassInstances')}
       />
     );
@@ -546,6 +556,9 @@ storiesOf('MyClass/ClassConfigurationView', module)
         schoolYear={object('School Year', schoolYear)}
         eventData={[...holidaysData, ...eventsData]}
         onAddTemplate={action('onAddTemplate')}
+        onEditTemplate={action('onEditTemplate')}
+        onDeleteTemplate={action('onDeleteTemplate')}
+        onEditInstance={action('onEditInstance')}
         onSaveClassInstances={action('onSaveClassInstances')}
       />
     );

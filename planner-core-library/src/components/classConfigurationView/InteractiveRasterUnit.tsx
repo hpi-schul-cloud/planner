@@ -24,6 +24,9 @@ type ClassInstanceType = {
 };
 
 interface PropsType {
+  onEditTemplate: (templateId: string) => void;
+  onDeleteTemplate: (templateId: string) => void;
+  onEditInstance: (instanceId: string) => void;
   updateClassInstances: (classInstaces: ClassInstanceType) => void;
   rasterCount: number;
   rasterSize: number;
@@ -242,6 +245,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
                 softInsertTopicElement={this.softInsertTopicElement}
                 onElementDidNotDrop={this.resetDragState}
                 onElementDidDrop={this.commitCurrentDragState}
+                onEditInstance={this.props.onEditInstance}
               />
             ))}
           </RowContainer>
@@ -252,12 +256,10 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
               <TopicTooltip
                 key={topicTemplate.id}
                 isDisabled={this.state.isDragging}
-                onDeleteClick={() => {
-                  console.log('delete ' + topicTemplate.id);
-                }}
-                onEditClick={() => {
-                  console.log('edit ' + topicTemplate.id);
-                }}
+                onDeleteClick={() =>
+                  this.props.onDeleteTemplate(topicTemplate.id)
+                }
+                onEditClick={() => this.props.onEditTemplate(topicTemplate.id)}
               >
                 <span>
                   <DraggableRasterElement

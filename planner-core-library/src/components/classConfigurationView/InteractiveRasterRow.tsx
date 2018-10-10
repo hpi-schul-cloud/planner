@@ -21,6 +21,7 @@ type PropsType = {
   rowId: string;
   classLevelId: string;
   updateElements: (topicElements: TopicIndexType[]) => void;
+  onEditInstance: (instanceId: string) => void;
   onElementDidNotDrop: () => void;
   onElementDidDrop: () => void;
   softRelocateTopicElement: (
@@ -277,9 +278,7 @@ class InteractiveRasterRow extends Component<PropsType> {
         <TopicTooltip
           key={id}
           isDisabled={this.props.isOver}
-          onEditClick={() => {
-            console.log('edit ' + id);
-          }}
+          onEditClick={() => this.props.onEditInstance(id)}
         >
           <ResizableRasterTopicElement
             key={id}

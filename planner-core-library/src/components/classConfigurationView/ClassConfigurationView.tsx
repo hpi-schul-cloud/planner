@@ -18,6 +18,9 @@ interface PropsType {
   schoolYear: SchoolYearType;
   eventData: EventType;
   onAddTemplate: (selectedSubjectId: string, classLevelId: string) => void;
+  onEditTemplate: (templateId: string) => void;
+  onDeleteTemplate: (templateId: string) => void;
+  onEditInstance: (instanceId: string) => void;
   onSaveClassInstances: (instances: AllClassInstancesType) => void;
 }
 
@@ -182,6 +185,9 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
                 onAddTemplateClick={(classLevelId: string) =>
                   this.props.onAddTemplate(selectedSubjectId, classLevelId)
                 }
+                onEditTemplate={this.props.onEditTemplate}
+                onDeleteTemplate={this.props.onDeleteTemplate}
+                onEditInstance={this.props.onEditInstance}
                 onUpdate={this.updateLocalClassTopicsForYear}
               />
             </RasterUnitDiv>

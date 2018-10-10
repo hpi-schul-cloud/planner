@@ -32,6 +32,9 @@ interface PropsType {
   schoolYear: SchoolYearType;
   eventData: EventType;
   onAddTemplateClick: (classLevelId: string) => void;
+  onEditTemplate: (templateId: string) => void;
+  onDeleteTemplate: (templateId: string) => void;
+  onEditInstance: (instanceId: string) => void;
   onUpdate: (classLevelId: string, classes: ClassInstanceType) => void;
 }
 
@@ -118,6 +121,9 @@ class RasterUnitContainer extends Component<PropsType> {
               rasterSize={this.props.rasterSize}
               wrapRasterRows={this.wrapRasterRowsWithGrid}
               classLevelId={this.props.classLevelId}
+              onEditTemplate={this.props.onEditTemplate}
+              onDeleteTemplate={this.props.onDeleteTemplate}
+              onEditInstance={this.props.onEditInstance}
             />
             <ComponentProvider.Button
               caption="+ Thema"
