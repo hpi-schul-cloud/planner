@@ -1,7 +1,6 @@
 import ExpansionPanel from './ExpansionPanel';
 import Select from './Select';
 import Tabs from './Tabs';
-import Headline from './Headline';
 import Label from './Label';
 import Button from './Button';
 import IconButton from './IconButton';
@@ -17,7 +16,6 @@ export {
   ExpansionPanel,
   Select,
   Tabs,
-  Headline,
   Label,
   Button,
   IconButton,
