@@ -36,6 +36,13 @@ const StyledNotifications = styled.div`
 const StyledLabelContainer = styled.div`
   margin: 15px 0px 20px;
 `;
+const StyledContainer = styled.div`
+  > * {
+    box-sizing: border-box;
+    line-height: normal;
+    outline: none;
+  }
+`;
 
 class CalendarView extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
@@ -86,7 +93,7 @@ class CalendarView extends Component<PropsType, StateType> {
     const calendar = this.buildCalendar(this.state.selectedCalendarType);
 
     return (
-      <>
+      <StyledContainer>
         <StyledNotifications />
         <ComponentProvider.Tabs
           selected={this.state.selectedCalendarType}
@@ -106,7 +113,7 @@ class CalendarView extends Component<PropsType, StateType> {
           />
         </StyledLabelContainer>
         {calendar}
-      </>
+      </StyledContainer>
     );
   }
 

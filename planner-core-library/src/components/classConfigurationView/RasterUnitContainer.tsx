@@ -40,6 +40,9 @@ interface PropsType {
 
 const FlexContainer = styled.div`
   display: flex;
+  > * {
+    box-sizing: border-box;
+  }
 `;
 const FlexChild = styled.div`
   min-width: 0px;

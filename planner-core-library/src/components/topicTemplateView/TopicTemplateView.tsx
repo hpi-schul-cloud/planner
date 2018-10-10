@@ -19,6 +19,14 @@ const InlineTextFieldDiv = styled.div`
   margin-right: 10px;
 `;
 
+const StyledContainer = styled.div`
+  > * {
+    box-sizing: border-box;
+    line-height: normal;
+    outline: none;
+  }
+`;
+
 type ItemType = {
   typeValue: string;
   timeValue: string;
@@ -126,7 +134,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
     }));
 
     return (
-      <div>
+      <StyledContainer>
         <FormElementDiv>
           <InlineTextFieldDiv>
             <ComponentProvider.Select
@@ -248,7 +256,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
             />
           </>
         )}
-      </div>
+      </StyledContainer>
     );
   }
 

@@ -43,6 +43,13 @@ const FlexContainer = styled.div`
   justify-content: space-between;
   align-items: baseline;
 `;
+const StyledContainer = styled.div`
+  > * {
+    box-sizing: border-box;
+    line-height: normal;
+    outline: none;
+  }
+`;
 
 const RASTER_SIZE = 15;
 
@@ -221,7 +228,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     const rasterUnits = this.generateRasterUnits(instancesAndTemplates);
 
     return (
-      <div>
+      <StyledContainer>
         <FlexContainer>
           <ComponentProvider.Select
             initialValue={this.state.selectedSchoolYearId}
@@ -246,7 +253,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
           selected={this.state.selectedSubjectId}
         />
         {rasterUnits}
-      </div>
+      </StyledContainer>
     );
   }
 }

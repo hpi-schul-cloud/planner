@@ -21,6 +21,10 @@ type PropsType = {
 
 const StyledFlexContainer = styled.div`
   display: flex;
+  > * {
+    box-sizing: border-box;
+    line-height: normal;
+  }
 `;
 const StyledRowCaptions = styled(RowCaptions)`
   padding-top: 47px;

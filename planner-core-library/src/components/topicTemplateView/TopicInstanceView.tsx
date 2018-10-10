@@ -19,6 +19,14 @@ const InlineTextFieldDiv = styled.div`
   margin-right: 10px;
 `;
 
+const StyledContainer = styled.div`
+  > * {
+    box-sizing: border-box;
+    line-height: normal;
+    outline: none;
+  }
+`;
+
 type ItemType = {
   typeValue: string;
   timeValue: string;
@@ -123,7 +131,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
     }));
 
     return (
-      <div>
+      <StyledContainer>
         <FormElementDiv>
           <InlineTextFieldDiv>
             <ComponentProvider.Text
@@ -223,7 +231,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
           caption="Speichern"
           color="primary"
         />
-      </div>
+      </StyledContainer>
     );
   }
 }
