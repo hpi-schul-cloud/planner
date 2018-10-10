@@ -87,7 +87,6 @@ class CalendarView extends Component<PropsType, StateType> {
 
     return (
       <>
-        <ComponentProvider.Headline caption="Übersicht" />
         <StyledNotifications />
         <ComponentProvider.Tabs
           selected={this.state.selectedCalendarType}

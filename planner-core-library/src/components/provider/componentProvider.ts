@@ -2,7 +2,6 @@ import React from 'react';
 import BaseExpansionPanel from '../base/ExpansionPanel';
 import BaseSelect from '../base/Select';
 import BaseTabs from '../base/Tabs';
-import BaseHeadline from '../base/Headline';
 import BaseLabel from '../base/Label';
 import BaseButton from '../base/Button';
 import BaseIconButton from '../base/IconButton';
@@ -38,9 +37,6 @@ type TabsPropsType = {
     color?: string;
   }[];
   onChange: (id: string) => void;
-};
-type HeadlinePropsType = {
-  caption: string;
 };
 type LabelPropsType = {
   caption: string;
@@ -113,7 +109,6 @@ type ComponentMapType = Readonly<{
   expansionPanel: ComponentType<ExpansionPanelPropsType>;
   select: ComponentType<SelectPropsType>;
   tabs: ComponentType<TabsPropsType>;
-  headline: ComponentType<HeadlinePropsType>;
   label: ComponentType<LabelPropsType>;
   button: ComponentType<ButtonPropsType>;
   iconButton: ComponentType<IconButtonPropsType>;
@@ -131,7 +126,6 @@ class ComponentProvider {
     expansionPanel: BaseExpansionPanel,
     select: BaseSelect,
     tabs: BaseTabs,
-    headline: BaseHeadline,
     label: BaseLabel,
     button: BaseButton,
     iconButton: BaseIconButton,
@@ -163,10 +157,6 @@ class ComponentProvider {
 
   get Tabs() {
     return this.getElement('tabs')!;
-  }
-
-  get Headline() {
-    return this.getElement('headline')!;
   }
 
   get Label() {

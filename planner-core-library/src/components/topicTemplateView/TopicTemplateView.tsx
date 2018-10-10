@@ -127,11 +127,6 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
 
     return (
       <div>
-        <ComponentProvider.Headline
-          caption={`Themenvorlage ${
-            this.props.mode === 'NEW' ? 'erstellen' : 'bearbeiten'
-          }`}
-        />
         <FormElementDiv>
           <InlineTextFieldDiv>
             <ComponentProvider.Select

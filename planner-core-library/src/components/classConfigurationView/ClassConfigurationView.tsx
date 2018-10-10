@@ -216,7 +216,6 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
 
     return (
       <div>
-        <ComponentProvider.Headline caption="Meine Klassen" />
         <FlexContainer>
           <ComponentProvider.Select
             initialValue={this.state.selectedSchoolYearId}
