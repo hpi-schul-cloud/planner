@@ -54,6 +54,12 @@ const StyledTooltip = styled.div`
   }
 `;
 
+const StyledTooltipContainer = styled.span`
+  > * {
+    outline: none;
+  }
+`;
+
 class TopicTooltip extends React.Component<PropsType> {
   private tippyRef: React.RefObject<Object> | null = null;
   componentDidUpdate(prevProps: PropsType) {
@@ -80,7 +86,7 @@ class TopicTooltip extends React.Component<PropsType> {
     const { children, onEditClick, onDeleteClick } = this.props;
 
     return (
-      <span>
+      <StyledTooltipContainer>
         <Tippy
           onCreate={(tip: React.RefObject<Object>) => {
             this.tippyRef = tip;
@@ -110,7 +116,7 @@ class TopicTooltip extends React.Component<PropsType> {
         >
           {children}
         </Tippy>
-      </span>
+      </StyledTooltipContainer>
     );
   }
 }
