@@ -8,6 +8,9 @@ declare type ClassInstanceType = {
     };
 };
 interface PropsType {
+    onEditTemplate: (templateId: string) => void;
+    onDeleteTemplate: (templateId: string) => void;
+    onEditInstance: (instanceId: string) => void;
     updateClassInstances: (classInstaces: ClassInstanceType) => void;
     rasterCount: number;
     rasterSize: number;

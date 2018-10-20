@@ -13,6 +13,7 @@ declare type PropsType = {
     rowId: string;
     classLevelId: string;
     updateElements: (topicElements: TopicIndexType[]) => void;
+    onEditInstance: (instanceId: string) => void;
     onElementDidNotDrop: () => void;
     onElementDidDrop: () => void;
     softRelocateTopicElement: (rowId: string, elementIndex: number, insertStartIndex: number, width: number, elementValues: Partial<TopicIndexType>) => void;

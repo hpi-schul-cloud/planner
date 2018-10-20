@@ -23,9 +23,6 @@ declare type TabsPropsType = {
     }[];
     onChange: (id: string) => void;
 };
-declare type HeadlinePropsType = {
-    caption: string;
-};
 declare type LabelPropsType = {
     caption: string;
     type?: 'small' | 'medium' | 'large';
@@ -106,7 +103,6 @@ declare type ComponentMapType = Readonly<{
     expansionPanel: ComponentType<ExpansionPanelPropsType>;
     select: ComponentType<SelectPropsType>;
     tabs: ComponentType<TabsPropsType>;
-    headline: ComponentType<HeadlinePropsType>;
     label: ComponentType<LabelPropsType>;
     button: ComponentType<ButtonPropsType>;
     iconButton: ComponentType<IconButtonPropsType>;
@@ -126,7 +122,6 @@ declare class ComponentProvider {
         expansionPanel: ComponentType<ExpansionPanelPropsType>;
         select: ComponentType<SelectPropsType>;
         tabs: ComponentType<TabsPropsType>;
-        headline: ComponentType<HeadlinePropsType>;
         label: ComponentType<LabelPropsType>;
         button: ComponentType<ButtonPropsType>;
         iconButton: ComponentType<IconButtonPropsType>;
@@ -141,7 +136,6 @@ declare class ComponentProvider {
     readonly ExpansionPanel: ComponentType<ExpansionPanelPropsType>;
     readonly Select: ComponentType<SelectPropsType>;
     readonly Tabs: ComponentType<TabsPropsType>;
-    readonly Headline: ComponentType<HeadlinePropsType>;
     readonly Label: ComponentType<LabelPropsType>;
     readonly Button: ComponentType<ButtonPropsType>;
     readonly IconButton: ComponentType<IconButtonPropsType>;

@@ -23,6 +23,9 @@ interface PropsType {
     schoolYear: SchoolYearType;
     eventData: EventType;
     onAddTemplateClick: (classLevelId: string) => void;
+    onEditTemplate: (templateId: string) => void;
+    onDeleteTemplate: (templateId: string) => void;
+    onEditInstance: (instanceId: string) => void;
     onUpdate: (classLevelId: string, classes: ClassInstanceType) => void;
 }
 declare class RasterUnitContainer extends Component<PropsType> {
