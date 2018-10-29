@@ -4,7 +4,7 @@ import { TopicIndexType } from '../types';
 // Includes all school years, with their respective subjects
 // and their respective class levels and their actual classes
 export type AllClassInstancesType = {
-  [schoolYear: string]: {
+  [schoolYearId: string]: {
     schoolYearId: string;
     schoolYearName: string;
     subjects: {

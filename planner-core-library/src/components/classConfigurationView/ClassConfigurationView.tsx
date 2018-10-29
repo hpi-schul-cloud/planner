@@ -15,7 +15,9 @@ interface PropsType {
   allClassTopics: AllClassInstancesType;
   allTopicTemplates: AllTopicTemplatesType;
   initialSchoolYearId?: string;
-  schoolYear: SchoolYearType;
+  schoolYearData: {
+    [schoolYearId: string]: SchoolYearType;
+  };
   eventData: EventType;
   onAddTemplate: (selectedSubjectId: string, classLevelId: string) => void;
   onEditTemplate: (templateId: string) => void;
@@ -166,9 +168,19 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     const classLevelArray = Object.values(instancesAndTemplates.instances);
     const { templates } = instancesAndTemplates;
     const { selectedSchoolYearId, selectedSubjectId } = this.state;
+    const selectedSchoolYear = this.props.schoolYearData[selectedSchoolYearId];
+    // Determine number of weeks of school year
     const rasterCount = getWeekDifference(
-      new Date(this.props.schoolYear.utcStartDate),
-      new Date(this.props.schoolYear.utcEndDate)
+      new Date(selectedSchoolYear.utcStartDate),
+      new Date(selectedSchoolYear.utcEndDate)
+    );
+    // Filter all events that are not in the school year
+    const relevantEventData = this.props.eventData.filter(
+      event =>
+        (event.utcStartDate >= selectedSchoolYear.utcStartDate &&
+          event.utcStartDate <= selectedSchoolYear.utcEndDate) ||
+        (event.utcEndDate >= selectedSchoolYear.utcStartDate &&
+          event.utcEndDate <= selectedSchoolYear.utcEndDate)
     );
 
     return classLevelArray.length > 0 ? (
@@ -187,8 +199,8 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
                 topicTemplates={templates[classLevel.classLevelId]}
                 classLevelId={classLevel.classLevelId}
                 classInstances={classLevel.classes}
-                schoolYear={this.props.schoolYear}
-                eventData={this.props.eventData}
+                schoolYear={selectedSchoolYear}
+                eventData={relevantEventData}
                 onAddTemplateClick={(classLevelId: string) =>
                   this.props.onAddTemplate(selectedSubjectId, classLevelId)
                 }

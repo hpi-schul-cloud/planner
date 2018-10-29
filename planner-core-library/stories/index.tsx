@@ -528,6 +528,13 @@ storiesOf('MyClass/RasterUnitContainer', module).add('default', () => {
   );
 });
 
+const schoolYearData = {
+  '17/18': {
+    utcStartDate: 1503900000000,
+    utcEndDate: 1530079200000
+  },
+  '18/19': schoolYear
+};
 storiesOf('MyClass/ClassConfigurationView', module)
   .add('default', () => {
     resetCustomComponents();
@@ -536,7 +543,7 @@ storiesOf('MyClass/ClassConfigurationView', module)
       <ClassConfigurationView
         allClassTopics={getAllClassInstances()}
         allTopicTemplates={getAllTopicTemplates()}
-        schoolYear={object('School Year', schoolYear)}
+        schoolYearData={object('School Year', schoolYearData)}
         eventData={[...holidaysData, ...eventsData]}
         onAddTemplate={action('onAddTemplate')}
         onEditTemplate={action('onEditTemplate')}
@@ -553,7 +560,7 @@ storiesOf('MyClass/ClassConfigurationView', module)
       <ClassConfigurationView
         allClassTopics={getAllClassInstances()}
         allTopicTemplates={getAllTopicTemplates()}
-        schoolYear={object('School Year', schoolYear)}
+        schoolYearData={object('School Year', schoolYearData)}
         eventData={[...holidaysData, ...eventsData]}
         onAddTemplate={action('onAddTemplate')}
         onEditTemplate={action('onEditTemplate')}

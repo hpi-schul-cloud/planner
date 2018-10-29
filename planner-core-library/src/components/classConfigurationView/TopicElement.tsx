@@ -10,16 +10,14 @@ type ContainerType = {
   isInteractive: boolean;
 };
 
-const ElementContainer = styled.div`
+const ElementContainer = styled.div<ContainerType>`
   box-sizing: border-box;
-  width: ${({ width }: ContainerType) =>
-    width ? `${width}px` : 'fit-content'};
-  background: ${({ color }: ContainerType) => color};
+  width: ${({ width }) => (width ? `${width}px` : 'fit-content')};
+  background: ${({ color }) => color};
   border: 1px solid #979797;
   border-radius: 5px;
   text-align: center;
-  cursor: ${({ isInteractive }: ContainerType) =>
-    isInteractive ? 'pointer' : 'inherit'};
+  cursor: ${({ isInteractive }) => (isInteractive ? 'pointer' : 'inherit')};
   display: inline-block;
   * {
     box-sizing: border-box;

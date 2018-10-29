@@ -79,7 +79,6 @@ class TopicTooltip extends React.Component<PropsType> {
   componentWillUnmount() {
     // @ts-ignore
     this.tippyRef.destroy();
-    // debugger;
   }
 
   render() {
