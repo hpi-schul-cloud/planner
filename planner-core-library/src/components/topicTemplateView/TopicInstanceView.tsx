@@ -49,9 +49,8 @@ type FormFieldType = keyof FormValuesType;
 
 export interface PropsType {
   onSave: (values: FormValuesType) => void;
-  onDelete: (id: string) => void;
+  onDelete: () => void;
   initialValues: Partial<FormValuesType>;
-  id: string;
 }
 
 interface StateType {
@@ -85,7 +84,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
   }
 
   onDeleteButtonClick = () => {
-    this.props.onDelete(this.props.id);
+    this.props.onDelete();
   };
 
   onSaveButtonClick = () => {

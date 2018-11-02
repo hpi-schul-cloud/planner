@@ -389,7 +389,6 @@ storiesOf('EditInstace/TopicInstanceView', module)
           subject: 'Biologie',
           classLevel: 'Klasse 8a'
         })}
-        id={text('ID', '1')}
       />
     );
   })
@@ -404,7 +403,6 @@ storiesOf('EditInstace/TopicInstanceView', module)
           subject: 'Biologie',
           classLevel: 'Klasse 8a'
         })}
-        id={text('ID', '1')}
       />
     );
   });

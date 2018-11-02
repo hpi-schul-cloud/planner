@@ -33,7 +33,7 @@ interface PropsType {
   topicTemplates: TopicType[];
   classInstances: ClassInstanceType;
   classLevelId: string;
-  wrapRasterRows?: (
+  wrapRasterRows: (
     children: JSX.Element | JSX.Element[]
   ) => JSX.Element | JSX.Element[];
 }
@@ -228,7 +228,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
       : this.props.classInstances;
     return (
       <StyledContainer>
-        {wrapRasterRows!(
+        {wrapRasterRows(
           <RowContainer>
             {map(classInstances, classInstance => (
               <InteractiveRasterRow

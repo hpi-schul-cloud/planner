@@ -73,6 +73,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     )[0];
 
     this.state = {
+      // If no initial school year id is provided, we take the first available one
       selectedSchoolYearId:
         props.initialSchoolYearId || defaultSelectedSchoolYearId,
       selectedSubjectId: defaultSelectedSubjectId,
