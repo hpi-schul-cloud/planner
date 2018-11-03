@@ -21,9 +21,8 @@ declare type FormValuesType = {
 };
 export interface PropsType {
     onSave: (values: FormValuesType) => void;
-    onDelete: (id: string) => void;
+    onDelete: () => void;
     initialValues: Partial<FormValuesType>;
-    id: string;
 }
 interface StateType {
     currentValues: FormValuesType;

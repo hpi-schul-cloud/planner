@@ -46,15 +46,22 @@ type FormValuesType = {
 };
 
 type FormFieldType = keyof FormValuesType;
-
-export interface PropsType {
-  onCreate: (values: FormValuesType) => void;
-  onSave: (values: FormValuesType) => void;
-  onDelete: (id: string) => void;
-  mode: 'NEW' | 'EDIT';
-  initialValues?: FormValuesType;
-  id: string;
-}
+// Property interfaces differ between EDIT and NEW mode
+export type PropsType =
+  | {
+      mode: 'EDIT';
+      initialValues: FormValuesType;
+      onCreate?: (values: FormValuesType) => void;
+      onSave: (values: FormValuesType) => void;
+      onDelete: () => void;
+    }
+  | {
+      mode: 'NEW';
+      initialValues?: FormValuesType;
+      onCreate: (values: FormValuesType) => void;
+      onSave?: (values: FormValuesType) => void;
+      onDelete?: () => void;
+    };
 
 interface StateType {
   currentValues: FormValuesType;
@@ -84,15 +91,16 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
   }
 
   onCreateButtonClick = () => {
-    this.props.onCreate(this.state.currentValues);
+    if (this.props.mode === 'NEW')
+      this.props.onCreate(this.state.currentValues);
   };
 
   onSaveButtonClick = () => {
-    this.props.onSave(this.state.currentValues);
+    if (this.props.mode === 'EDIT') this.props.onSave(this.state.currentValues);
   };
 
   onDeleteButtonClick = () => {
-    this.props.onDelete(this.props.id);
+    if (this.props.mode === 'EDIT') this.props.onDelete();
   };
 
   onFormChange = (

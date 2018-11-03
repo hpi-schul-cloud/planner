@@ -7,6 +7,7 @@ interface PropsType {
   text: string;
 }
 
+// rgba(0, 0, 0, 0.54)
 const TextField: React.SFC<PropsType> = ({ label = '', text }) => {
   const labelComponent = label ? <Label caption={label} /> : null;
   return (

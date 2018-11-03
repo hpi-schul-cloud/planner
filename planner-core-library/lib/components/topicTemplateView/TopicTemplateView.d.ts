@@ -19,14 +19,19 @@ declare type FormValuesType = {
         text: string;
     }[];
 };
-export interface PropsType {
-    onCreate: (values: FormValuesType) => void;
-    onSave: (values: FormValuesType) => void;
-    onDelete: (id: string) => void;
-    mode: 'NEW' | 'EDIT';
+export declare type PropsType = {
+    mode: 'EDIT';
     initialValues?: FormValuesType;
-    id: string;
-}
+    onCreate?: (values: FormValuesType) => void;
+    onSave: (values: FormValuesType) => void;
+    onDelete: () => void;
+} | {
+    mode: 'NEW';
+    initialValues?: FormValuesType;
+    onCreate: (values: FormValuesType) => void;
+    onSave?: (values: FormValuesType) => void;
+    onDelete?: () => void;
+};
 interface StateType {
     currentValues: FormValuesType;
 }

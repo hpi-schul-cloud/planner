@@ -349,32 +349,22 @@ storiesOf('CalendarView/CalendarView', module)
     );
   });
 
+const props = {
+  onCreate: action('onCreate'),
+  onSave: action('onSave'),
+  onDelete: action('onDelete'),
+  mode: selectV2('Mode', { new: 'NEW', edit: 'EDIT' }, 'NEW') as 'NEW'
+};
 storiesOf('CreateTemplate/TopicTemplateView', module)
   .add('default', () => {
     resetCustomComponents();
 
-    return (
-      <TopicTemplateView
-        onCreate={action('onCreate')}
-        onSave={action('onSave')}
-        onDelete={action('onDelete')}
-        mode={selectV2('Mode', { new: 'NEW', edit: 'EDIT' }, 'NEW')}
-        id={text('ID', '1')}
-      />
-    );
+    return <TopicTemplateView {...props} />;
   })
   .add('with Material Design', () => {
     setupMaterialComponents();
 
-    return (
-      <TopicTemplateView
-        onCreate={action('onCreate')}
-        onSave={action('onSave')}
-        onDelete={action('onDelete')}
-        mode={selectV2('Mode', { new: 'NEW', edit: 'EDIT' }, 'NEW')}
-        id={text('ID', '1')}
-      />
-    );
+    return <TopicTemplateView {...props} />;
   });
 
 storiesOf('EditInstace/TopicInstanceView', module)
