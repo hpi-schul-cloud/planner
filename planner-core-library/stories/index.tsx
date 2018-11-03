@@ -19,12 +19,11 @@ import TwoWeekCalendar from '../src/components/calendarView/TwoWeekCalendar';
 import { action } from '@storybook/addon-actions';
 import {
   withKnobs,
-  selectV2,
+  select,
   text,
   color,
   object,
-  number,
-  select
+  number
 } from '@storybook/addon-knobs';
 import {
   getClassInstances,
@@ -353,7 +352,7 @@ const props = {
   onCreate: action('onCreate'),
   onSave: action('onSave'),
   onDelete: action('onDelete'),
-  mode: selectV2('Mode', { new: 'NEW', edit: 'EDIT' }, 'NEW') as 'NEW'
+  mode: select('Mode', { new: 'NEW', edit: 'EDIT' }, 'NEW') as 'NEW'
 };
 storiesOf('CreateTemplate/TopicTemplateView', module)
   .add('default', () => {
