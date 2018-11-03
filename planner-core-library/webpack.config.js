@@ -33,5 +33,10 @@ module.exports = {
       }
     ]
   },
-  plugins: [new CheckerPlugin(), new BundleAnalyzerPlugin()]
+  plugins: [new CheckerPlugin(), new BundleAnalyzerPlugin()],
+  externals: {
+    // Use external version of React
+    react: 'React',
+    'react-dom': 'ReactDOM'
+  }
 };

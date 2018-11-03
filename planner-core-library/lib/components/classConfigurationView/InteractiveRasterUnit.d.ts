@@ -17,7 +17,7 @@ interface PropsType {
     topicTemplates: TopicType[];
     classInstances: ClassInstanceType;
     classLevelId: string;
-    wrapRasterRows?: (children: JSX.Element | JSX.Element[]) => JSX.Element | JSX.Element[];
+    wrapRasterRows: (children: JSX.Element | JSX.Element[]) => JSX.Element | JSX.Element[];
 }
 interface TopicType {
     id: string;

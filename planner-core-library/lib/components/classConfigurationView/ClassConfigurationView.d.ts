@@ -5,7 +5,9 @@ interface PropsType {
     allClassTopics: AllClassInstancesType;
     allTopicTemplates: AllTopicTemplatesType;
     initialSchoolYearId?: string;
-    schoolYear: SchoolYearType;
+    schoolYearData: {
+        [schoolYearId: string]: SchoolYearType;
+    };
     eventData: EventType;
     onAddTemplate: (selectedSubjectId: string, classLevelId: string) => void;
     onEditTemplate: (templateId: string) => void;
