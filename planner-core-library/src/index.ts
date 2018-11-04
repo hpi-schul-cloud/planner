@@ -1,11 +1,11 @@
-import { ClassConfigurationView } from './components/classConfigurationView';
 import {
+  ClassConfigurationView,
+  CalendarView,
   TopicTemplateView,
   TopicInstanceView
-} from './components/topicTemplateView';
+} from './components/views';
 import { setupCustomStyles } from './components/provider/generalStylesProvider';
 import { setupComponentMap } from './components/provider/componentProvider';
-import { CalendarView } from './components/calendarView';
 
 export {
   ClassConfigurationView,

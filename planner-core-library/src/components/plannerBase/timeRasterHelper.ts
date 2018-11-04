@@ -1,6 +1,6 @@
 import { MONTHS_MAP } from '../constants';
 import { EventType } from '../types';
-import { getWeekDifference } from '../calendarView/timeHelper';
+import { getWeekDifference } from '../views/calendar/timeHelper';
 
 const DAY = 1000 * 60 * 60 * 24;
 const WEEK = 1000 * 60 * 60 * 24 * 7;
