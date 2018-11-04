@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 interface PropsType {
-    label?: string;
-    text: string;
+    label?: ReactNode;
+    text: ReactNode;
 }
 declare const TextField: React.SFC<PropsType>;
 export default TextField;

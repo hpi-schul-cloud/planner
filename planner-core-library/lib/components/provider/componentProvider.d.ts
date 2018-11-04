@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 declare type ComponentType<Props> = React.SFC<Props> | React.ComponentClass<Props>;
 declare type ExpansionPanelPropsType = {
     className?: string;
@@ -24,7 +24,7 @@ declare type TabsPropsType = {
     onChange: (id: string) => void;
 };
 declare type LabelPropsType = {
-    caption: string;
+    caption: ReactNode;
     type?: 'small' | 'medium' | 'large';
     className?: string;
 };
@@ -42,8 +42,8 @@ declare type IconButtonPropsType = {
     onClick: () => void;
 };
 declare type TextPropsType = {
-    label?: string;
-    text: string;
+    label?: ReactNode;
+    text: ReactNode;
 };
 declare type TextFieldPropsType = {
     label?: string;

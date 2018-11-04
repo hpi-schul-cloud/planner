@@ -1,4 +1,5 @@
 import { ClassConfigurationView } from './classConfiguration';
-import { TopicTemplateView, TopicInstanceView } from './topicTemplate';
+import TopicTemplateView from './topicTemplate';
+import TopicInstanceView from './topicInstance';
 import { CalendarView } from './calendar';
 export { ClassConfigurationView, CalendarView, TopicTemplateView, TopicInstanceView };

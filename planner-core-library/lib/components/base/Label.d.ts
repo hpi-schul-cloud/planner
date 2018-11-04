@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 interface PropsType {
-    caption: string;
+    caption: ReactNode;
     type?: 'small' | 'medium' | 'large';
     className?: string;
 }

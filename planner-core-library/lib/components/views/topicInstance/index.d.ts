@@ -8,6 +8,10 @@ declare type FormValuesType = {
     subject: string;
     classLevel: string;
     name: string;
+    parentTemplate: {
+        id: string;
+        name: string;
+    };
     numberOfWeeks: string;
     unitsPerPeek: string;
     content: string;
@@ -19,23 +23,18 @@ declare type FormValuesType = {
         text: string;
     }[];
 };
-export declare type PropsType = {
-    mode: 'EDIT';
-    initialValues: FormValuesType;
-    onCreate?: (values: FormValuesType) => void;
-    onSave: (values: FormValuesType) => void;
+declare type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+declare type CurrentFormStateType = Omit<FormValuesType, 'parentTemplate'>;
+export interface PropsType {
+    onSave: (values: CurrentFormStateType) => void;
     onDelete: () => void;
-} | {
-    mode: 'NEW';
-    initialValues?: FormValuesType;
-    onCreate: (values: FormValuesType) => void;
-    onSave?: (values: FormValuesType) => void;
-    onDelete?: () => void;
-};
-interface StateType {
-    currentValues: FormValuesType;
+    onTemplateClick: (id: string) => void;
+    initialValues: Partial<FormValuesType>;
 }
-export default class TopicTemplateView extends Component<PropsType, StateType> {
+interface StateType {
+    currentValues: CurrentFormStateType;
+}
+export default class TopicInstanceView extends Component<PropsType, StateType> {
     state: {
         currentValues: {
             subject: string;
@@ -44,27 +43,27 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
             numberOfWeeks: string;
             unitsPerPeek: string;
             content: string;
-            subjectUnits: never[];
-            examinations: never[];
-            competences: never[];
+            subjectUnits: string[];
+            examinations: ItemType[];
+            competences: {
+                id: string;
+                level: string;
+                text: string;
+            }[];
         };
     };
     constructor(props: PropsType);
-    onCreateButtonClick: () => void;
-    onSaveButtonClick: () => void;
     onDeleteButtonClick: () => void;
+    onSaveButtonClick: () => void;
     onFormChange: (value: string | string[] | ItemType[] | {
         id: string;
         level: string;
         text: string;
-    }[], key: "name" | "subject" | "classLevel" | "numberOfWeeks" | "unitsPerPeek" | "content" | "subjectUnits" | "examinations" | "competences") => void;
+    }[], key: "name" | "subject" | "classLevel" | "numberOfWeeks" | "unitsPerPeek" | "content" | "subjectUnits" | "examinations" | "competences" | "parentTemplate") => void;
     getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerPeek: string) => string[];
     render(): JSX.Element;
     static defaultProps: {
-        onCreate: () => void;
-        onSave: () => void;
-        onDelete: () => void;
-        mode: string;
+        onTemplateClick: () => void;
     };
 }
 export {};
