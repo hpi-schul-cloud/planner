@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Label from './Label';
 import styled from 'styled-components';
 
@@ -15,8 +15,8 @@ const StyledTextFieldContainer = styled.div`
 `;
 
 interface PropsType {
-  label?: string;
-  text: string;
+  label?: ReactNode;
+  text: ReactNode;
 }
 
 const TextField: React.SFC<PropsType> = ({ label = '', text }) => {

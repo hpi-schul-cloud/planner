@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Typography from '@material-ui/core/Typography';
 
 interface PropsType {
-  caption: string;
+  caption: ReactNode;
   type?: 'small' | 'medium' | 'large';
   className?: string;
 }

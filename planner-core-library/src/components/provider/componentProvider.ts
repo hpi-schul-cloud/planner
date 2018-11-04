@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import BaseExpansionPanel from '../base/ExpansionPanel';
 import BaseSelect from '../base/Select';
 import BaseTabs from '../base/Tabs';
@@ -39,7 +39,7 @@ type TabsPropsType = {
   onChange: (id: string) => void;
 };
 type LabelPropsType = {
-  caption: string;
+  caption: ReactNode;
   type?: 'small' | 'medium' | 'large';
   className?: string;
 };
@@ -57,8 +57,8 @@ type IconButtonPropsType = {
   onClick: () => void;
 };
 type TextPropsType = {
-  label?: string;
-  text: string;
+  label?: ReactNode;
+  text: ReactNode;
 };
 type TextFieldPropsType = {
   label?: string;

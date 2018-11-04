@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 const StyledLabel = styled.div`
@@ -10,7 +10,7 @@ const StyledLabel = styled.div`
 `;
 
 interface PropsType {
-  caption: string;
+  caption: ReactNode;
   type?: 'small' | 'medium' | 'large';
   className?: string;
 }
