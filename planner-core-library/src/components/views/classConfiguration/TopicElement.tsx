@@ -29,20 +29,20 @@ type TextContainerProps = {
   styles: GeneralStylesType;
   size: 'small' | 'medium' | 'large';
 };
-const TextContainer = styled.div`
+const TextContainer = styled.div<TextContainerProps>`
   user-select: none;
   pointer-events: none;
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: ${({ styles }: TextContainerProps) => styles['font-family']};
+  font-family: ${({ styles }) => styles['font-family']};
   font-size: 13px;
-  padding: ${({ size }: TextContainerProps) => {
+  padding: ${({ size }) => {
     if (size === 'small') return '0px 5px';
     else if (size === 'medium') return '2px 5px';
     else return '4px 10px';
   }};
-  color: ${({ styles }: TextContainerProps) => styles.strongTextColor};
+  color: ${({ styles }) => styles.strongTextColor};
 `;
 
 export interface PropsType {
