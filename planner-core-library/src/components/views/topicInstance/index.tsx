@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import range from 'lodash/range';
 import ComponentProvider from '../../provider/componentProvider';
-import CompetenceChips from './CompetenceChips';
+import CompetenceChips from '../topicTemplate/CompetenceChips';
+import StylesProvider, {
+  GeneralStylesType
+} from '../../provider/generalStylesProvider';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -16,6 +19,7 @@ const FormElementDiv = styled.div`
 const InlineTextFieldDiv = styled.div`
   display: inline-flex;
   flex-direction: column;
+  vertical-align: top;
   margin-right: 10px;
 `;
 
@@ -24,6 +28,15 @@ const StyledContainer = styled.div`
     box-sizing: border-box;
     line-height: normal;
     outline: none;
+  }
+`;
+
+const StyledLink = styled.div<{ styles: GeneralStylesType }>`
+  font-family: ${({ styles }) => styles['font-family']};
+  color: ${({ styles }) => styles.primaryColor};
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
@@ -37,6 +50,10 @@ type FormValuesType = {
   subject: string;
   classLevel: string;
   name: string;
+  parentTemplate: {
+    id: string;
+    name: string;
+  };
   numberOfWeeks: string;
   unitsPerPeek: string;
   content: string;
@@ -46,15 +63,18 @@ type FormValuesType = {
 };
 
 type FormFieldType = keyof FormValuesType;
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+type CurrentFormStateType = Omit<FormValuesType, 'parentTemplate'>;
 
 export interface PropsType {
-  onSave: (values: FormValuesType) => void;
+  onSave: (values: CurrentFormStateType) => void;
   onDelete: () => void;
+  onTemplateClick: (id: string) => void;
   initialValues: Partial<FormValuesType>;
 }
 
 interface StateType {
-  currentValues: FormValuesType;
+  currentValues: CurrentFormStateType;
 }
 
 export default class TopicInstanceView extends Component<PropsType, StateType> {
@@ -74,13 +94,15 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
 
   constructor(props: PropsType) {
     super(props);
-    if (this.props.initialValues)
+    if (this.props.initialValues) {
+      const { parentTemplate, ...otherProps } = props.initialValues;
       this.state = {
         currentValues: {
           ...this.state.currentValues,
-          ...this.props.initialValues
+          ...otherProps
         }
       };
+    }
   }
 
   onDeleteButtonClick = () => {
@@ -128,6 +150,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
       caption,
       value: this.state.currentValues.subjectUnits[index] || ''
     }));
+    const { parentTemplate } = this.props.initialValues;
 
     return (
       <StyledContainer>
@@ -154,6 +177,23 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
                 }
               />
             </InlineTextFieldDiv>
+            {parentTemplate && (
+              <InlineTextFieldDiv>
+                <ComponentProvider.Text
+                  label="Elter-Template"
+                  text={
+                    <StyledLink
+                      styles={StylesProvider.styles}
+                      onClick={() =>
+                        this.props.onTemplateClick(parentTemplate.id)
+                      }
+                    >
+                      {parentTemplate.name}
+                    </StyledLink>
+                  }
+                />
+              </InlineTextFieldDiv>
+            )}
           </FormElementDiv>
           <FormElementDiv>
             <InlineTextFieldDiv>
@@ -233,4 +273,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
       </StyledContainer>
     );
   }
+  static defaultProps = {
+    onTemplateClick: () => {}
+  };
 }

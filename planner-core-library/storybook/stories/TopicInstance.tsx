@@ -19,9 +19,14 @@ storiesOf('TopicInstance', module)
       <TopicInstanceView
         onSave={action('onSave')}
         onDelete={action('onDelete')}
+        onTemplateClick={action('onTemplateClick')}
         initialValues={object('Initial Values', {
           subject: 'Biologie',
-          classLevel: 'Klasse 8a'
+          classLevel: 'Klasse 8a',
+          parentTemplate: {
+            id: 'templateId1',
+            name: 'Genetik'
+          }
         })}
       />
     );
@@ -33,9 +38,14 @@ storiesOf('TopicInstance', module)
       <TopicInstanceView
         onSave={action('onSave')}
         onDelete={action('onDelete')}
+        onTemplateClick={action('onTemplateClick')}
         initialValues={object('Initial Values', {
           subject: 'Biologie',
-          classLevel: 'Klasse 8a'
+          classLevel: 'Klasse 8a',
+          parentTemplate: {
+            id: 'templateId1',
+            name: 'Genetik'
+          }
         })}
       />
     );
