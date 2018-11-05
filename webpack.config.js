@@ -34,9 +34,9 @@ module.exports = {
     ]
   },
   plugins: [new CheckerPlugin(), new BundleAnalyzerPlugin()],
+  // Use external version of React
   externals: {
-    // Use external version of React
-    react: 'React',
-    'react-dom': 'ReactDOM'
+    react: 'umd react',
+    'react-dom': 'umd react-dom'
   }
 };
