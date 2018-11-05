@@ -2,11 +2,11 @@
   "name": "planner-core-lib",
   "version": "0.1.1",
   "description": "",
-  "main": "lib/planner-core-lib.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/planner-core-lib.umd.js",
+  "types": "lib/types/index.d.ts",
   "scripts": {
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "build": "webpack --mode=production",
+    "build": "tsc --module commonjs && webpack --mode=production",
     "dev": "webpack --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

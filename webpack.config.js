@@ -2,7 +2,7 @@ const { CheckerPlugin } = require('awesome-typescript-loader');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const libraryName = 'planner-core-lib';
-const outputFile = libraryName + '.js';
+const outputFile = libraryName + '.umd.js';
 
 module.exports = {
   entry: __dirname + '/src/index.ts',
