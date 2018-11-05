@@ -1,7 +1,7 @@
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const libraryName = 'rucola-core-lib';
+const libraryName = 'planner-core-lib';
 const outputFile = libraryName + '.js';
 
 module.exports = {

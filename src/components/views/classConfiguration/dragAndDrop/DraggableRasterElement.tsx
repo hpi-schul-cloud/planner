@@ -12,9 +12,9 @@ import RasterTopicElement, {
   PropsType as RasterTopicElementPropsType
 } from '../../../plannerBase/RasterTopicElement';
 
-const StyledDragContainer = styled.div`
+const StyledDragContainer = styled.div<{ isTransparent: boolean }>`
   display: inline-block;
-  opacity: ${({ isTransparent }: { isTransparent: boolean }) =>
+  opacity: ${({ isTransparent }) =>
     isTransparent ? 0 : 1};
   * {
     box-sizing: border-box;
