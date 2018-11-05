@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { withKnobs, text, object } from '@storybook/addon-knobs';
+import { withKnobs, text, object, color, number } from '@storybook/addon-knobs';
 
 import {
   setupMaterialComponents,
@@ -26,6 +26,34 @@ storiesOf('ComponentProvider/ExpansionPanel', module)
       <ComponentProvider.ExpansionPanel caption={text('Caption', 'Test')}>
         Haaaallo!
       </ComponentProvider.ExpansionPanel>
+    );
+  });
+
+storiesOf('ComponentProvider/TopicElement', module)
+  .add('base', () => {
+    resetCustomComponents();
+
+    return (
+      <ComponentProvider.TopicElement
+        onClick={action('onClick')}
+        text={text('Text', 'Evolution')}
+        color={color('Color', '#92DB92')}
+        width={number('Width', 100)}
+        height={number('Height', 100)}
+      />
+    );
+  })
+  .add('with material design', () => {
+    setupMaterialComponents();
+
+    return (
+      <ComponentProvider.TopicElement
+        onClick={action('onClick')}
+        text={text('Text', 'Evolution')}
+        color={color('Color', '#92DB92')}
+        width={number('Width', 100)}
+        height={number('Height', 100)}
+      />
     );
   });
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
 import { ClassConfigurationView } from '../../src/components/views';
-import TopicElement from '../../src/components/views/classConfiguration/TopicElement';
 import RasterTopicElement from '../../src/components/plannerBase/RasterTopicElement';
 import ResizableRasterTopicElement from '../../src/components/views/classConfiguration/ResizableRasterTopicElement';
 import InteractiveRasterRow from '../../src/components/views/classConfiguration/InteractiveRasterRow';
@@ -56,23 +55,6 @@ const eventsData = [
     utcEndDate: 1548979200000
   }
 ];
-
-storiesOf('ClassConfiguration/TopicElement', module).add(
-  'with all values',
-  () => (
-    <TopicElement
-      onClick={action('onClick')}
-      text={text('Text', 'Evolution')}
-      color={color('Color', '#92DB92')}
-      size={select(
-        'Size',
-        { small: 'small', medium: 'medium', large: 'large' },
-        'small'
-      )}
-      width={number('Width', 100)}
-    />
-  )
-);
 
 storiesOf('ClassConfiguration/RasterTopicElement', module).add(
   'with small size',
