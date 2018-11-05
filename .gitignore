@@ -1,10 +1,14 @@
 # Node.js/npm/yarn
-*/node_modules
-*/yarn-error.log
-*/npm-debug.log
+node_modules
+yarn-error.log
+npm-debug.log
 
 # Build output
-*/coverage
+coverage
 
 # macOS
 .DS_Store
+
+./dist-storybook
+.vscode
+.cache
