@@ -7,7 +7,7 @@
   "types": "lib/types/index.d.ts",
   "scripts": {
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "build": "tsc --module commonjs && webpack --mode=production",
+    "build": "tsc --module ES6 && webpack --mode=production",
     "dev": "webpack --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
