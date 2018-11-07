@@ -5,7 +5,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "allowJs": false,
-    "declarationDir": "./lib/types",
+    "declarationDir": "./lib",
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",
