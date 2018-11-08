@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import memoize from 'lodash/memoize';
 import RasterUnitContainer from './RasterUnitContainer';
 import {
   AllClassInstancesType,
@@ -155,6 +156,16 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
       text: localAllClassTopics[key].schoolYearName
     }));
   };
+  getRelevantEventData = memoize(
+    (eventData: EventType, schoolYear: SchoolYearType) =>
+      eventData.filter(
+        event =>
+          (event.utcStartDate >= schoolYear.utcStartDate &&
+            event.utcStartDate <= schoolYear.utcEndDate) ||
+          (event.utcEndDate >= schoolYear.utcStartDate &&
+            event.utcEndDate <= schoolYear.utcEndDate)
+      )
+  );
 
   generateRasterUnits = (instancesAndTemplates: {
     instances: {
@@ -176,12 +187,9 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
       new Date(selectedSchoolYear.utcEndDate)
     );
     // Filter all events that are not in the school year
-    const relevantEventData = this.props.eventData.filter(
-      event =>
-        (event.utcStartDate >= selectedSchoolYear.utcStartDate &&
-          event.utcStartDate <= selectedSchoolYear.utcEndDate) ||
-        (event.utcEndDate >= selectedSchoolYear.utcStartDate &&
-          event.utcEndDate <= selectedSchoolYear.utcEndDate)
+    const relevantEventData = this.getRelevantEventData(
+      this.props.eventData,
+      selectedSchoolYear
     );
 
     return classLevelArray.length > 0 ? (
@@ -202,9 +210,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
                 classInstances={classLevel.classes}
                 schoolYear={selectedSchoolYear}
                 eventData={relevantEventData}
-                onAddTemplateClick={(classLevelId: string) =>
-                  this.props.onAddTemplate(selectedSubjectId, classLevelId)
-                }
+                onAddTemplateClick={this.onAddTemplateClick}
                 onEditTemplate={this.props.onEditTemplate}
                 onDeleteTemplate={this.props.onDeleteTemplate}
                 onEditInstance={this.props.onEditInstance}
@@ -229,6 +235,11 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     this.setState({
       selectedSubjectId: id
     });
+  };
+
+  onAddTemplateClick = (classLevelId: string) => {
+    const { selectedSubjectId } = this.state;
+    this.props.onAddTemplate(selectedSubjectId, classLevelId);
   };
 
   onSaveButtonClick = () => {

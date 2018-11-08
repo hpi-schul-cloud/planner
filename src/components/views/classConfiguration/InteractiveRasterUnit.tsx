@@ -161,7 +161,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
         tempClassInstances: newTempClassInstances
       });
     },
-    100
+    150
   );
 
   softInsertTopicElement = throttle(
@@ -191,7 +191,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
         tempClassInstances: newTempClassInstances
       });
     },
-    100
+    150
   );
 
   deleteTopic = (classId: string, index: number) => {
@@ -238,9 +238,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
                 rowId={classInstance.id}
                 classLevelId={classLevelId}
                 key={classInstance.id}
-                updateElements={topics =>
-                  this.updateClassInstance(classInstance.id, topics)
-                }
+                updateElements={this.updateClassInstance}
                 softRelocateTopicElement={this.softRelocateTopicElement}
                 softInsertTopicElement={this.softInsertTopicElement}
                 onElementDidNotDrop={this.resetDragState}

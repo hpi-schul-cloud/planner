@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import InteractiveRasterUnit from './InteractiveRasterUnit';
 import { TopicIndexType, EventType, SchoolYearType } from '../../types';
@@ -50,7 +50,7 @@ const FlexChild = styled.div`
   min-width: 0px;
 `;
 
-class RasterUnitContainer extends Component<PropsType> {
+class RasterUnitContainer extends PureComponent<PropsType> {
   constructor(props: PropsType) {
     super(props);
     this.state = {

@@ -61,20 +61,15 @@ type StyledRasterColumnPropsType = {
   backgroundColor: string;
   left: number;
 };
-const StyledRasterColumn = styled.div.attrs<StyledRasterColumnPropsType>({
-  width: (props: StyledRasterColumnPropsType) => `${props.width}px` || '0px',
-  backgroundColor: (props: StyledRasterColumnPropsType) =>
-    `${props.backgroundColor}` || 'none',
-  left: (props: StyledRasterColumnPropsType) => `${props.left}px` || '0px'
-})`
+const StyledRasterColumn = styled.div<StyledRasterColumnPropsType>`
   z-index: -1;
   box-sizing: border-box;
   position: absolute;
   top: 0px;
   bottom: 0px;
-  left: ${props => props.left};
-  width: ${props => props.width};
-  background: ${props => props.backgroundColor};
+  left: ${props => `${props.left}px` || '0px'};
+  width: ${props => `${props.width}px` || '0px'};
+  background: ${props => `${props.backgroundColor}` || 'none'};
 `;
 
 const StyledWidthContainer = styled.div`

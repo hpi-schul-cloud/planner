@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
@@ -6,6 +6,7 @@ import { XYCoord } from 'dnd-core';
 import { TopicIndexType } from '../../types';
 import ResizableRasterTopicElement from './ResizableRasterTopicElement';
 import { TOPIC_INSTANCE, TOPIC_TEMPLATE } from './constants';
+import { memoizeArguments } from './helper';
 import TopicTooltip from './TopicTooltip';
 
 type DragDropRasterTopicElementType = {
@@ -20,7 +21,7 @@ type PropsType = {
   rasterCount: number;
   rowId: string;
   classLevelId: string;
-  updateElements: (topicElements: TopicIndexType[]) => void;
+  updateElements: (rowId: string, topicElements: TopicIndexType[]) => void;
   onEditInstance: (instanceId: string) => void;
   onElementDidNotDrop: () => void;
   onElementDidDrop: () => void;
@@ -50,6 +51,7 @@ const RasterRowContainer = styled.div`
   background: ${({ background }: { background: string }) => background};
 `;
 
+let cache = {};
 const cardTarget = {
   canDrop(props: PropsType, monitor: DropTargetMonitor) {
     const { type, rowId, classLevelId } = monitor.getItem();
@@ -107,10 +109,23 @@ const cardTarget = {
         );
       }
     } else if (type === TOPIC_TEMPLATE) {
-      props.softInsertTopicElement(props.rowId, insertStartIndex, width, {
-        text,
-        color
-      });
+      // We do not want to update, if there are no changes
+      const hasToUpdate = [props.rowId, insertStartIndex, width].reduce(
+        (hasToUpdate, value, index) => {
+          if (cache[index] !== value) {
+            cache[index] = value;
+            return true;
+          }
+          return hasToUpdate;
+        },
+        false
+      );
+      if (hasToUpdate) {
+        props.softInsertTopicElement(props.rowId, insertStartIndex, width, {
+          text,
+          color
+        });
+      }
     }
   },
   drop(props: PropsType) {
@@ -123,7 +138,7 @@ const cardTarget = {
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop()
 }))
-class InteractiveRasterRow extends Component<PropsType> {
+class InteractiveRasterRow extends PureComponent<PropsType> {
   generateAndCommitElementChanges(changes: {
     [index: number]: Partial<TopicIndexType>;
   }) {
@@ -139,7 +154,7 @@ class InteractiveRasterRow extends Component<PropsType> {
       ];
     });
 
-    this.props.updateElements(newTopicElements);
+    this.props.updateElements(this.props.rowId, newTopicElements);
   }
 
   resizeElementLeft = (
@@ -223,34 +238,28 @@ class InteractiveRasterRow extends Component<PropsType> {
     }
   };
 
-  handleElementSizeChangeLeft = (
-    id: string,
-    index: number,
-    startIndex: number,
-    endIndex: number
-  ) => {
-    const currentElement = this.props.topicElements[index];
-    const { startIndex: oldStartIndex } = currentElement;
-    const newStartIndex = startIndex < 0 ? 0 : startIndex;
+  handleElementSizeChangeLeft = memoizeArguments(
+    (id: string, index: number, startIndex: number, endIndex: number) => {
+      const currentElement = this.props.topicElements[index];
+      const { startIndex: oldStartIndex } = currentElement;
+      const newStartIndex = startIndex < 0 ? 0 : startIndex;
 
-    this.resizeElementLeft(oldStartIndex, newStartIndex, index);
-  };
+      this.resizeElementLeft(oldStartIndex, newStartIndex, index);
+    }
+  );
 
-  handleElementSizeChangeRight = (
-    id: string,
-    index: number,
-    startIndex: number,
-    endIndex: number
-  ) => {
-    const currentElement = this.props.topicElements[index];
-    const { endIndex: oldEndIndex } = currentElement;
-    const newEndIndex =
-      endIndex >= this.props.rasterCount
-        ? this.props.rasterCount - 1
-        : endIndex;
+  handleElementSizeChangeRight = memoizeArguments(
+    (id: string, index: number, startIndex: number, endIndex: number) => {
+      const currentElement = this.props.topicElements[index];
+      const { endIndex: oldEndIndex } = currentElement;
+      const newEndIndex =
+        endIndex >= this.props.rasterCount
+          ? this.props.rasterCount - 1
+          : endIndex;
 
-    this.resizeElementRight(oldEndIndex, newEndIndex, index);
-  };
+      this.resizeElementRight(oldEndIndex, newEndIndex, index);
+    }
+  );
 
   generateElements = () => {
     const {
@@ -326,9 +335,9 @@ class InteractiveRasterRow extends Component<PropsType> {
         <RasterRowContainer
           background={rasterRowState}
           innerRef={instance => {
-            // @ts-ignore - We can be sure that domNode is React.Element
-            const domNode: React.ReactElement<{}> = findDOMNode(instance);
-            connectDropTarget(domNode);
+            // We can be sure that domNode is React.Element
+            const domNode = findDOMNode(instance) as unknown;
+            connectDropTarget(domNode as React.ReactElement<{}>);
           }}
         >
           {elements}

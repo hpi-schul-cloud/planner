@@ -215,3 +215,17 @@ export const getClassTopicsAfterMove = (
 
   return result;
 };
+
+export function memoizeArguments<T extends (...args: any[]) => any>(func: T) {
+  let cache = {};
+  return (...args: any[]) => {
+    const hasChanges = args.reduce((hasChanges, arg, index) => {
+      if (arg !== cache[index]) {
+        cache[index] = arg;
+        return true;
+      }
+      return hasChanges;
+    }, false);
+    if (hasChanges) func(...args);
+  };
+}
