@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { TopicIndexType, EventType, SchoolYearType } from '../../types';
 declare type ClassInstanceType = {
     [classId: string]: {
@@ -27,7 +27,7 @@ interface PropsType {
     onEditInstance: (instanceId: string) => void;
     onUpdate: (classLevelId: string, classes: ClassInstanceType) => void;
 }
-declare class RasterUnitContainer extends Component<PropsType> {
+declare class RasterUnitContainer extends PureComponent<PropsType> {
     constructor(props: PropsType);
     wrapRasterRowsWithGrid: (children: JSX.Element | JSX.Element[]) => JSX.Element;
     updateClassInstance: (classInstances: ClassInstanceType) => void;

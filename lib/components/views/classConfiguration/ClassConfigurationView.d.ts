@@ -42,6 +42,17 @@ declare class ClassConfigurationView extends Component<PropsType, StateType> {
         value: string;
         text: string;
     }[];
+    getRelevantEventData: ((eventData: {
+        name: string;
+        color?: string | undefined;
+        utcStartDate: number;
+        utcEndDate: number;
+    }[], schoolYear: SchoolYearType) => {
+        name: string;
+        color?: string | undefined;
+        utcStartDate: number;
+        utcEndDate: number;
+    }[]) & import("lodash").MemoizedFunction;
     generateRasterUnits: (instancesAndTemplates: {
         instances: {
             [classLevelId: string]: {
@@ -54,6 +65,7 @@ declare class ClassConfigurationView extends Component<PropsType, StateType> {
     }) => JSX.Element | JSX.Element[];
     onSelectChange: (id: string) => void;
     onRadioButtonChange: (id: string) => void;
+    onAddTemplateClick: (classLevelId: string) => void;
     onSaveButtonClick: () => void;
     render(): JSX.Element;
 }

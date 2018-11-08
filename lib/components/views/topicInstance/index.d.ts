@@ -59,7 +59,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
         id: string;
         level: string;
         text: string;
-    }[], key: "name" | "subject" | "classLevel" | "numberOfWeeks" | "unitsPerPeek" | "content" | "subjectUnits" | "examinations" | "competences" | "parentTemplate") => void;
+    }[], key: "name" | "parentTemplate" | "subject" | "classLevel" | "numberOfWeeks" | "unitsPerPeek" | "content" | "subjectUnits" | "examinations" | "competences") => void;
     getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerPeek: string) => string[];
     render(): JSX.Element;
     static defaultProps: {
