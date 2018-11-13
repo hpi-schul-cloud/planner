@@ -3,7 +3,7 @@ interface PropsType {
     caption?: string;
     initialValue: string;
     values: {
-        value: string;
+        id: string;
         text: string;
     }[];
     onChange: (event: React.FormEvent<HTMLSelectElement>) => void;

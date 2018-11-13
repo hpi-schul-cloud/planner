@@ -39,7 +39,7 @@ declare class ClassConfigurationView extends Component<PropsType, StateType> {
         color: any;
     }[];
     getSelectOptions: () => {
-        value: string;
+        id: string;
         text: string;
     }[];
     getRelevantEventData: ((eventData: {

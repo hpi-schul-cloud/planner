@@ -8,7 +8,7 @@ declare type ExpansionPanelPropsType = {
 declare type SelectPropsType = {
     initialValue: string;
     values: {
-        value: string;
+        id: string;
         text: string;
     }[];
     caption?: string;

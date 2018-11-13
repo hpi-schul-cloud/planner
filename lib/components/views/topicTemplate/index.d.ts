@@ -1,12 +1,20 @@
 import { Component } from 'react';
+declare type IdTextType = {
+    id: string;
+    text: string;
+};
 declare type ItemType = {
     typeValue: string;
     timeValue: string;
     textValue: string;
 };
+declare type FormValuesOptionsType = {
+    subject: IdTextType[];
+    classLevel: IdTextType[];
+};
 declare type FormValuesType = {
-    subject: string;
-    classLevel: string;
+    subjectId: string;
+    classLevelId: string;
     name: string;
     numberOfWeeks: string;
     unitsPerPeek: string;
@@ -22,12 +30,14 @@ declare type FormValuesType = {
 export declare type PropsType = {
     mode: 'EDIT';
     initialValues: FormValuesType;
+    valueOptions: FormValuesOptionsType;
     onCreate?: (values: FormValuesType) => void;
     onSave: (values: FormValuesType) => void;
     onDelete: () => void;
 } | {
     mode: 'NEW';
     initialValues?: FormValuesType;
+    valueOptions: FormValuesOptionsType;
     onCreate: (values: FormValuesType) => void;
     onSave?: (values: FormValuesType) => void;
     onDelete?: () => void;
@@ -38,8 +48,8 @@ interface StateType {
 export default class TopicTemplateView extends Component<PropsType, StateType> {
     state: {
         currentValues: {
-            subject: string;
-            classLevel: string;
+            subjectId: string;
+            classLevelId: string;
             name: string;
             numberOfWeeks: string;
             unitsPerPeek: string;
@@ -57,7 +67,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         id: string;
         level: string;
         text: string;
-    }[], key: "name" | "subject" | "classLevel" | "numberOfWeeks" | "unitsPerPeek" | "content" | "subjectUnits" | "examinations" | "competences") => void;
+    }[], key: "name" | "subjectId" | "classLevelId" | "numberOfWeeks" | "unitsPerPeek" | "content" | "subjectUnits" | "examinations" | "competences") => void;
     getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerPeek: string) => string[];
     render(): JSX.Element;
     static defaultProps: {
