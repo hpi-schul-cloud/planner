@@ -152,7 +152,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
   getSelectOptions = () => {
     const { localAllClassTopics } = this.state;
     return Object.keys(localAllClassTopics).map(key => ({
-      value: localAllClassTopics[key].schoolYearId,
+      id: localAllClassTopics[key].schoolYearId,
       text: localAllClassTopics[key].schoolYearName
     }));
   };

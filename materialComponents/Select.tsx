@@ -9,7 +9,7 @@ interface PropsType {
   caption?: string;
   initialValue: string;
   values: {
-    value: string;
+    id: string;
     text: string;
   }[];
   onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
@@ -34,7 +34,7 @@ const CustomSelect: React.SFC<PropsType> = ({
           }}
         >
           {values.map(value => (
-            <MenuItem key={value.value} value={value.value}>
+            <MenuItem key={value.id} value={value.id}>
               {value.text}
             </MenuItem>
           ))}

@@ -27,15 +27,25 @@ const StyledContainer = styled.div`
   }
 `;
 
+type IdTextType = {
+  id: string;
+  text: string;
+};
+
 type ItemType = {
   typeValue: string;
   timeValue: string;
   textValue: string;
 };
 
+type FormValuesOptionsType = {
+  subject: IdTextType[];
+  classLevel: IdTextType[];
+};
+
 type FormValuesType = {
-  subject: string;
-  classLevel: string;
+  subjectId: string;
+  classLevelId: string;
   name: string;
   numberOfWeeks: string;
   unitsPerPeek: string;
@@ -51,6 +61,7 @@ export type PropsType =
   | {
       mode: 'EDIT';
       initialValues: FormValuesType;
+      valueOptions: FormValuesOptionsType;
       onCreate?: (values: FormValuesType) => void;
       onSave: (values: FormValuesType) => void;
       onDelete: () => void;
@@ -58,6 +69,7 @@ export type PropsType =
   | {
       mode: 'NEW';
       initialValues?: FormValuesType;
+      valueOptions: FormValuesOptionsType;
       onCreate: (values: FormValuesType) => void;
       onSave?: (values: FormValuesType) => void;
       onDelete?: () => void;
@@ -70,8 +82,8 @@ interface StateType {
 export default class TopicTemplateView extends Component<PropsType, StateType> {
   state = {
     currentValues: {
-      subject: '',
-      classLevel: '',
+      subjectId: '',
+      classLevelId: '',
       name: '',
       numberOfWeeks: '4',
       unitsPerPeek: '2',
@@ -132,6 +144,10 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
   };
 
   render() {
+    const {
+      subject: subjectOptions,
+      classLevel: classLevelOptions
+    } = this.props.valueOptions;
     const captions = this.getTextFieldTableCaptions(
       this.state.currentValues.numberOfWeeks,
       this.state.currentValues.unitsPerPeek
@@ -146,21 +162,21 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         <FormElementDiv>
           <InlineTextFieldDiv>
             <ComponentProvider.Select
-              initialValue="biology"
-              values={[{ value: 'biology', text: 'Biologie' }]}
+              initialValue={this.state.currentValues.subjectId}
+              values={subjectOptions}
               caption="Fach"
               onChange={event =>
-                this.onFormChange(event.currentTarget.value, 'subject')
+                this.onFormChange(event.currentTarget.value, 'subjectId')
               }
             />
           </InlineTextFieldDiv>
           <InlineTextFieldDiv>
             <ComponentProvider.Select
-              initialValue="8"
-              values={[{ value: '8', text: '8' }]}
+              initialValue={this.state.currentValues.classLevelId}
+              values={classLevelOptions}
               caption="Jahrgang"
               onChange={event =>
-                this.onFormChange(event.currentTarget.value, 'classLevel')
+                this.onFormChange(event.currentTarget.value, 'classLevelId')
               }
             />
           </InlineTextFieldDiv>

@@ -6,7 +6,7 @@ interface PropsType {
   caption?: string;
   initialValue: string;
   values: {
-    value: string;
+    id: string;
     text: string;
   }[];
   onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
@@ -40,7 +40,7 @@ const Select: React.SFC<PropsType> = ({
       {labelComponent}
       <StyledSelect value={initialValue} onChange={onChange}>
         {values.map(option => (
-          <option value={option.value} key={option.value}>
+          <option value={option.id} key={option.id}>
             {option.text}
           </option>
         ))}

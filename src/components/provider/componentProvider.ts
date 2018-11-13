@@ -23,7 +23,7 @@ type ExpansionPanelPropsType = {
 type SelectPropsType = {
   initialValue: string;
   values: {
-    value: string;
+    id: string;
     text: string;
   }[];
   caption?: string;
