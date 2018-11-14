@@ -17,7 +17,7 @@ declare type FormValuesType = {
     classLevelId: string;
     name: string;
     numberOfWeeks: string;
-    unitsPerPeek: string;
+    unitsPerWeek: string;
     content: string;
     subjectUnits: string[];
     examinations: ItemType[];
@@ -52,7 +52,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
             classLevelId: string;
             name: string;
             numberOfWeeks: string;
-            unitsPerPeek: string;
+            unitsPerWeek: string;
             content: string;
             subjectUnits: never[];
             examinations: never[];
@@ -67,8 +67,8 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         id: string;
         level: string;
         text: string;
-    }[], key: "name" | "numberOfWeeks" | "unitsPerPeek" | "content" | "subjectUnits" | "examinations" | "competences" | "subjectId" | "classLevelId") => void;
-    getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerPeek: string) => string[];
+    }[], key: "name" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "competences" | "subjectId" | "classLevelId") => void;
+    getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerWeek: string) => string[];
     render(): JSX.Element;
     static defaultProps: {
         onCreate: () => void;

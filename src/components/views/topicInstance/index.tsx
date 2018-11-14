@@ -55,7 +55,7 @@ type FormValuesType = {
     name: string;
   };
   numberOfWeeks: string;
-  unitsPerPeek: string;
+  unitsPerWeek: string;
   content: string;
   subjectUnits: string[];
   examinations: ItemType[];
@@ -84,7 +84,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
       classLevel: '',
       name: '',
       numberOfWeeks: '4',
-      unitsPerPeek: '2',
+      unitsPerWeek: '2',
       content: '',
       subjectUnits: [] as string[],
       examinations: [] as ItemType[],
@@ -130,10 +130,10 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
     });
   };
 
-  getTextFieldTableCaptions = (numberOfWeeks: string, unitsPerPeek: string) => {
+  getTextFieldTableCaptions = (numberOfWeeks: string, unitsPerWeek: string) => {
     const captions: string[] = [];
     range(+numberOfWeeks).forEach(weekNumber => {
-      range(+unitsPerPeek).forEach(unitNumber => {
+      range(+unitsPerWeek).forEach(unitNumber => {
         captions.push(`${weekNumber + 1}.Woche ${unitNumber + 1}.Einheit`);
       });
     });
@@ -144,7 +144,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
   render() {
     const captions = this.getTextFieldTableCaptions(
       this.state.currentValues.numberOfWeeks,
-      this.state.currentValues.unitsPerPeek
+      this.state.currentValues.unitsPerWeek
     );
     const rows = captions.map((caption, index) => ({
       caption,
@@ -208,9 +208,9 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
             <InlineTextFieldDiv>
               <ComponentProvider.TextField
                 label="Einheiten pro Woche"
-                value={this.state.currentValues.unitsPerPeek}
+                value={this.state.currentValues.unitsPerWeek}
                 onChange={event =>
-                  this.onFormChange(event.target.value, 'unitsPerPeek')
+                  this.onFormChange(event.target.value, 'unitsPerWeek')
                 }
               />
             </InlineTextFieldDiv>
