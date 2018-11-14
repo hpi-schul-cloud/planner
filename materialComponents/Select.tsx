@@ -24,13 +24,12 @@ const CustomSelect: React.SFC<PropsType> = ({
   return (
     <SCTheme>
       <FormControl>
-        <InputLabel htmlFor="age-simple">{caption}</InputLabel>
+        <InputLabel htmlFor="select-simple">{caption}</InputLabel>
         <Select
           value={initialValue}
           onChange={onChange}
           inputProps={{
-            name: 'age',
-            id: 'age-simple'
+            id: 'select-simple'
           }}
         >
           {values.map(value => (

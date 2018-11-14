@@ -165,9 +165,10 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
               initialValue={this.state.currentValues.subjectId}
               values={subjectOptions}
               caption="Fach"
-              onChange={event =>
-                this.onFormChange(event.currentTarget.value, 'subjectId')
-              }
+              onChange={event => {
+                // @ts-ignore
+                this.onFormChange(event.target.value, 'subjectId');
+              }}
             />
           </InlineTextFieldDiv>
           <InlineTextFieldDiv>
@@ -176,7 +177,8 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
               values={classLevelOptions}
               caption="Jahrgang"
               onChange={event =>
-                this.onFormChange(event.currentTarget.value, 'classLevelId')
+                // @ts-ignore
+                this.onFormChange(event.target.value, 'classLevelId')
               }
             />
           </InlineTextFieldDiv>
