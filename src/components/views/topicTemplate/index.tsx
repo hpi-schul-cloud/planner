@@ -45,14 +45,14 @@ type FormValuesOptionsType = {
 
 type FormValuesType = {
   subjectId: string;
-  classLevelId: string;
+  classLevelId?: string;
   name: string;
   numberOfWeeks: string;
   unitsPerWeek: string;
-  content: string;
-  subjectUnits: string[];
-  examinations: ItemType[];
-  competences: { id: string; level: string; text: string }[];
+  content?: string;
+  subjectUnits?: string[];
+  examinations?: ItemType[];
+  competences?: { id: string; level: string; text: string }[];
 };
 
 type FormFieldType = keyof FormValuesType;
@@ -76,11 +76,11 @@ export type PropsType =
     };
 
 interface StateType {
-  currentValues: FormValuesType;
+  currentValues: Required<FormValuesType>;
 }
 
 export default class TopicTemplateView extends Component<PropsType, StateType> {
-  state = {
+  state: StateType = {
     currentValues: {
       subjectId: '',
       classLevelId: '',
@@ -97,9 +97,12 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
     if (this.props.initialValues)
-      this.setState({
-        currentValues: this.props.initialValues
-      });
+      this.state = {
+        currentValues: {
+          ...this.state.currentValues,
+          ...this.props.initialValues
+        }
+      };
   }
 
   onCreateButtonClick = () => {

@@ -16,6 +16,12 @@ const valueOptions = {
 };
 const props = {
   valueOptions: object('Value Options', valueOptions),
+  initialValues: object('Initial Values', {
+    subjectId: '1',
+    name: 'Test',
+    numberOfWeeks: '4',
+    unitsPerWeek: '1'
+  }),
   onCreate: action('onCreate'),
   onSave: action('onSave'),
   onDelete: action('onDelete'),

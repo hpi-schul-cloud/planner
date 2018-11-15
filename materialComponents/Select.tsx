@@ -1,11 +1,20 @@
 import React from 'react';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import SCTheme from './SchulCloudThemeProvider';
 
-interface PropsType {
+const styles = () =>
+  createStyles({
+    formControl: {
+      minWidth: 120
+    }
+  });
+
+interface PropsType  extends WithStyles<typeof styles> {
   caption?: string;
   initialValue: string;
   values: {
@@ -19,11 +28,12 @@ const CustomSelect: React.SFC<PropsType> = ({
   caption,
   initialValue,
   values,
-  onChange
+  onChange,
+  classes
 }) => {
   return (
     <SCTheme>
-      <FormControl>
+      <FormControl className={classes.formControl}>
         <InputLabel htmlFor="select-simple">{caption}</InputLabel>
         <Select
           value={initialValue}
@@ -43,4 +53,4 @@ const CustomSelect: React.SFC<PropsType> = ({
   );
 };
 
-export default CustomSelect;
+export default withStyles(styles)(CustomSelect);

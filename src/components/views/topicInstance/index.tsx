@@ -95,6 +95,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
     if (this.props.initialValues) {
+      // Parent Template cannot change -> It does not need to be part of the state
       const { parentTemplate, ...otherProps } = props.initialValues;
       this.state = {
         currentValues: {

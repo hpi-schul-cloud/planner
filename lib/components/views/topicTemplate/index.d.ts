@@ -14,14 +14,14 @@ declare type FormValuesOptionsType = {
 };
 declare type FormValuesType = {
     subjectId: string;
-    classLevelId: string;
+    classLevelId?: string;
     name: string;
     numberOfWeeks: string;
     unitsPerWeek: string;
-    content: string;
-    subjectUnits: string[];
-    examinations: ItemType[];
-    competences: {
+    content?: string;
+    subjectUnits?: string[];
+    examinations?: ItemType[];
+    competences?: {
         id: string;
         level: string;
         text: string;
@@ -43,22 +43,10 @@ export declare type PropsType = {
     onDelete?: () => void;
 };
 interface StateType {
-    currentValues: FormValuesType;
+    currentValues: Required<FormValuesType>;
 }
 export default class TopicTemplateView extends Component<PropsType, StateType> {
-    state: {
-        currentValues: {
-            subjectId: string;
-            classLevelId: string;
-            name: string;
-            numberOfWeeks: string;
-            unitsPerWeek: string;
-            content: string;
-            subjectUnits: never[];
-            examinations: never[];
-            competences: never[];
-        };
-    };
+    state: StateType;
     constructor(props: PropsType);
     onCreateButtonClick: () => void;
     onSaveButtonClick: () => void;
@@ -67,7 +55,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         id: string;
         level: string;
         text: string;
-    }[], key: "name" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "competences" | "subjectId" | "classLevelId") => void;
+    }[], key: "name" | "subjectId" | "classLevelId" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "competences") => void;
     getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerWeek: string) => string[];
     render(): JSX.Element;
     static defaultProps: {
