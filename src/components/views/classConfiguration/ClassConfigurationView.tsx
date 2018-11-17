@@ -92,7 +92,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     const selectedSchoolYearTopics = localAllClassTopics[selectedSchoolYearId];
     const selectedSubjectTopics =
       selectedSchoolYearTopics.subjects[selectedSubjectId];
-    const selectedTemplates = allTopicTemplates[selectedSubjectId];
+    const selectedTemplates = allTopicTemplates[selectedSubjectId] || {};
 
     return {
       instances: selectedSubjectTopics.classLevels,
@@ -205,7 +205,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
               <RasterUnitContainer
                 rasterCount={rasterCount}
                 rasterSize={RASTER_SIZE}
-                topicTemplates={templates[classLevel.classLevelId]}
+                topicTemplates={templates[classLevel.classLevelId] || []}
                 classLevelId={classLevel.classLevelId}
                 classInstances={classLevel.classes}
                 schoolYear={selectedSchoolYear}

@@ -49,6 +49,9 @@ const FlexContainer = styled.div`
 const FlexChild = styled.div`
   min-width: 0px;
 `;
+const StyledButtonContainer = styled.div<{ hasTemplates: boolean }>`
+  margin-top: ${({ hasTemplates }) => (hasTemplates ? '0px' : '-36px')};
+`;
 
 class RasterUnitContainer extends PureComponent<PropsType> {
   constructor(props: PropsType) {
@@ -130,12 +133,16 @@ class RasterUnitContainer extends PureComponent<PropsType> {
               onDeleteTemplate={this.props.onDeleteTemplate}
               onEditInstance={this.props.onEditInstance}
             />
-            <ComponentProvider.Button
-              caption="+ Thema"
-              size="small"
-              type="thin"
-              onClick={() => onAddTemplateClick(this.props.classLevelId)}
-            />
+            <StyledButtonContainer
+              hasTemplates={!!this.props.topicTemplates.length}
+            >
+              <ComponentProvider.Button
+                caption="+ Thema"
+                size="small"
+                type="thin"
+                onClick={() => onAddTemplateClick(this.props.classLevelId)}
+              />
+            </StyledButtonContainer>
           </FlexChild>
         </FlexContainer>
       </>
