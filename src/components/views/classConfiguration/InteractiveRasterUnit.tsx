@@ -271,7 +271,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
                     text={topicTemplate.text}
                     rasterSize={rasterSize}
                     startIndex={0}
-                    endIndex={topicTemplate.width}
+                    endIndex={topicTemplate.width - 1}
                   />
                 </span>
               </TopicTooltip>
