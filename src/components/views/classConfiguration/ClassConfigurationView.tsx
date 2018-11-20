@@ -183,6 +183,11 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     const { selectedSchoolYearId, selectedSubjectId } = this.state;
     const selectedSchoolYear = this.props.schoolYearData[selectedSchoolYearId];
     // Determine number of weeks of school year
+    if (!selectedSchoolYear)
+      return (
+        <div
+        >{`Schuljahresdaten für ${selectedSchoolYearId} sind nicht verfügbar.`}</div>
+      );
     const rasterCount = getWeekDifference(
       new Date(selectedSchoolYear.utcStartDate),
       new Date(selectedSchoolYear.utcEndDate)
