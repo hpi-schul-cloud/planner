@@ -164,7 +164,8 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
             event.utcStartDate <= schoolYear.utcEndDate) ||
           (event.utcEndDate >= schoolYear.utcStartDate &&
             event.utcEndDate <= schoolYear.utcEndDate)
-      )
+      ),
+    (...args) => JSON.stringify(args)
   );
 
   generateRasterUnits = (instancesAndTemplates: {
