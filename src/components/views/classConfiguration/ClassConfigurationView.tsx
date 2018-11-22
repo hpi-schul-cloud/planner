@@ -69,15 +69,14 @@ function getColorForSubjectId(id: string) {
 class ClassConfigurationView extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
-    const defaultSelectedSchoolYearId = Object.keys(props.allClassTopics)[0];
+    const defaultSelectedSchoolYearId = props.initialSchoolYearId || Object.keys(props.allClassTopics)[0];
     const defaultSelectedSubjectId = Object.keys(
       props.allClassTopics[defaultSelectedSchoolYearId].subjects
     )[0];
 
     this.state = {
       // If no initial school year id is provided, we take the first available one
-      selectedSchoolYearId:
-        props.initialSchoolYearId || defaultSelectedSchoolYearId,
+      selectedSchoolYearId: defaultSelectedSchoolYearId,
       selectedSubjectId: defaultSelectedSubjectId,
       localAllClassTopics: props.allClassTopics,
       prevClassTopics: props.allClassTopics

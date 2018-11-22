@@ -186,10 +186,14 @@ storiesOf('ClassConfiguration', module)
 
     return (
       <ClassConfigurationView
-        allClassTopics={object("All Class Topics", getAllClassInstances())}
-        allTopicTemplates={object("All Topic Templates", getAllTopicTemplates())}
+        allClassTopics={object('All Class Topics', getAllClassInstances())}
+        allTopicTemplates={object(
+          'All Topic Templates',
+          getAllTopicTemplates()
+        )}
+        initialSchoolYearId={text('Initial school year id', '')}
         schoolYearData={object('School Year', schoolYearData)}
-        eventData={object("Event data", [...holidaysData, ...eventsData])}
+        eventData={object('Event data', [...holidaysData, ...eventsData])}
         onAddTemplate={action('onAddTemplate')}
         onEditTemplate={action('onEditTemplate')}
         onDeleteTemplate={action('onDeleteTemplate')}
@@ -203,10 +207,14 @@ storiesOf('ClassConfiguration', module)
 
     return (
       <ClassConfigurationView
-        allClassTopics={object("All Class Topics", getAllClassInstances())}
-        allTopicTemplates={object("All Topic Templates", getAllTopicTemplates())}
+        allClassTopics={object('All Class Topics', getAllClassInstances())}
+        allTopicTemplates={object(
+          'All Topic Templates',
+          getAllTopicTemplates()
+        )}
+        initialSchoolYearId={text('Initial school year id', '')}
         schoolYearData={object('School Year', schoolYearData)}
-        eventData={object("Event data", [...holidaysData, ...eventsData])}
+        eventData={object('Event data', [...holidaysData, ...eventsData])}
         onAddTemplate={action('onAddTemplate')}
         onEditTemplate={action('onEditTemplate')}
         onDeleteTemplate={action('onDeleteTemplate')}
