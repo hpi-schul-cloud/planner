@@ -31,6 +31,7 @@ interface StateType {
   selectedSchoolYearId: string;
   selectedSubjectId: string;
   localAllClassTopics: AllClassInstancesType;
+  prevClassTopics: AllClassInstancesType;
 }
 
 const ExpansionPanelContainer = styled.div`
@@ -78,8 +79,30 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
       selectedSchoolYearId:
         props.initialSchoolYearId || defaultSelectedSchoolYearId,
       selectedSubjectId: defaultSelectedSubjectId,
-      localAllClassTopics: props.allClassTopics
+      localAllClassTopics: props.allClassTopics,
+      prevClassTopics: props.allClassTopics
     };
+  }
+
+  static getDerivedStateFromProps(props: PropsType, state: StateType) {
+    // We have to reset the state when allClassTopics change
+    // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#alternative-1-reset-uncontrolled-component-with-an-id-prop
+    if (state.prevClassTopics !== props.allClassTopics) {
+      const defaultSelectedSchoolYearId = Object.keys(props.allClassTopics)[0];
+      const defaultSelectedSubjectId = Object.keys(
+        props.allClassTopics[defaultSelectedSchoolYearId].subjects
+      )[0];
+
+      return {
+        // If no initial school year id is provided, we take the first available one
+        selectedSchoolYearId:
+          props.initialSchoolYearId || defaultSelectedSchoolYearId,
+        selectedSubjectId: defaultSelectedSubjectId,
+        localAllClassTopics: props.allClassTopics,
+        prevClassTopics: props.allClassTopics
+      };
+    }
+    return null;
   }
 
   getCurrentTopicInstancesAndTemplates = () => {
@@ -231,9 +254,19 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     );
   };
 
-  onSelectChange = (id: string) => {
+  onSelectChange = (selectedSchoolYearId: string) => {
+    let { selectedSubjectId } = this.state;
+    if (
+      !this.props.allClassTopics[selectedSchoolYearId].subjects[
+        selectedSubjectId
+      ]
+    )
+      selectedSubjectId = Object.keys(
+        this.props.allClassTopics[selectedSchoolYearId].subjects
+      )[0];
     this.setState({
-      selectedSchoolYearId: id
+      selectedSchoolYearId,
+      selectedSubjectId
     });
   };
 
