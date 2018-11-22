@@ -19,9 +19,16 @@ interface StateType {
     selectedSchoolYearId: string;
     selectedSubjectId: string;
     localAllClassTopics: AllClassInstancesType;
+    prevClassTopics: AllClassInstancesType;
 }
 declare class ClassConfigurationView extends Component<PropsType, StateType> {
     constructor(props: PropsType);
+    static getDerivedStateFromProps(props: PropsType, state: StateType): {
+        selectedSchoolYearId: string;
+        selectedSubjectId: string;
+        localAllClassTopics: AllClassInstancesType;
+        prevClassTopics: AllClassInstancesType;
+    } | null;
     getCurrentTopicInstancesAndTemplates: () => {
         instances: {
             [classLevelId: string]: {
@@ -63,7 +70,7 @@ declare class ClassConfigurationView extends Component<PropsType, StateType> {
         };
         templates: TemplatesOfClassLevelType;
     }) => JSX.Element | JSX.Element[];
-    onSelectChange: (id: string) => void;
+    onSelectChange: (selectedSchoolYearId: string) => void;
     onRadioButtonChange: (id: string) => void;
     onAddTemplateClick: (classLevelId: string) => void;
     onSaveButtonClick: () => void;
