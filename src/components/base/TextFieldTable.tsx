@@ -11,7 +11,7 @@ type TextFieldTableProps = {
 
 const StyledCell = styled.div`
   display: table-cell;
-  padding: 5px 10px;
+  padding: 0px 10px;
   border: none;
   font-family: sans-serif;
   font-size: 14px;
@@ -74,7 +74,7 @@ const TextFieldTable: React.SFC<TextFieldTableProps> = ({
             <StyledCell>
               <StyledTextField
                 value={row.value}
-                margin="dense"
+                margin="normal"
                 fullWidth={true}
                 onChange={event => onRowChange(i, event.target.value)}
               />
