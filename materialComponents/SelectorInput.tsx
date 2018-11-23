@@ -52,7 +52,7 @@ function SelectorInput(props: PropsType) {
   return (
     <div>
       {values.map((value, index) => (
-        <div key={index}>
+        <div style={{ display: 'flex', alignItems: 'flex-end' }} key={index}>
           <Select
             initialValue={value.typeValue}
             onChange={event =>
@@ -81,6 +81,8 @@ function SelectorInput(props: PropsType) {
           />
           <TextField
             value={value.textValue}
+            margin="none"
+            placeHolderText="z.B. Vortrag"
             onChange={event =>
               changeField(index, { textValue: event.currentTarget.value })
             }

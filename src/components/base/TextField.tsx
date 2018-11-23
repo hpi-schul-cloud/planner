@@ -10,16 +10,18 @@ const StyledInput = styled.input`
   font-size: 12px;
   color: #5e5e5e;
 
-  padding: ${({ margin }: { margin: 'dense' | 'normal' }) =>
-    margin === 'dense' ? '0px' : '9px 12px'};
+  padding: ${({ margin }: { margin: 'none' | 'dense' | 'normal' }) =>
+    margin === 'dense' || margin === 'none' ? '0px' : '9px 12px'};
 `;
 
-const StyledTextFieldContainer = styled.div`
-  margin: 5px 0px;
+const StyledTextFieldContainer = styled.div<{
+  fullWidth: boolean;
+  margin?: 'none' | 'dense' | 'normal';
+}>`
+  margin: ${({ margin }) => (margin === 'none' ? '0px' : '5px 0px')};
   display: inline-flex;
   flex-direction: column;
-  width: ${({ fullWidth }: { fullWidth: boolean }) =>
-    fullWidth ? '100%' : 'initial'};
+  width: ${({ fullWidth }) => (fullWidth ? '100%' : 'initial')};
 `;
 
 interface PropsType {
@@ -27,7 +29,7 @@ interface PropsType {
   placeHolderText?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  margin?: 'dense' | 'normal';
+  margin?: 'none' | 'dense' | 'normal';
   className?: string;
   fullWidth?: boolean;
 }
@@ -43,7 +45,7 @@ const TextField: React.SFC<PropsType> = ({
 }) => {
   const labelComponent = label ? <Label caption={label} /> : null;
   return (
-    <StyledTextFieldContainer fullWidth={fullWidth}>
+    <StyledTextFieldContainer margin={margin} fullWidth={fullWidth}>
       {labelComponent}
       <StyledInput
         placeholder={placeHolderText}

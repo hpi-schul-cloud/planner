@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import range from 'lodash/range';
 import ComponentProvider from '../../provider/componentProvider';
+import { EXAMINATION_TYPES } from '../../constants';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -144,6 +145,19 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
 
     return captions;
   };
+  getTimeOptions = (numberOfWeeks: string, unitsPerWeek: string) => {
+    const captions: { text: string; value: string }[] = [];
+    range(+numberOfWeeks).forEach(weekNumber => {
+      range(+unitsPerWeek).forEach(unitNumber => {
+        captions.push({
+          text: `${weekNumber + 1}.Woche ${unitNumber + 1}.Einheit`,
+          value: `${weekNumber}-${unitNumber}`
+        });
+      });
+    });
+
+    return captions;
+  };
 
   render() {
     const {
@@ -151,6 +165,10 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
       classLevel: classLevelOptions
     } = this.props.valueOptions;
     const captions = this.getTextFieldTableCaptions(
+      this.state.currentValues.numberOfWeeks,
+      this.state.currentValues.unitsPerWeek
+    );
+    const timeOptions = this.getTimeOptions(
       this.state.currentValues.numberOfWeeks,
       this.state.currentValues.unitsPerWeek
     );
@@ -244,12 +262,8 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         <FormElementDiv>
           <ComponentProvider.Label caption="Leistungserfassung" type="small" />
           <ComponentProvider.SelectorInput
-            typeOptions={[
-              { text: 'Mündlich', value: 'spoken' },
-              { text: 'Schriftlich', value: 'written' },
-              { text: 'Anders', value: 'other' }
-            ]}
-            timeOptions={[{ text: '1.Woche', value: '1W' }]}
+            typeOptions={EXAMINATION_TYPES}
+            timeOptions={timeOptions}
             values={this.state.currentValues.examinations}
             onChange={value => this.onFormChange(value, 'examinations')}
           />

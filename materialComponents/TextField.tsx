@@ -7,7 +7,7 @@ interface PropsType {
   placeHolderText?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  margin?: 'dense' | 'normal';
+  margin?: 'none' | 'dense' | 'normal';
   fullWidth?: boolean;
 }
 

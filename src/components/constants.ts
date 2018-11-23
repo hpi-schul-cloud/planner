@@ -12,3 +12,10 @@ export const MONTHS_MAP = {
   10: 'November',
   11: 'Dezember'
 };
+
+export const EXAMINATION_TYPES = [
+  { text: 'Mündlich', value: 'spoken' },
+  { text: 'Schriftlich', value: 'written' },
+  { text: 'Praktisch', value: 'practical' },
+  { text: 'Anders', value: 'other' }
+];
