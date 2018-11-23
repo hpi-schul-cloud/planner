@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import range from 'lodash/range';
 import ComponentProvider from '../../provider/componentProvider';
-import CompetenceChips from '../topicTemplate/CompetenceChips';
 import StylesProvider, {
   GeneralStylesType
 } from '../../provider/generalStylesProvider';
@@ -59,7 +58,7 @@ type FormValuesType = {
   content: string;
   subjectUnits: string[];
   examinations: ItemType[];
-  competences: { id: string; level: string; text: string }[];
+  material: {}[];
 };
 
 type FormFieldType = keyof FormValuesType;
@@ -88,7 +87,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
       content: '',
       subjectUnits: [] as string[],
       examinations: [] as ItemType[],
-      competences: [] as { id: string; level: string; text: string }[]
+      material: [] as {}[]
     }
   };
 
@@ -250,15 +249,6 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
             values={this.state.currentValues.examinations}
             onChange={value => this.onFormChange(value, 'examinations')}
           />
-        </FormElementDiv>
-        <FormElementDiv>
-          <FlexContainer>
-            <CompetenceChips
-              caption="Kompetenzen vom Lehrplan"
-              competences={this.state.currentValues.competences}
-              onChange={value => this.onFormChange(value, 'competences')}
-            />
-          </FlexContainer>
         </FormElementDiv>
         <ComponentProvider.Button
           onClick={this.onDeleteButtonClick}

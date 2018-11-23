@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import range from 'lodash/range';
 import ComponentProvider from '../../provider/componentProvider';
-import CompetenceChips from './CompetenceChips';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -52,7 +51,7 @@ type FormValuesType = {
   content?: string;
   subjectUnits?: string[];
   examinations?: ItemType[];
-  competences?: { id: string; level: string; text: string }[];
+  material?: {}[];
 };
 
 type FormFieldType = keyof FormValuesType;
@@ -90,7 +89,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
       content: '',
       subjectUnits: [],
       examinations: [],
-      competences: []
+      material: []
     }
   };
 
@@ -254,15 +253,6 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
             values={this.state.currentValues.examinations}
             onChange={value => this.onFormChange(value, 'examinations')}
           />
-        </FormElementDiv>
-        <FormElementDiv>
-          <FlexContainer>
-            <CompetenceChips
-              caption="Kompetenzen vom Lehrplan"
-              competences={this.state.currentValues.competences}
-              onChange={value => this.onFormChange(value, 'competences')}
-            />
-          </FlexContainer>
         </FormElementDiv>
         {this.props.mode === 'NEW' ? (
           <ComponentProvider.Button
