@@ -9,7 +9,6 @@ import BaseText from '../base/Text';
 import BaseTextField from '../base/TextField';
 import BaseTextFieldTable from '../base/TextFieldTable';
 import BaseTextArea from '../base/TextArea';
-import BaseChip from '../base/Chip';
 import BaseSelectorInput from '../base/SelectorInput';
 import BaseTopicElement from '../base/TopicElement';
 
@@ -76,11 +75,6 @@ type TextAreaPropsType = {
   label?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
-type ChipPropsType = {
-  firstLabel?: string;
-  secondLabel?: string;
-  onDeleteClick?: () => void;
-};
 type SelectorInputPropsType = {
   typeOptions: { text: string; value: string }[];
   timeOptions: { text: string; value: string }[];
@@ -116,7 +110,6 @@ type ComponentMapType = Readonly<{
   textField: ComponentType<TextFieldPropsType>;
   textFieldTable: ComponentType<TextFieldTablePropsType>;
   textArea: ComponentType<TextAreaPropsType>;
-  chip: ComponentType<ChipPropsType>;
   selectorInput: ComponentType<SelectorInputPropsType>;
   topicElement: ComponentType<TopicElementPropsType>;
 }>;
@@ -133,7 +126,6 @@ class ComponentProvider {
     textField: BaseTextField,
     textFieldTable: BaseTextFieldTable,
     textArea: BaseTextArea,
-    chip: BaseChip,
     selectorInput: BaseSelectorInput,
     topicElement: BaseTopicElement
   };
@@ -185,10 +177,6 @@ class ComponentProvider {
 
   get TextArea() {
     return this.getElement('textArea')!;
-  }
-
-  get Chip() {
-    return this.getElement('chip')!;
   }
 
   get SelectorInput() {

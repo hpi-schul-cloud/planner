@@ -165,34 +165,6 @@ storiesOf('ComponentProvider/TextFieldTable', module)
     );
   });
 
-storiesOf('ComponentProvider/Chip', module)
-  .add('base', () => {
-    resetCustomComponents();
-    return (
-      <ComponentProvider.Chip
-        firstLabel={text('First Label', 'Stufe E')}
-        secondLabel={text(
-          'Second Label',
-          'Kennzeichen der Fortpflanzung sowie Stadien der Entwicklung von Organismen beschreiben'
-        )}
-        onDeleteClick={action('onDeleteClick')}
-      />
-    );
-  })
-  .add('with material design', () => {
-    setupMaterialComponents();
-    return (
-      <ComponentProvider.Chip
-        firstLabel={text('First Label', 'Stufe E')}
-        secondLabel={text(
-          'Second Label',
-          'Kennzeichen der Fortpflanzung sowie Stadien der Entwicklung von Organismen beschreiben'
-        )}
-        onDeleteClick={action('onDeleteClick')}
-      />
-    );
-  });
-
 storiesOf('ComponentProvider/SelectorInput', module)
   .add('base', () => {
     resetCustomComponents();
