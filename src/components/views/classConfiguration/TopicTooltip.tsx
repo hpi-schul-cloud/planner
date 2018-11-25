@@ -2,11 +2,14 @@ import React from 'react';
 import styled, { injectGlobal } from 'styled-components';
 import IconTrash from '../../../assets/IconTrash';
 import IconEdit from '../../../assets/IconEdit';
+import IconSave from '../../../assets/IconSave';
 import Tippy from '@tippy.js/react';
 import 'tippy.js/dist/tippy.css';
 
 interface PropsType {
   isDisabled?: boolean;
+  isLocal: boolean;
+  onSaveConfiguration?: () => void;
   onEditClick?: () => void;
   onDeleteClick?: () => void;
 }
@@ -82,7 +85,13 @@ class TopicTooltip extends React.Component<PropsType> {
   }
 
   render() {
-    const { children, onEditClick, onDeleteClick } = this.props;
+    const {
+      children,
+      onEditClick,
+      onDeleteClick,
+      onSaveConfiguration,
+      isLocal
+    } = this.props;
 
     return (
       <StyledTooltipContainer>
@@ -100,16 +109,24 @@ class TopicTooltip extends React.Component<PropsType> {
           distance={5}
           content={
             <StyledTooltip>
-              {onEditClick && (
-                <StyledIcon onClick={onEditClick}>
-                  <IconEdit height={20} width={20} />
-                </StyledIcon>
-              )}
-              {onDeleteClick && (
-                <StyledIcon onClick={onDeleteClick}>
-                  <IconTrash height={20} width={20} />
-                </StyledIcon>
-              )}
+              {!isLocal &&
+                onEditClick && (
+                  <StyledIcon onClick={onEditClick}>
+                    <IconEdit height={20} width={20} />
+                  </StyledIcon>
+                )}
+              {!isLocal &&
+                onDeleteClick && (
+                  <StyledIcon onClick={onDeleteClick}>
+                    <IconTrash height={20} width={20} />
+                  </StyledIcon>
+                )}
+              {isLocal &&
+                onSaveConfiguration && (
+                  <StyledIcon onClick={onSaveConfiguration}>
+                    <IconSave height={20} width={20} />
+                  </StyledIcon>
+                )}
             </StyledTooltip>
           }
         >

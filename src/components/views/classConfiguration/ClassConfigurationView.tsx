@@ -6,14 +6,15 @@ import {
   AllClassInstancesType,
   AllTopicTemplatesType,
   ClassInstanceType,
-  TemplatesOfClassLevelType
+  TemplatesOfClassLevelType,
+  LocalTopicIndexType
 } from './types';
-import { EventType, SchoolYearType } from '../../types';
+import { EventType, SchoolYearType, TopicIndexType } from '../../types';
 import ComponentProvider from '../../provider/componentProvider';
 import { getWeekDifference } from '../calendar/timeHelper';
 
 interface PropsType {
-  allClassTopics: AllClassInstancesType;
+  allClassTopics: AllClassInstancesType<TopicIndexType>;
   allTopicTemplates: AllTopicTemplatesType;
   initialSchoolYearId?: string;
   schoolYearData: {
@@ -24,14 +25,16 @@ interface PropsType {
   onEditTemplate: (templateId: string) => void;
   onDeleteTemplate: (templateId: string) => void;
   onEditInstance: (instanceId: string) => void;
-  onSaveClassInstances: (instances: AllClassInstancesType) => void;
+  onSaveClassInstances: (
+    instances: AllClassInstancesType<LocalTopicIndexType>
+  ) => void;
 }
 
 interface StateType {
   selectedSchoolYearId: string;
   selectedSubjectId: string;
-  localAllClassTopics: AllClassInstancesType;
-  prevClassTopics: AllClassInstancesType;
+  localAllClassTopics: AllClassInstancesType<LocalTopicIndexType>;
+  prevClassTopics: AllClassInstancesType<TopicIndexType>;
 }
 
 const ExpansionPanelContainer = styled.div`
@@ -69,7 +72,8 @@ function getColorForSubjectId(id: string) {
 class ClassConfigurationView extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
-    const defaultSelectedSchoolYearId = props.initialSchoolYearId || Object.keys(props.allClassTopics)[0];
+    const defaultSelectedSchoolYearId =
+      props.initialSchoolYearId || Object.keys(props.allClassTopics)[0];
     const defaultSelectedSubjectId = Object.keys(
       props.allClassTopics[defaultSelectedSchoolYearId].subjects
     )[0];
@@ -124,7 +128,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
 
   updateLocalClassTopicsForYear = (
     classLevelId: string,
-    newClasses: ClassInstanceType
+    newClasses: ClassInstanceType<LocalTopicIndexType>
   ) => {
     const {
       selectedSchoolYearId,
@@ -195,7 +199,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
       [classLevelId: string]: {
         classLevelId: string;
         classLevelName: string;
-        classes: ClassInstanceType;
+        classes: ClassInstanceType<LocalTopicIndexType>;
       };
     };
     templates: TemplatesOfClassLevelType;
@@ -243,6 +247,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
                 onDeleteTemplate={this.props.onDeleteTemplate}
                 onEditInstance={this.props.onEditInstance}
                 onUpdate={this.updateLocalClassTopicsForYear}
+                onSaveConfiguration={this.onSaveButtonClick}
               />
             </RasterUnitDiv>
           </ComponentProvider.ExpansionPanel>

@@ -28,6 +28,7 @@ interface PropsType {
   onDeleteTemplate: (templateId: string) => void;
   onEditInstance: (instanceId: string) => void;
   updateClassInstances: (classInstaces: ClassInstanceType) => void;
+  onSaveConfiguration: () => void;
   rasterCount: number;
   rasterSize: number;
   topicTemplates: TopicType[];
@@ -244,6 +245,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
                 onElementDidNotDrop={this.resetDragState}
                 onElementDidDrop={this.commitCurrentDragState}
                 onEditInstance={this.props.onEditInstance}
+                onSaveConfiguration={this.props.onSaveConfiguration}
               />
             ))}
           </RowContainer>
@@ -254,6 +256,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
               <TopicTooltip
                 key={topicTemplate.id}
                 isDisabled={this.state.isDragging}
+                isLocal={false}
                 onDeleteClick={() =>
                   this.props.onDeleteTemplate(topicTemplate.id)
                 }

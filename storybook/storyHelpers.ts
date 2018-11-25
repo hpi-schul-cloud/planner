@@ -3,6 +3,7 @@ import {
   AllClassInstancesType,
   AllTopicTemplatesType
 } from '../src/components/views/classConfiguration/types';
+import { TopicIndexType } from '../src/components/types';
 
 const getSubjects = () => ({
   biology: {
@@ -44,7 +45,9 @@ const getSubjects = () => ({
   }
 });
 
-export const getAllClassInstances = (): AllClassInstancesType => ({
+export const getAllClassInstances = (): AllClassInstancesType<
+  TopicIndexType
+> => ({
   '17/18': {
     schoolYearId: '17/18',
     schoolYearName: '2017/2018',

@@ -126,6 +126,7 @@ storiesOf('ClassConfiguration/InteractiveRasterRow', module).add(
         softInsertTopicElement={() => {}}
         onElementDidNotDrop={() => {}}
         onElementDidDrop={() => {}}
+        onSaveConfiguration={action('onSaveConfiguration')}
         onEditInstance={action('onEditInstance')}
       />
     );
@@ -145,6 +146,7 @@ storiesOf('ClassConfiguration/InteractiveRasterUnit', module).add(
         rasterSize={number('Raster Size', 20)}
         onEditTemplate={action('onEditTemplate')}
         onDeleteTemplate={action('onDeleteTemplate')}
+        onSaveConfiguration={action('onSaveConfiguration')}
         onEditInstance={action('onEditInstance')}
       />
     );
@@ -168,6 +170,7 @@ storiesOf('ClassConfiguration/RasterUnitContainer', module).add(
         onDeleteTemplate={action('onDeleteTemplate')}
         onEditInstance={action('onEditInstance')}
         onUpdate={action('onUpdate')}
+        onSaveConfiguration={action('onSaveConfiguration')}
       />
     );
   }

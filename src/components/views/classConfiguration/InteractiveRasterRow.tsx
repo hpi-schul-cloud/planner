@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
-import { TopicIndexType } from '../../types';
+import { LocalTopicIndexType } from './types';
 import ResizableRasterTopicElement from './ResizableRasterTopicElement';
 import { TOPIC_INSTANCE, TOPIC_TEMPLATE } from './constants';
 import { memoizeArguments } from './helper';
@@ -16,13 +16,14 @@ type DragDropRasterTopicElementType = {
 };
 
 type PropsType = {
-  topicElements: TopicIndexType[];
+  topicElements: LocalTopicIndexType[];
   rasterSize: number;
   rasterCount: number;
   rowId: string;
   classLevelId: string;
-  updateElements: (rowId: string, topicElements: TopicIndexType[]) => void;
+  updateElements: (rowId: string, topicElements: LocalTopicIndexType[]) => void;
   onEditInstance: (instanceId: string) => void;
+  onSaveConfiguration: () => void;
   onElementDidNotDrop: () => void;
   onElementDidDrop: () => void;
   softRelocateTopicElement: (
@@ -30,13 +31,13 @@ type PropsType = {
     elementIndex: number,
     insertStartIndex: number,
     width: number,
-    elementValues: Partial<TopicIndexType>
+    elementValues: Partial<LocalTopicIndexType>
   ) => void;
   softInsertTopicElement: (
     rowId: string,
     insertStartIndex: number,
     width: number,
-    elementValues: Partial<TopicIndexType>
+    elementValues: Partial<LocalTopicIndexType>
   ) => void;
 } & DragDropRasterTopicElementType;
 
@@ -92,7 +93,15 @@ const cardTarget = {
           ? props.rasterCount - 1
           : insertStartIndex;
 
-    const { type, width, id, text, color } = monitor.getItem();
+    const {
+      type,
+      width,
+      id,
+      text,
+      color,
+      isLocal,
+      parentTemplateId
+    } = monitor.getItem();
 
     // Call SoftInsert from InteractiveRasterUnit
     // With: rowId, insertionIndex, width
@@ -105,7 +114,7 @@ const cardTarget = {
           elementIndex,
           insertStartIndex,
           width,
-          { id, text, color }
+          { id, text, color, isLocal, parentTemplateId }
         );
       }
     } else if (type === TOPIC_TEMPLATE) {
@@ -123,7 +132,9 @@ const cardTarget = {
       if (hasToUpdate) {
         props.softInsertTopicElement(props.rowId, insertStartIndex, width, {
           text,
-          color
+          color,
+          isLocal: true,
+          parentTemplateId: id
         });
       }
     }
@@ -140,7 +151,7 @@ const cardTarget = {
 }))
 class InteractiveRasterRow extends PureComponent<PropsType> {
   generateAndCommitElementChanges(changes: {
-    [index: number]: Partial<TopicIndexType>;
+    [index: number]: Partial<LocalTopicIndexType>;
   }) {
     let newTopicElements = [...this.props.topicElements];
     Object.keys(changes).forEach(key => {
@@ -273,7 +284,9 @@ class InteractiveRasterRow extends PureComponent<PropsType> {
     let nextIndex = 0;
     let i = 0;
     for (i = 0; i < topicElements.length; i++) {
-      const { id, text, color, startIndex, endIndex } = topicElements[i];
+      const { id, text, color, startIndex, endIndex, isLocal } = topicElements[
+        i
+      ];
 
       if (topicElements[i].startIndex > nextIndex) {
         elements.push(
@@ -287,7 +300,9 @@ class InteractiveRasterRow extends PureComponent<PropsType> {
         <TopicTooltip
           key={id}
           isDisabled={this.props.isOver}
+          isLocal={!!isLocal}
           onEditClick={() => this.props.onEditInstance(id)}
+          onSaveConfiguration={this.props.onSaveConfiguration}
         >
           <ResizableRasterTopicElement
             key={id}

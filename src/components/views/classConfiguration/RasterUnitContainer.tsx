@@ -38,6 +38,7 @@ interface PropsType {
   onDeleteTemplate: (templateId: string) => void;
   onEditInstance: (instanceId: string) => void;
   onUpdate: (classLevelId: string, classes: ClassInstanceType) => void;
+  onSaveConfiguration: () => void;
 }
 
 const FlexContainer = styled.div`
@@ -132,6 +133,7 @@ class RasterUnitContainer extends PureComponent<PropsType> {
               onEditTemplate={this.props.onEditTemplate}
               onDeleteTemplate={this.props.onDeleteTemplate}
               onEditInstance={this.props.onEditInstance}
+              onSaveConfiguration={this.props.onSaveConfiguration}
             />
             <StyledButtonContainer
               hasTemplates={!!this.props.topicTemplates.length}

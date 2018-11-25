@@ -1,9 +1,11 @@
 import { TopicIndexType } from '../../types';
 
+/////////////////////
 /* Topic Instances */
+/////////////////////
 // Includes all school years, with their respective subjects
 // and their respective class levels and their actual classes
-export type AllClassInstancesType = {
+export type AllClassInstancesType<TopicType> = {
   [schoolYearId: string]: {
     schoolYearId: string;
     schoolYearName: string;
@@ -15,7 +17,7 @@ export type AllClassInstancesType = {
           [classLevelId: string]: {
             classLevelId: string;
             classLevelName: string;
-            classes: ClassInstanceType;
+            classes: ClassInstanceType<TopicType>;
           };
         };
       };
@@ -23,15 +25,22 @@ export type AllClassInstancesType = {
   };
 };
 
-export type ClassInstanceType = {
+export type ClassInstanceType<TopicType> = {
   [classId: string]: {
     id: string;
     name: string;
-    topics: TopicIndexType[];
+    topics: TopicType[];
   };
 };
 
+export type LocalTopicIndexType = TopicIndexType & {
+  isLocal?: boolean;
+  parentTemplateId?: string;
+};
+
+/////////////////////
 /* Topic Templates */
+/////////////////////
 export type AllTopicTemplatesType = {
   [subjectId: string]: TemplatesOfClassLevelType;
 };
