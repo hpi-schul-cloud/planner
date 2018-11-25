@@ -17,11 +17,7 @@ declare type FormValuesType = {
     content: string;
     subjectUnits: string[];
     examinations: ItemType[];
-    competences: {
-        id: string;
-        level: string;
-        text: string;
-    }[];
+    material: {}[];
 };
 declare type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 declare type CurrentFormStateType = Omit<FormValuesType, 'parentTemplate'>;
@@ -30,6 +26,7 @@ export interface PropsType {
     onDelete: () => void;
     onTemplateClick: (id: string) => void;
     initialValues: Partial<FormValuesType>;
+    utcStartDate?: number;
 }
 interface StateType {
     currentValues: CurrentFormStateType;
@@ -45,11 +42,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
             content: string;
             subjectUnits: string[];
             examinations: ItemType[];
-            competences: {
-                id: string;
-                level: string;
-                text: string;
-            }[];
+            material: {}[];
         };
     };
     constructor(props: PropsType);
@@ -59,8 +52,12 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
         id: string;
         level: string;
         text: string;
-    }[], key: "name" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "competences" | "parentTemplate" | "subject" | "classLevel") => void;
+    }[], key: "name" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "material" | "parentTemplate" | "subject" | "classLevel") => void;
     getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerWeek: string) => string[];
+    getTimeOptions: (numberOfWeeks: string, unitsPerWeek: string) => {
+        text: string;
+        value: string;
+    }[];
     render(): JSX.Element;
     static defaultProps: {
         onTemplateClick: () => void;

@@ -67,11 +67,6 @@ declare type TextAreaPropsType = {
     label?: string;
     onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
-declare type ChipPropsType = {
-    firstLabel?: string;
-    secondLabel?: string;
-    onDeleteClick?: () => void;
-};
 declare type SelectorInputPropsType = {
     typeOptions: {
         text: string;
@@ -110,7 +105,6 @@ declare type ComponentMapType = Readonly<{
     textField: ComponentType<TextFieldPropsType>;
     textFieldTable: ComponentType<TextFieldTablePropsType>;
     textArea: ComponentType<TextAreaPropsType>;
-    chip: ComponentType<ChipPropsType>;
     selectorInput: ComponentType<SelectorInputPropsType>;
     topicElement: ComponentType<TopicElementPropsType>;
 }>;
@@ -129,7 +123,6 @@ declare class ComponentProvider {
         textField: ComponentType<TextFieldPropsType>;
         textFieldTable: ComponentType<TextFieldTablePropsType>;
         textArea: ComponentType<TextAreaPropsType>;
-        chip: ComponentType<ChipPropsType>;
         selectorInput: ComponentType<SelectorInputPropsType>;
         topicElement: ComponentType<TopicElementPropsType>;
     }>>[K];
@@ -143,7 +136,6 @@ declare class ComponentProvider {
     readonly TextField: ComponentType<TextFieldPropsType>;
     readonly TextFieldTable: ComponentType<TextFieldTablePropsType>;
     readonly TextArea: ComponentType<TextAreaPropsType>;
-    readonly Chip: ComponentType<ChipPropsType>;
     readonly SelectorInput: ComponentType<SelectorInputPropsType>;
     readonly TopicElement: ComponentType<TopicElementPropsType>;
 }

@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { AllClassInstancesType, AllTopicTemplatesType, ClassInstanceType, TemplatesOfClassLevelType } from './types';
-import { EventType, SchoolYearType } from '../../types';
+import { AllClassInstancesType, AllTopicTemplatesType, ClassInstanceType, TemplatesOfClassLevelType, LocalTopicIndexType } from './types';
+import { EventType, SchoolYearType, TopicIndexType } from '../../types';
 interface PropsType {
-    allClassTopics: AllClassInstancesType;
+    allClassTopics: AllClassInstancesType<TopicIndexType>;
     allTopicTemplates: AllTopicTemplatesType;
     initialSchoolYearId?: string;
     schoolYearData: {
@@ -13,33 +13,33 @@ interface PropsType {
     onEditTemplate: (templateId: string) => void;
     onDeleteTemplate: (templateId: string) => void;
     onEditInstance: (instanceId: string) => void;
-    onSaveClassInstances: (instances: AllClassInstancesType) => void;
+    onSaveClassInstances: (instances: AllClassInstancesType<LocalTopicIndexType>) => void;
 }
 interface StateType {
     selectedSchoolYearId: string;
     selectedSubjectId: string;
-    localAllClassTopics: AllClassInstancesType;
-    prevClassTopics: AllClassInstancesType;
+    localAllClassTopics: AllClassInstancesType<LocalTopicIndexType>;
+    prevClassTopics: AllClassInstancesType<TopicIndexType>;
 }
 declare class ClassConfigurationView extends Component<PropsType, StateType> {
     constructor(props: PropsType);
     static getDerivedStateFromProps(props: PropsType, state: StateType): {
         selectedSchoolYearId: string;
         selectedSubjectId: string;
-        localAllClassTopics: AllClassInstancesType;
-        prevClassTopics: AllClassInstancesType;
+        localAllClassTopics: AllClassInstancesType<TopicIndexType>;
+        prevClassTopics: AllClassInstancesType<TopicIndexType>;
     } | null;
     getCurrentTopicInstancesAndTemplates: () => {
         instances: {
             [classLevelId: string]: {
                 classLevelId: string;
                 classLevelName: string;
-                classes: ClassInstanceType;
+                classes: ClassInstanceType<LocalTopicIndexType>;
             };
         };
         templates: TemplatesOfClassLevelType;
     };
-    updateLocalClassTopicsForYear: (classLevelId: string, newClasses: ClassInstanceType) => void;
+    updateLocalClassTopicsForYear: (classLevelId: string, newClasses: ClassInstanceType<LocalTopicIndexType>) => void;
     getRadioItems: () => {
         id: string;
         text: string;
@@ -65,7 +65,7 @@ declare class ClassConfigurationView extends Component<PropsType, StateType> {
             [classLevelId: string]: {
                 classLevelId: string;
                 classLevelName: string;
-                classes: ClassInstanceType;
+                classes: ClassInstanceType<LocalTopicIndexType>;
             };
         };
         templates: TemplatesOfClassLevelType;

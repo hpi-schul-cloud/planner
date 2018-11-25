@@ -12,3 +12,7 @@ export declare const MONTHS_MAP: {
     10: string;
     11: string;
 };
+export declare const EXAMINATION_TYPES: {
+    text: string;
+    value: string;
+}[];

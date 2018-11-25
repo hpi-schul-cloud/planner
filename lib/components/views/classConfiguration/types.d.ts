@@ -1,5 +1,5 @@
 import { TopicIndexType } from '../../types';
-export declare type AllClassInstancesType = {
+export declare type AllClassInstancesType<TopicType> = {
     [schoolYearId: string]: {
         schoolYearId: string;
         schoolYearName: string;
@@ -11,19 +11,23 @@ export declare type AllClassInstancesType = {
                     [classLevelId: string]: {
                         classLevelId: string;
                         classLevelName: string;
-                        classes: ClassInstanceType;
+                        classes: ClassInstanceType<TopicType>;
                     };
                 };
             };
         };
     };
 };
-export declare type ClassInstanceType = {
+export declare type ClassInstanceType<TopicType> = {
     [classId: string]: {
         id: string;
         name: string;
-        topics: TopicIndexType[];
+        topics: TopicType[];
     };
+};
+export declare type LocalTopicIndexType = TopicIndexType & {
+    isLocal?: boolean;
+    parentTemplateId?: string;
 };
 export declare type AllTopicTemplatesType = {
     [subjectId: string]: TemplatesOfClassLevelType;

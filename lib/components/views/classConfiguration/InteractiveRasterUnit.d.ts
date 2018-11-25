@@ -12,6 +12,7 @@ interface PropsType {
     onDeleteTemplate: (templateId: string) => void;
     onEditInstance: (instanceId: string) => void;
     updateClassInstances: (classInstaces: ClassInstanceType) => void;
+    onSaveConfiguration: () => void;
     rasterCount: number;
     rasterSize: number;
     topicTemplates: TopicType[];

@@ -2,6 +2,8 @@ import React from 'react';
 import 'tippy.js/dist/tippy.css';
 interface PropsType {
     isDisabled?: boolean;
+    isLocal: boolean;
+    onSaveConfiguration?: () => void;
     onEditClick?: () => void;
     onDeleteClick?: () => void;
 }

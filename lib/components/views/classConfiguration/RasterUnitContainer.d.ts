@@ -26,6 +26,7 @@ interface PropsType {
     onDeleteTemplate: (templateId: string) => void;
     onEditInstance: (instanceId: string) => void;
     onUpdate: (classLevelId: string, classes: ClassInstanceType) => void;
+    onSaveConfiguration: () => void;
 }
 declare class RasterUnitContainer extends PureComponent<PropsType> {
     constructor(props: PropsType);
