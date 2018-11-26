@@ -40,12 +40,23 @@ const StyledContainer = styled.div`
 const TWO_WEEK_RASTER_SIZE = 50;
 const THREE_MONTH_RASTER_SIZE = 55;
 
+const sortClassTopicsData = (classTopicsData: ClassTopicsDataType) => {
+  for (const classIndex in classTopicsData) {
+    for (const subjectIndex in classTopicsData[classIndex].classes) {
+      const classInstance = classTopicsData[classIndex].classes[subjectIndex];
+      classInstance.topics = classInstance.topics.sort(
+        (firstTopic, secondTopic) =>
+          firstTopic.utcStartDate - secondTopic.utcStartDate
+      );
+    }
+  }
+};
+
 class CalendarView extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
     this.state = { selectedCalendarType: 'YEAR' };
   }
-
   buildTwoWeekCalendar = () => {
     return (
       <TwoWeekCalendar {...this.props} rasterSize={TWO_WEEK_RASTER_SIZE} />
@@ -89,6 +100,7 @@ class CalendarView extends Component<PropsType, StateType> {
   };
 
   render() {
+    sortClassTopicsData(this.props.classTopicsData);
     const calendar = this.buildCalendar(this.state.selectedCalendarType);
 
     return (
