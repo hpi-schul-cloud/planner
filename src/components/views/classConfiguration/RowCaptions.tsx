@@ -79,7 +79,7 @@ const RowCaptions: React.SFC<PropsType> = ({ labels }) => {
           )
       )}
       <StyledTopicLabel styles={StylesProvider.styles}>
-        Themen:
+        Vorlagen:
       </StyledTopicLabel>
     </StyledLabels>
   );

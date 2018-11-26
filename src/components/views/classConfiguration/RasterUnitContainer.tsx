@@ -139,7 +139,7 @@ class RasterUnitContainer extends PureComponent<PropsType> {
               hasTemplates={!!this.props.topicTemplates.length}
             >
               <ComponentProvider.Button
-                caption="+ Thema"
+                caption="+ Themenvorlage"
                 size="small"
                 type="thin"
                 onClick={() => onAddTemplateClick(this.props.classLevelId)}
