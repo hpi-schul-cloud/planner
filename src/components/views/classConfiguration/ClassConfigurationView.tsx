@@ -91,7 +91,10 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     // We have to reset the state when allClassTopics change
     // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#alternative-1-reset-uncontrolled-component-with-an-id-prop
     if (state.prevClassTopics !== props.allClassTopics) {
-      const defaultSelectedSchoolYearId = Object.keys(props.allClassTopics)[0];
+      const defaultSelectedSchoolYearId =
+        props.initialSchoolYearId && props.allClassTopics[props.initialSchoolYearId].subjects
+          ? props.initialSchoolYearId
+          : Object.keys(props.allClassTopics)[0];
       const defaultSelectedSubjectId = Object.keys(
         props.allClassTopics[defaultSelectedSchoolYearId].subjects
       )[0];
