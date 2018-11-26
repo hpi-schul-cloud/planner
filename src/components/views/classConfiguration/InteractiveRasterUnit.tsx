@@ -214,6 +214,10 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
     };
 
     this.props.updateClassInstances(newClassInstances);
+    this.setState({
+      isDragging: false,
+      tempClassInstances: newClassInstances
+    });
   };
 
   render() {

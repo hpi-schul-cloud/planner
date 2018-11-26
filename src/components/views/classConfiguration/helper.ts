@@ -1,5 +1,30 @@
 import uniqueId from 'lodash/uniqueId';
 import { TopicIndexType } from '../../types';
+import { AllClassInstancesType } from './types';
+
+export const sortAllTopics = (
+  classInstances: AllClassInstancesType<TopicIndexType>
+): AllClassInstancesType<TopicIndexType> => {
+  for (const schoolYearId in classInstances) {
+    for (const subjectId in classInstances[schoolYearId].subjects) {
+      for (const classLevelId in classInstances[schoolYearId].subjects[
+        subjectId
+      ].classLevels) {
+        for (const classId in classInstances[schoolYearId].subjects[subjectId]
+          .classLevels[classLevelId].classes) {
+          const respectiveClass =
+            classInstances[schoolYearId].subjects[subjectId].classLevels[
+              classLevelId
+            ].classes[classId];
+          respectiveClass.topics = respectiveClass.topics.sort(
+            (topic1, topic2) => topic1.startIndex - topic2.startIndex
+          );
+        }
+      }
+    }
+  }
+  return classInstances;
+};
 
 export const getEmptySpaceSize = (
   rasterCount: number,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import memoize from 'lodash/memoize';
 import RasterUnitContainer from './RasterUnitContainer';
+import { sortAllTopics } from './helper';
 import {
   AllClassInstancesType,
   AllTopicTemplatesType,
@@ -82,7 +83,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
       // If no initial school year id is provided, we take the first available one
       selectedSchoolYearId: defaultSelectedSchoolYearId,
       selectedSubjectId: defaultSelectedSubjectId,
-      localAllClassTopics: props.allClassTopics,
+      localAllClassTopics: sortAllTopics(props.allClassTopics),
       prevClassTopics: props.allClassTopics
     };
   }
@@ -92,7 +93,8 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
     // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#alternative-1-reset-uncontrolled-component-with-an-id-prop
     if (state.prevClassTopics !== props.allClassTopics) {
       const defaultSelectedSchoolYearId =
-        props.initialSchoolYearId && props.allClassTopics[props.initialSchoolYearId].subjects
+        props.initialSchoolYearId &&
+        props.allClassTopics[props.initialSchoolYearId].subjects
           ? props.initialSchoolYearId
           : Object.keys(props.allClassTopics)[0];
       const defaultSelectedSubjectId = Object.keys(
@@ -104,7 +106,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
         selectedSchoolYearId:
           props.initialSchoolYearId || defaultSelectedSchoolYearId,
         selectedSubjectId: defaultSelectedSubjectId,
-        localAllClassTopics: props.allClassTopics,
+        localAllClassTopics: sortAllTopics(props.allClassTopics),
         prevClassTopics: props.allClassTopics
       };
     }
