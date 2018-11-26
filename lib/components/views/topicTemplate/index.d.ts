@@ -51,7 +51,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         id: string;
         level: string;
         text: string;
-    }[], key: "name" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "material" | "subjectId" | "classLevelId") => void;
+    }[], key: "name" | "subjectId" | "classLevelId" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "material") => void;
     getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerWeek: string) => string[];
     getTimeOptions: (numberOfWeeks: string, unitsPerWeek: string) => {
         text: string;
