@@ -86,6 +86,7 @@ const cardTarget = {
     // Get pixels to the left
     const hoverClientY = (clientOffset as XYCoord).x - hoverBoundingRect.left;
     let insertStartIndex = Math.round(hoverClientY / props.rasterSize);
+    // Make sure startIndex is inside of bounds
     insertStartIndex =
       insertStartIndex < 0
         ? 0
@@ -93,15 +94,7 @@ const cardTarget = {
           ? props.rasterCount - 1
           : insertStartIndex;
 
-    const {
-      type,
-      width,
-      id,
-      text,
-      color,
-      isLocal,
-      parentTemplateId
-    } = monitor.getItem();
+    const { type, width, id, text, color } = monitor.getItem();
 
     // Call SoftInsert from InteractiveRasterUnit
     // With: rowId, insertionIndex, width
@@ -109,6 +102,7 @@ const cardTarget = {
       const { rowId, index: elementIndex } = monitor.getItem();
       // Only if value actually changed, relocate
       if (props.topicElements[elementIndex].startIndex !== insertStartIndex) {
+        const { parentTemplateId, isLocal } = props.topicElements[elementIndex];
         props.softRelocateTopicElement(
           rowId,
           elementIndex,
@@ -118,7 +112,7 @@ const cardTarget = {
         );
       }
     } else if (type === TOPIC_TEMPLATE) {
-      // We do not want to update, if there are no changes
+      // We do not want to update, if there are no changes in rowId, startIndex or width
       const hasToUpdate = [props.rowId, insertStartIndex, width].reduce(
         (hasToUpdate, value, index) => {
           if (cache[index] !== value) {
