@@ -5,12 +5,13 @@ interface PropsType {
   height: number;
   text?: string;
   color: string;
+  markers?: { position: number; width: number; text: string }[];
   onClick?: () => void;
 }
 
 class TopicElement extends Component<PropsType> {
   render() {
-    const { height, color, text, width, onClick } = this.props;
+    const { height, color, text, width, markers, onClick } = this.props;
 
     return (
       <div
@@ -24,7 +25,8 @@ class TopicElement extends Component<PropsType> {
           textAlign: 'center',
           cursor: onClick ? 'pointer' : 'inherit',
           display: 'inline-block',
-          verticalAlign: 'top'
+          verticalAlign: 'top',
+          position: 'relative'
         }}
         onClick={onClick}
       >
@@ -44,6 +46,19 @@ class TopicElement extends Component<PropsType> {
         >
           {text}
         </div>
+        {markers &&
+          markers.map(marker => (
+            <span
+              style={{
+                top: '-4px',
+                background: '#ff0000b5',
+                left: `${marker.position}px`,
+                height: '3px',
+                position: 'absolute',
+                width: `${marker.width}px`
+              }}
+            />
+          ))}
       </div>
     );
   }

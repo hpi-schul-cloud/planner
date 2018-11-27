@@ -96,6 +96,7 @@ type TopicElementPropsType = {
   height: number;
   text?: string;
   color: string;
+  markers?: { position: number; width: number; text: string }[];
   onClick?: () => void;
 };
 

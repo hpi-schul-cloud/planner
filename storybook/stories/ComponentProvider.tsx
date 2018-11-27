@@ -29,6 +29,10 @@ storiesOf('ComponentProvider/ExpansionPanel', module)
     );
   });
 
+const markers = [
+  { position: 0, width: 15, text: 'Test' },
+  { position: 30, width: 15, text: 'Test' }
+];
 storiesOf('ComponentProvider/TopicElement', module)
   .add('base', () => {
     resetCustomComponents();
@@ -40,6 +44,7 @@ storiesOf('ComponentProvider/TopicElement', module)
         color={color('Color', '#92DB92')}
         width={number('Width', 100)}
         height={number('Height', 100)}
+        markers={object('Markers', markers)}
       />
     );
   })
@@ -53,6 +58,7 @@ storiesOf('ComponentProvider/TopicElement', module)
         color={color('Color', '#92DB92')}
         width={number('Width', 100)}
         height={number('Height', 100)}
+        markers={object('Markers', markers)}
       />
     );
   });

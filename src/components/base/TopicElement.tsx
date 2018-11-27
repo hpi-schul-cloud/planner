@@ -23,6 +23,20 @@ const ElementContainer = styled.div`
     box-sizing: border-box;
   }
   vertical-align: top;
+  position: relative;
+`;
+
+type MarkerSpanProps = {
+  position: number;
+  width: number;
+};
+const MarkerSpan = styled.span<MarkerSpanProps>`
+  top: -4px;
+  background: #ff0000b5;
+  left: ${({ position }) => position}px;
+  height: 3px;
+  width: ${({ width }) => width}px;
+  position: absolute;
 `;
 
 type TextContainerProps = {
@@ -46,13 +60,14 @@ interface PropsType {
   width: number;
   height: number;
   text?: string;
+  markers?: { position: number; width: number; text: string }[];
   color: string;
   onClick?: () => void;
 }
 
 class TopicElement extends Component<PropsType> {
   render() {
-    const { height, color, text, width, onClick } = this.props;
+    const { height, color, text, width, markers, onClick } = this.props;
 
     return (
       <ElementContainer
@@ -65,6 +80,10 @@ class TopicElement extends Component<PropsType> {
         <TextContainer height={height} width={width}>
           {text}
         </TextContainer>
+        {markers &&
+          markers.map(marker => (
+            <MarkerSpan position={marker.position} width={marker.width} />
+          ))}
       </ElementContainer>
     );
   }
