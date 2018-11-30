@@ -37,6 +37,12 @@ type ItemType = {
   timeValue: string;
   textValue: string;
 };
+type FileType = {
+  file: string;
+  name: string;
+  type: string;
+  id: string;
+};
 
 type FormValuesOptionsType = {
   subject: IdTextType[];
@@ -52,16 +58,35 @@ type FormValuesType = {
   content?: string;
   subjectUnits?: string[];
   examinations?: ItemType[];
-  material?: {}[];
+  material?: FileType[];
 };
 
 type FormFieldType = keyof FormValuesType;
+type OnFileAddType = (
+  {
+    file,
+    onComplete,
+    onError
+  }: {
+    file: {
+      type: string;
+      name: string;
+      blob: string;
+      tempId: string;
+    };
+    onComplete: (file: FileType) => void;
+    onError: (fileId: string) => void;
+  }
+) => void;
 // Property interfaces differ between EDIT and NEW mode
 export type PropsType =
   | {
       mode: 'EDIT';
       initialValues: FormValuesType;
       valueOptions: FormValuesOptionsType;
+      onFileClick: (file: FileType) => void;
+      onFileAdd: OnFileAddType;
+      onFileRemove: (file: FileType) => void;
       onCreate?: (values: FormValuesType) => void;
       onSave: (values: FormValuesType) => void;
       onDelete: () => void;
@@ -70,6 +95,9 @@ export type PropsType =
       mode: 'NEW';
       initialValues?: FormValuesType;
       valueOptions: FormValuesOptionsType;
+      onFileClick: (file: FileType) => void;
+      onFileAdd: OnFileAddType;
+      onFileRemove: (file: FileType) => void;
       onCreate: (values: FormValuesType) => void;
       onSave?: (values: FormValuesType) => void;
       onDelete?: () => void;
@@ -266,6 +294,16 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
             timeOptions={timeOptions}
             values={this.state.currentValues.examinations}
             onChange={value => this.onFormChange(value, 'examinations')}
+          />
+        </FormElementDiv>
+        <FormElementDiv>
+          <ComponentProvider.Label caption="Materialien" type="small" />
+          <ComponentProvider.FileSelector
+            files={this.state.currentValues.material}
+            onFileClick={this.props.onFileClick}
+            onFileAdd={this.props.onFileAdd}
+            onFileRemove={this.props.onFileRemove}
+            onFormChange={() => {}}
           />
         </FormElementDiv>
         {this.props.mode === 'NEW' ? (

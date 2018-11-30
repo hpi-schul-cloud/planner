@@ -1,5 +1,11 @@
 import React, { ReactNode } from 'react';
 declare type ComponentType<Props> = React.SFC<Props> | React.ComponentClass<Props>;
+declare type FileType = {
+    file: string;
+    name: string;
+    type: string;
+    id: string;
+};
 declare type ExpansionPanelPropsType = {
     className?: string;
     children: string | JSX.Element | JSX.Element[];
@@ -22,6 +28,22 @@ declare type TabsPropsType = {
         color?: string;
     }[];
     onChange: (id: string) => void;
+};
+declare type FileSelectorPropsType = {
+    files: FileType[];
+    onFileClick: (file: FileType) => void;
+    onFileAdd: ({ file, onComplete, onError }: {
+        file: {
+            type: string;
+            name: string;
+            blob: string;
+            tempId: string;
+        };
+        onComplete: (file: FileType) => void;
+        onError: (fileId: string) => void;
+    }) => void;
+    onFileRemove: (file: FileType) => void;
+    onFormChange: (newFiles: FileType[]) => void;
 };
 declare type LabelPropsType = {
     caption: ReactNode;
@@ -92,6 +114,11 @@ declare type TopicElementPropsType = {
     height: number;
     text?: string;
     color: string;
+    markers?: {
+        position: number;
+        width: number;
+        text: string;
+    }[];
     onClick?: () => void;
 };
 declare type ComponentMapType = Readonly<{
@@ -107,6 +134,7 @@ declare type ComponentMapType = Readonly<{
     textArea: ComponentType<TextAreaPropsType>;
     selectorInput: ComponentType<SelectorInputPropsType>;
     topicElement: ComponentType<TopicElementPropsType>;
+    fileSelector: ComponentType<FileSelectorPropsType>;
 }>;
 declare class ComponentProvider {
     readonly defaultComponentMap: ComponentMapType;
@@ -125,8 +153,10 @@ declare class ComponentProvider {
         textArea: ComponentType<TextAreaPropsType>;
         selectorInput: ComponentType<SelectorInputPropsType>;
         topicElement: ComponentType<TopicElementPropsType>;
+        fileSelector: ComponentType<FileSelectorPropsType>;
     }>>[K];
     readonly ExpansionPanel: ComponentType<ExpansionPanelPropsType>;
+    readonly FileSelector: ComponentType<FileSelectorPropsType>;
     readonly Select: ComponentType<SelectPropsType>;
     readonly Tabs: ComponentType<TabsPropsType>;
     readonly Label: ComponentType<LabelPropsType>;

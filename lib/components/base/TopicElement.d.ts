@@ -3,6 +3,11 @@ interface PropsType {
     width: number;
     height: number;
     text?: string;
+    markers?: {
+        position: number;
+        width: number;
+        text: string;
+    }[];
     color: string;
     onClick?: () => void;
 }

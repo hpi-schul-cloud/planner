@@ -25,6 +25,9 @@ const props = {
   onCreate: action('onCreate'),
   onSave: action('onSave'),
   onDelete: action('onDelete'),
+  onFileClick: action('onFileClick'),
+  onFileAdd: action('onFileAdd'),
+  onFileRemove: action('onFileRemove'),
   mode: select('Mode', { new: 'NEW', edit: 'EDIT' }, 'NEW') as 'NEW'
 };
 storiesOf('TopicTemplate', module)

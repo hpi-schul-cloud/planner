@@ -11,8 +11,15 @@ import BaseTextFieldTable from '../base/TextFieldTable';
 import BaseTextArea from '../base/TextArea';
 import BaseSelectorInput from '../base/SelectorInput';
 import BaseTopicElement from '../base/TopicElement';
+import BaseFileSelector from '../base/FileSelector';
 
 type ComponentType<Props> = React.SFC<Props> | React.ComponentClass<Props>;
+type FileType = {
+  file: string;
+  name: string;
+  type: string;
+  id: string;
+};
 
 type ExpansionPanelPropsType = {
   className?: string;
@@ -36,6 +43,28 @@ type TabsPropsType = {
     color?: string;
   }[];
   onChange: (id: string) => void;
+};
+type FileSelectorPropsType = {
+  files: FileType[];
+  onFileClick: (file: FileType) => void;
+  onFileAdd: (
+    {
+      file,
+      onComplete,
+      onError
+    }: {
+      file: {
+        type: string;
+        name: string;
+        blob: string;
+        tempId: string;
+      };
+      onComplete: (file: FileType) => void;
+      onError: (fileId: string) => void;
+    }
+  ) => void;
+  onFileRemove: (file: FileType) => void;
+  onFormChange: (newFiles: FileType[]) => void;
 };
 type LabelPropsType = {
   caption: ReactNode;
@@ -99,7 +128,6 @@ type TopicElementPropsType = {
   markers?: { position: number; width: number; text: string }[];
   onClick?: () => void;
 };
-
 type ComponentMapType = Readonly<{
   expansionPanel: ComponentType<ExpansionPanelPropsType>;
   select: ComponentType<SelectPropsType>;
@@ -113,6 +141,7 @@ type ComponentMapType = Readonly<{
   textArea: ComponentType<TextAreaPropsType>;
   selectorInput: ComponentType<SelectorInputPropsType>;
   topicElement: ComponentType<TopicElementPropsType>;
+  fileSelector: ComponentType<FileSelectorPropsType>;
 }>;
 
 class ComponentProvider {
@@ -128,7 +157,8 @@ class ComponentProvider {
     textFieldTable: BaseTextFieldTable,
     textArea: BaseTextArea,
     selectorInput: BaseSelectorInput,
-    topicElement: BaseTopicElement
+    topicElement: BaseTopicElement,
+    fileSelector: BaseFileSelector
   };
   customComponentMap: Partial<ComponentMapType> = {};
 
@@ -142,6 +172,10 @@ class ComponentProvider {
 
   get ExpansionPanel() {
     return this.getElement('expansionPanel')!;
+  }
+
+  get FileSelector() {
+    return this.getElement('fileSelector')!;
   }
 
   get Select() {

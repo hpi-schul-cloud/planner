@@ -4,6 +4,12 @@ declare type ItemType = {
     timeValue: string;
     textValue: string;
 };
+declare type FileType = {
+    file: string;
+    name: string;
+    type: string;
+    id: string;
+};
 declare type FormValuesType = {
     subject: string;
     classLevel: string;
@@ -17,7 +23,7 @@ declare type FormValuesType = {
     content: string;
     subjectUnits: string[];
     examinations: ItemType[];
-    material: {}[];
+    material: FileType[];
 };
 declare type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 declare type CurrentFormStateType = Omit<FormValuesType, 'parentTemplate'>;
@@ -25,6 +31,18 @@ export interface PropsType {
     onSave: (values: CurrentFormStateType) => void;
     onDelete: () => void;
     onTemplateClick: (id: string) => void;
+    onFileClick: (file: FileType) => void;
+    onFileAdd: ({ file, onComplete, onError }: {
+        file: {
+            type: string;
+            name: string;
+            blob: string;
+            tempId: string;
+        };
+        onComplete: (file: FileType) => void;
+        onError: (fileId: string) => void;
+    }) => void;
+    onFileRemove: (file: FileType) => void;
     initialValues: Partial<FormValuesType>;
     utcStartDate?: number;
 }
@@ -42,7 +60,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
             content: string;
             subjectUnits: string[];
             examinations: ItemType[];
-            material: {}[];
+            material: FileType[];
         };
     };
     constructor(props: PropsType);
@@ -52,7 +70,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
         id: string;
         level: string;
         text: string;
-    }[], key: "name" | "parentTemplate" | "subject" | "classLevel" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "material") => void;
+    }[], key: "name" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "material" | "parentTemplate" | "subject" | "classLevel") => void;
     getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerWeek: string) => string[];
     getTimeOptions: (numberOfWeeks: string, unitsPerWeek: string) => {
         text: string;

@@ -45,6 +45,12 @@ type ItemType = {
   timeValue: string;
   textValue: string;
 };
+type FileType = {
+  file: string;
+  name: string;
+  type: string;
+  id: string;
+};
 
 type FormValuesType = {
   subject: string;
@@ -59,7 +65,7 @@ type FormValuesType = {
   content: string;
   subjectUnits: string[];
   examinations: ItemType[];
-  material: {}[];
+  material: FileType[];
 };
 
 type FormFieldType = keyof FormValuesType;
@@ -70,6 +76,24 @@ export interface PropsType {
   onSave: (values: CurrentFormStateType) => void;
   onDelete: () => void;
   onTemplateClick: (id: string) => void;
+  onFileClick: (file: FileType) => void;
+  onFileAdd: (
+    {
+      file,
+      onComplete,
+      onError
+    }: {
+      file: {
+        type: string;
+        name: string;
+        blob: string;
+        tempId: string;
+      };
+      onComplete: (file: FileType) => void;
+      onError: (fileId: string) => void;
+    }
+  ) => void;
+  onFileRemove: (file: FileType) => void;
   initialValues: Partial<FormValuesType>;
   utcStartDate?: number;
 }
@@ -89,7 +113,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
       content: '',
       subjectUnits: [] as string[],
       examinations: [] as ItemType[],
-      material: [] as {}[]
+      material: [] as FileType[]
     }
   };
 
@@ -268,6 +292,16 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
             timeOptions={timeOptions}
             values={this.state.currentValues.examinations}
             onChange={value => this.onFormChange(value, 'examinations')}
+          />
+        </FormElementDiv>
+        <FormElementDiv>
+          <ComponentProvider.Label caption="Materialien" type="small" />
+          <ComponentProvider.FileSelector
+            files={this.state.currentValues.material}
+            onFileClick={this.props.onFileClick}
+            onFileAdd={this.props.onFileAdd}
+            onFileRemove={this.props.onFileRemove}
+            onFormChange={() => {}}
           />
         </FormElementDiv>
         <ComponentProvider.Button

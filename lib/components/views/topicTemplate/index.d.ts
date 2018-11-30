@@ -8,6 +8,12 @@ declare type ItemType = {
     timeValue: string;
     textValue: string;
 };
+declare type FileType = {
+    file: string;
+    name: string;
+    type: string;
+    id: string;
+};
 declare type FormValuesOptionsType = {
     subject: IdTextType[];
     classLevel: IdTextType[];
@@ -21,12 +27,25 @@ declare type FormValuesType = {
     content?: string;
     subjectUnits?: string[];
     examinations?: ItemType[];
-    material?: {}[];
+    material?: FileType[];
 };
+declare type OnFileAddType = ({ file, onComplete, onError }: {
+    file: {
+        type: string;
+        name: string;
+        blob: string;
+        tempId: string;
+    };
+    onComplete: (file: FileType) => void;
+    onError: (fileId: string) => void;
+}) => void;
 export declare type PropsType = {
     mode: 'EDIT';
     initialValues: FormValuesType;
     valueOptions: FormValuesOptionsType;
+    onFileClick: (file: FileType) => void;
+    onFileAdd: OnFileAddType;
+    onFileRemove: (file: FileType) => void;
     onCreate?: (values: FormValuesType) => void;
     onSave: (values: FormValuesType) => void;
     onDelete: () => void;
@@ -34,6 +53,9 @@ export declare type PropsType = {
     mode: 'NEW';
     initialValues?: FormValuesType;
     valueOptions: FormValuesOptionsType;
+    onFileClick: (file: FileType) => void;
+    onFileAdd: OnFileAddType;
+    onFileRemove: (file: FileType) => void;
     onCreate: (values: FormValuesType) => void;
     onSave?: (values: FormValuesType) => void;
     onDelete?: () => void;
@@ -51,7 +73,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
         id: string;
         level: string;
         text: string;
-    }[], key: "name" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "material" | "subjectId" | "classLevelId") => void;
+    }[], key: "name" | "subjectId" | "classLevelId" | "numberOfWeeks" | "unitsPerWeek" | "content" | "subjectUnits" | "examinations" | "material") => void;
     getTextFieldTableCaptions: (numberOfWeeks: string, unitsPerWeek: string) => string[];
     getTimeOptions: (numberOfWeeks: string, unitsPerWeek: string) => {
         text: string;

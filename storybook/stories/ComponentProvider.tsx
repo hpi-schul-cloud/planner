@@ -63,6 +63,33 @@ storiesOf('ComponentProvider/TopicElement', module)
     );
   });
 
+storiesOf('ComponentProvider/FileSelector', module).add('base', () => {
+  resetCustomComponents();
+
+  return (
+    <ComponentProvider.FileSelector
+      files={[
+        {
+          file: 'blub.txt',
+          name: 'blub.txt',
+          type: 'txt',
+          id: '1'
+        },
+        {
+          file: 'blab.png',
+          name: 'blab.png',
+          type: 'png',
+          id: '2'
+        }
+      ]}
+      onFileClick={action('onFileClick')}
+      onFileAdd={action('onFileAdd')}
+      onFileRemove={action('onFileRemove')}
+      onFormChange={action('onFormChange')}
+    />
+  );
+});
+
 storiesOf('ComponentProvider/Tabs', module)
   .add('base', () => {
     resetCustomComponents();
