@@ -69,7 +69,7 @@ export default class TopicTemplateView extends Component<PropsType, StateType> {
     onCreateButtonClick: () => void;
     onSaveButtonClick: () => void;
     onDeleteButtonClick: () => void;
-    onFormChange: (value: string | string[] | ItemType[] | {
+    onFormChange: (value: string | string[] | ItemType[] | FileType[] | {
         id: string;
         level: string;
         text: string;

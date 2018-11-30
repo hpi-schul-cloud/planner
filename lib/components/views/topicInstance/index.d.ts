@@ -66,7 +66,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
     constructor(props: PropsType);
     onDeleteButtonClick: () => void;
     onSaveButtonClick: () => void;
-    onFormChange: (value: string | string[] | ItemType[] | {
+    onFormChange: (value: string | string[] | ItemType[] | FileType[] | {
         id: string;
         level: string;
         text: string;

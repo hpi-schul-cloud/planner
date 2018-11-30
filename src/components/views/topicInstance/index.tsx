@@ -144,7 +144,8 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
       | string
       | string[]
       | ItemType[]
-      | { id: string; level: string; text: string }[],
+      | { id: string; level: string; text: string }[]
+      | FileType[],
     key: FormFieldType
   ) => {
     this.setState({
@@ -301,7 +302,7 @@ export default class TopicInstanceView extends Component<PropsType, StateType> {
             onFileClick={this.props.onFileClick}
             onFileAdd={this.props.onFileAdd}
             onFileRemove={this.props.onFileRemove}
-            onFormChange={() => {}}
+            onFormChange={value => this.onFormChange(value, 'material')}
           />
         </FormElementDiv>
         <ComponentProvider.Button
