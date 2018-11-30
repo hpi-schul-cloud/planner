@@ -67,27 +67,11 @@ class FileSelector extends Component<PropsType> {
     const files = event.target.files;
     if (files)
       for (let i = 0; i < files.length; i++) {
-        // const reader = new FileReader();
-        // reader.onloadend = (function(file, that) {
-        //   return () => {
-        //     const blob: string = reader.result as string;
-        //     if (blob) {
-        //       that.onFileAdd({
-        //         type: file.type,
-        //         name: file.name,
-        //         tempId: uniqueId('temp_'),
-        //         blob
-        //       });
-        //     }
-        //   };
-        // })(files[i], this);
         const file = files[i];
         this.onFileAdd({
           file: file,
           tempId: uniqueId('temp_')
-          // blob
         });
-        // reader.readAsDataURL(files[i]);
       }
     event.target.value = '';
   };
@@ -108,7 +92,7 @@ class FileSelector extends Component<PropsType> {
               </StyledFileName>
               <StyledRemove
                 key={`remove-${file.id}`}
-                onClick={() => this.props.onFileRemove(file)}
+                onClick={() => this.handleFileRemove(file)}
               >
                 Remove
               </StyledRemove>
