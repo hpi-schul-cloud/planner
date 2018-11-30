@@ -19,9 +19,7 @@ interface PropsType {
       onError
     }: {
       file: {
-        type: string;
-        name: string;
-        blob: string;
+        file: File;
         tempId: string;
       };
       onComplete: (file: FileType) => void;
@@ -47,12 +45,7 @@ class FileSelector extends Component<PropsType> {
     this.props.onFormChange([...this.props.files, file]);
   };
   onError = (tempId: string) => {};
-  onFileAdd = (file: {
-    type: string;
-    name: string;
-    blob: string;
-    tempId: string;
-  }) => {
+  onFileAdd = (file: { file: File; tempId: string }) => {
     this.props.onFileAdd({
       file,
       onComplete: this.onComplete,
@@ -74,22 +67,27 @@ class FileSelector extends Component<PropsType> {
     const files = event.target.files;
     if (files)
       for (let i = 0; i < files.length; i++) {
-        const reader = new FileReader();
-        reader.onloadend = (function(file, that) {
-          return () => {
-            const blob: string = reader.result as string;
-            if (blob) {
-              that.onFileAdd({
-                type: file.type,
-                name: file.name,
-                tempId: uniqueId('temp_'),
-                blob
-              });
-            }
-          };
-        })(files[i], this);
-
-        reader.readAsDataURL(files[i]);
+        // const reader = new FileReader();
+        // reader.onloadend = (function(file, that) {
+        //   return () => {
+        //     const blob: string = reader.result as string;
+        //     if (blob) {
+        //       that.onFileAdd({
+        //         type: file.type,
+        //         name: file.name,
+        //         tempId: uniqueId('temp_'),
+        //         blob
+        //       });
+        //     }
+        //   };
+        // })(files[i], this);
+        const file = files[i];
+        this.onFileAdd({
+          file: file,
+          tempId: uniqueId('temp_')
+          // blob
+        });
+        // reader.readAsDataURL(files[i]);
       }
     event.target.value = '';
   };
@@ -103,13 +101,13 @@ class FileSelector extends Component<PropsType> {
           {files.map(file => (
             <div>
               <StyledFileName
-                key={file.id}
+                key={`fileName-${file.id}`}
                 onClick={() => this.props.onFileClick(file)}
               >
                 {file.name}
               </StyledFileName>
               <StyledRemove
-                key={file.id}
+                key={`remove-${file.id}`}
                 onClick={() => this.props.onFileRemove(file)}
               >
                 Remove

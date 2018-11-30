@@ -54,9 +54,7 @@ type FileSelectorPropsType = {
       onError
     }: {
       file: {
-        type: string;
-        name: string;
-        blob: string;
+        file: File;
         tempId: string;
       };
       onComplete: (file: FileType) => void;
