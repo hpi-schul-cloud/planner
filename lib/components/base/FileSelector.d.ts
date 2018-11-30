@@ -10,9 +10,7 @@ interface PropsType {
     onFileClick: (file: FileType) => void;
     onFileAdd: ({ file, onComplete, onError }: {
         file: {
-            type: string;
-            name: string;
-            blob: string;
+            file: File;
             tempId: string;
         };
         onComplete: (file: FileType) => void;
@@ -25,9 +23,7 @@ declare class FileSelector extends Component<PropsType> {
     onComplete: (file: FileType) => void;
     onError: (tempId: string) => void;
     onFileAdd: (file: {
-        type: string;
-        name: string;
-        blob: string;
+        file: File;
         tempId: string;
     }) => void;
     handleFileRemove: (file: FileType) => void;
