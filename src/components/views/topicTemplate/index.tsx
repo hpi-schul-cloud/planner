@@ -72,8 +72,8 @@ type OnFileAddType = (
       file: File;
       tempId: string;
     };
-    onComplete: (file: FileType) => void;
-    onError: (fileId: string) => void;
+    onComplete: (file: FileType, tempId: string) => void;
+    onError: (tempId: string) => void;
   }
 ) => void;
 // Property interfaces differ between EDIT and NEW mode
