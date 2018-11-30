@@ -16,3 +16,8 @@ export declare const EXAMINATION_TYPES: {
     text: string;
     value: string;
 }[];
+export declare const TOPIC_ELEMENT_SIZE_MAP: {
+    small: number;
+    medium: number;
+    large: number;
+};

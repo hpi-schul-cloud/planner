@@ -37,8 +37,8 @@ export interface PropsType {
             file: File;
             tempId: string;
         };
-        onComplete: (file: FileType) => void;
-        onError: (fileId: string) => void;
+        onComplete: (file: FileType, tempId: string) => void;
+        onError: (tempId: string) => void;
     }) => void;
     onFileRemove: (file: FileType) => void;
     initialValues: Partial<FormValuesType>;

@@ -34,8 +34,8 @@ declare type OnFileAddType = ({ file, onComplete, onError }: {
         file: File;
         tempId: string;
     };
-    onComplete: (file: FileType) => void;
-    onError: (fileId: string) => void;
+    onComplete: (file: FileType, tempId: string) => void;
+    onError: (tempId: string) => void;
 }) => void;
 export declare type PropsType = {
     mode: 'EDIT';

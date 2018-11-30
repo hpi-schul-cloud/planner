@@ -5,6 +5,9 @@ declare type FileType = {
     type: string;
     id: string;
 };
+interface StateType {
+    loadingItems: string[];
+}
 interface PropsType {
     files: FileType[];
     onFileClick: (file: FileType) => void;
@@ -13,14 +16,18 @@ interface PropsType {
             file: File;
             tempId: string;
         };
-        onComplete: (file: FileType) => void;
-        onError: (fileId: string) => void;
+        onComplete: (file: FileType, tempId: string) => void;
+        onError: (tempId: string) => void;
     }) => void;
     onFileRemove: (file: FileType) => void;
     onFormChange: (newFiles: FileType[]) => void;
 }
-declare class FileSelector extends Component<PropsType> {
-    onComplete: (file: FileType) => void;
+declare class FileSelector extends Component<PropsType, StateType> {
+    ref: React.RefObject<HTMLInputElement>;
+    state: {
+        loadingItems: never[];
+    };
+    onComplete: (file: FileType, tempId: string) => void;
     onError: (tempId: string) => void;
     onFileAdd: (file: {
         file: File;
