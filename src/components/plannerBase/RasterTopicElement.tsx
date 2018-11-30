@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ComponentProvider from '../provider/componentProvider';
+import { TOPIC_ELEMENT_SIZE_MAP } from '../constants';
 
 export type PropsType = {
   rasterSize: number;
@@ -12,12 +13,6 @@ export type PropsType = {
   onClick?: () => void;
 };
 
-const sizeMap = {
-  small: 17,
-  medium: 21,
-  large: 25
-};
-
 class RasterTopicElement extends Component<PropsType> {
   render() {
     const {
@@ -28,7 +23,7 @@ class RasterTopicElement extends Component<PropsType> {
       ...otherProps
     } = this.props;
     const width = (1 + endIndex - startIndex) * rasterSize;
-    const height = sizeMap[size];
+    const height = TOPIC_ELEMENT_SIZE_MAP[size];
 
     return (
       <ComponentProvider.TopicElement

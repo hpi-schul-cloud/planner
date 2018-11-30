@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
+import { TOPIC_ELEMENT_SIZE_MAP } from '../../constants';
 import { LocalTopicIndexType } from './types';
 import ResizableRasterTopicElement from './ResizableRasterTopicElement';
 import { TOPIC_INSTANCE, TOPIC_TEMPLATE } from './constants';
@@ -41,10 +42,13 @@ type PropsType = {
   ) => void;
 } & DragDropRasterTopicElementType;
 
-const FillerElement = styled.div`
-  width: ${({ width }: { width: number }) => `${width}px`};
-  height: 1px;
+const TOPIC_ELEMENT_SIZE = 'small';
+
+const FillerElement = styled.div<{ width: number; size: string }>`
+  width: ${({ width }) => `${width}px`};
+  height: ${({ size }) => (size ? `${TOPIC_ELEMENT_SIZE_MAP[size]}px` : '1px')};
   display: inline-block;
+  vertical-align: bottom;
 `;
 
 const RasterRowContainer = styled.div`
@@ -285,6 +289,7 @@ class InteractiveRasterRow extends PureComponent<PropsType> {
       if (topicElements[i].startIndex > nextIndex) {
         elements.push(
           <FillerElement
+            size={TOPIC_ELEMENT_SIZE}
             width={(startIndex - nextIndex) * rasterSize}
             key={`Filler-${i}`}
           />
@@ -302,6 +307,7 @@ class InteractiveRasterRow extends PureComponent<PropsType> {
             key={id}
             id={id}
             index={i}
+            size={TOPIC_ELEMENT_SIZE}
             rowId={rowId}
             type={TOPIC_INSTANCE}
             isTransparentWhileDragging={false}
@@ -321,6 +327,7 @@ class InteractiveRasterRow extends PureComponent<PropsType> {
     if (nextIndex < rasterCount) {
       elements.push(
         <FillerElement
+          size={TOPIC_ELEMENT_SIZE}
           width={(rasterCount - nextIndex) * rasterSize}
           key={`Filler-${i}`}
         />

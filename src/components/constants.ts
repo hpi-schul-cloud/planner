@@ -19,3 +19,9 @@ export const EXAMINATION_TYPES = [
   { text: 'Praktisch', value: 'practical' },
   { text: 'Anders', value: 'other' }
 ];
+
+export const TOPIC_ELEMENT_SIZE_MAP = {
+  small: 17,
+  medium: 21,
+  large: 25
+};

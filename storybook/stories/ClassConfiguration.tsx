@@ -158,13 +158,13 @@ storiesOf('ClassConfiguration/RasterUnitContainer', module).add(
   () => {
     return (
       <RasterUnitContainer
-        topicTemplates={getTopicTemplates()}
-        classInstances={getClassInstances(8)}
+        topicTemplates={object('Topic Templates', getTopicTemplates())}
+        classInstances={object('Class Instances', getClassInstances(8))}
         rasterCount={number('Raster Count', 30)}
         rasterSize={number('Raster Size', 20)}
         classLevelId={text('ClassLevelId', '1')}
         schoolYear={object('School Year', schoolYear)}
-        eventData={[...holidaysData, ...eventsData]}
+        eventData={object('Event data', [...holidaysData, ...eventsData])}
         onAddTemplateClick={action('onAddTemplateClick')}
         onEditTemplate={action('onEditTemplate')}
         onDeleteTemplate={action('onDeleteTemplate')}
