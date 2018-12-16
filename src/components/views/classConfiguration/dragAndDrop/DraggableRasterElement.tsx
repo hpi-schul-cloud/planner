@@ -78,7 +78,7 @@ export type PropsType = Omit<RasterTopicElementPropsType, 'size'> &
   };
 
 @DragSource('TopicElement', elementSource, collect)
-export default class DragDropRasterTopicElement extends Component<PropsType> {
+export default class DraggableRasterElement extends Component<PropsType> {
   render() {
     const {
       connectDragSource,
