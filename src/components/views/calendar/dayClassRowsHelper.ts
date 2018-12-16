@@ -116,21 +116,6 @@ export const determineIndices = ({
   };
 };
 
-export type EventMapType = {
-  [id: string]: (EventTypesType)[];
-};
-const addItemToEventTypeMap = (
-  item: EventTypesType,
-  map: EventMapType,
-  index: number
-) => {
-  if (map[index]) {
-    map[index].push(item);
-  } else {
-    map[index] = [item];
-  }
-};
-
 const buildEventArray = (eventIndexMap: StringMapType, deltaDays: number) => {
   const result: { startIndex: number; endIndex: number; name: string }[] = [];
   let startIndex = 0;
@@ -178,6 +163,21 @@ const buildEventArray = (eventIndexMap: StringMapType, deltaDays: number) => {
   return result;
 };
 
+export type EventMapType = {
+  [id: string]: (EventTypesType)[];
+};
+const addItemToEventTypeMap = (
+  item: EventTypesType,
+  map: EventMapType,
+  index: number
+) => {
+  if (map[index]) {
+    map[index].push(item);
+  } else {
+    map[index] = [item];
+  }
+};
+
 export const getEventMaps = (
   holidayEvents: EventType,
   otherEvents: EventType,
@@ -186,6 +186,7 @@ export const getEventMaps = (
     utcEndDate: number;
   }
 ) => {
+  // Method creates index based maps from events which have utc dates
   const columnColorMap: StringMapType = {};
   const eventTypeMap: EventMapType = {};
   const eventIndexMap: StringMapType = {};
@@ -213,8 +214,9 @@ export const getEventMaps = (
       }
     });
   };
-
+  // Add holiday information to color map and event type map
   setupMapsForEvents(holidayEvents, columnColorMap, eventTypeMap, 'HOLIDAY');
+  // Add other event information to color map and event type map
   setupMapsForEvents(otherEvents, columnColorMap, eventTypeMap, 'OTHER');
 
   for (let i = 0; i < deltaDays; i++) {
@@ -222,7 +224,9 @@ export const getEventMaps = (
     const day = currentDay.getUTCDay();
     // Saturday or Sunday
     if (day === 0 || day === 6) {
+      // Set color at this day to weekend color (overwrites holidays or other events)
       columnColorMap[i] = '#DFDFDF';
+      // Create a gap by deleting weekend indices
       delete eventIndexMap[i];
       addItemToEventTypeMap('WEEKEND', eventTypeMap, i);
     }
@@ -230,8 +234,10 @@ export const getEventMaps = (
   const eventArray = buildEventArray(eventIndexMap, deltaDays);
 
   return {
+    // To determine the color of a column
     columnColorMap,
     eventTypeMap,
+    // To print the event labels (e.g. Sommerferien)
     eventArray
   };
 };
