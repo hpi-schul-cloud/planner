@@ -23,7 +23,7 @@ interface PropsType {
     eventData: EventType;
     onAddTemplateClick: (classLevelId: string) => void;
     onEditTemplate: (templateId: string) => void;
-    onDeleteTemplate: (templateId: string) => void;
+    onDeleteTemplate: (classLevelId: string, templateId: string) => void;
     onEditInstance: (instanceId: string) => void;
     onUpdate: (classLevelId: string, classes: ClassInstanceType) => void;
     onSaveConfiguration: () => void;
@@ -36,6 +36,7 @@ declare class RasterUnitContainer extends PureComponent<PropsType> {
         text: string;
         subText: string;
     }[];
+    handleDeleteTopicTemplate: (templateId: string) => void;
     render(): JSX.Element;
 }
 export default RasterUnitContainer;

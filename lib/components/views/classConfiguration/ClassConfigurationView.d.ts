@@ -11,7 +11,7 @@ interface PropsType {
     eventData: EventType;
     onAddTemplate: (selectedSubjectId: string, classLevelId: string) => void;
     onEditTemplate: (templateId: string) => void;
-    onDeleteTemplate: (templateId: string) => void;
+    onDeleteTemplate: (subjectId: string, classLevelId: string, templateId: string) => void;
     onEditInstance: (instanceId: string) => void;
     onSaveClassInstances: (instances: AllClassInstancesType<LocalTopicIndexType>) => void;
 }
@@ -73,6 +73,7 @@ declare class ClassConfigurationView extends Component<PropsType, StateType> {
     onSelectChange: (selectedSchoolYearId: string) => void;
     onRadioButtonChange: (id: string) => void;
     onAddTemplateClick: (classLevelId: string) => void;
+    onDeleteTemplateClick: (classLevelId: string, templateId: string) => void;
     onSaveButtonClick: () => void;
     render(): JSX.Element;
 }

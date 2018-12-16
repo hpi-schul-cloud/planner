@@ -16,7 +16,7 @@ export declare type PropsType = Omit<RasterTopicElementPropsType, 'size'> & Drag
     onElementStartDrag?: () => void;
     onElementDidNotDrop: () => void;
 };
-export default class DragDropRasterTopicElement extends Component<PropsType> {
+export default class DraggableRasterElement extends Component<PropsType> {
     render(): JSX.Element | undefined;
 }
 export {};
