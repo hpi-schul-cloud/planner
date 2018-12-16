@@ -24,7 +24,7 @@ interface PropsType {
   eventData: EventType;
   onAddTemplate: (selectedSubjectId: string, classLevelId: string) => void;
   onEditTemplate: (templateId: string) => void;
-  onDeleteTemplate: (templateId: string) => void;
+  onDeleteTemplate: (subjectId: string, classLevelId: string, templateId: string) => void;
   onEditInstance: (instanceId: string) => void;
   onSaveClassInstances: (
     instances: AllClassInstancesType<LocalTopicIndexType>
@@ -249,7 +249,7 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
                 eventData={relevantEventData}
                 onAddTemplateClick={this.onAddTemplateClick}
                 onEditTemplate={this.props.onEditTemplate}
-                onDeleteTemplate={this.props.onDeleteTemplate}
+                onDeleteTemplate={this.onDeleteTemplateClick}
                 onEditInstance={this.props.onEditInstance}
                 onUpdate={this.updateLocalClassTopicsForYear}
                 onSaveConfiguration={this.onSaveButtonClick}
@@ -288,6 +288,11 @@ class ClassConfigurationView extends Component<PropsType, StateType> {
   onAddTemplateClick = (classLevelId: string) => {
     const { selectedSubjectId } = this.state;
     this.props.onAddTemplate(selectedSubjectId, classLevelId);
+  };
+
+  onDeleteTemplateClick = (classLevelId: string, templateId: string) => {
+    const { selectedSubjectId } = this.state;
+    this.props.onDeleteTemplate(selectedSubjectId, classLevelId, templateId);
   };
 
   onSaveButtonClick = () => {

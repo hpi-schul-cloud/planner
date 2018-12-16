@@ -35,7 +35,7 @@ interface PropsType {
   eventData: EventType;
   onAddTemplateClick: (classLevelId: string) => void;
   onEditTemplate: (templateId: string) => void;
-  onDeleteTemplate: (templateId: string) => void;
+  onDeleteTemplate: (classLevelId: string, templateId: string) => void;
   onEditInstance: (instanceId: string) => void;
   onUpdate: (classLevelId: string, classes: ClassInstanceType) => void;
   onSaveConfiguration: () => void;
@@ -113,6 +113,10 @@ class RasterUnitContainer extends PureComponent<PropsType> {
     });
   };
 
+  handleDeleteTopicTemplate = (templateId: string) => {
+    this.props.onDeleteTemplate(this.props.classLevelId, templateId);
+  };
+
   render() {
     const { onAddTemplateClick } = this.props;
     const labels = this.generateLabels();
@@ -131,7 +135,7 @@ class RasterUnitContainer extends PureComponent<PropsType> {
               wrapRasterRows={this.wrapRasterRowsWithGrid}
               classLevelId={this.props.classLevelId}
               onEditTemplate={this.props.onEditTemplate}
-              onDeleteTemplate={this.props.onDeleteTemplate}
+              onDeleteTemplate={this.handleDeleteTopicTemplate}
               onEditInstance={this.props.onEditInstance}
               onSaveConfiguration={this.props.onSaveConfiguration}
             />
