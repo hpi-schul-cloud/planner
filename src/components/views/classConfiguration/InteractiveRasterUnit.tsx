@@ -249,6 +249,7 @@ class InteractiveRasterUnit extends Component<PropsType, StateType> {
                 onElementDidNotDrop={this.resetDragState}
                 onElementDidDrop={this.commitCurrentDragState}
                 onEditInstance={this.props.onEditInstance}
+                onDeleteInstance={this.deleteTopic}
                 onSaveConfiguration={this.props.onSaveConfiguration}
               />
             ))}

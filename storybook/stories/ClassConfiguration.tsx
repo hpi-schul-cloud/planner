@@ -128,6 +128,7 @@ storiesOf('ClassConfiguration/InteractiveRasterRow', module).add(
         onElementDidDrop={() => {}}
         onSaveConfiguration={action('onSaveConfiguration')}
         onEditInstance={action('onEditInstance')}
+        onDeleteInstance={action('onDeleteInstance')}
       />
     );
   }

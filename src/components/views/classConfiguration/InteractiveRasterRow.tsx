@@ -24,6 +24,7 @@ type PropsType = {
   classLevelId: string;
   updateElements: (rowId: string, topicElements: LocalTopicIndexType[]) => void;
   onEditInstance: (instanceId: string) => void;
+  onDeleteInstance: (rowId: string, index: number) => void;
   onSaveConfiguration: () => void;
   onElementDidNotDrop: () => void;
   onElementDidDrop: () => void;
@@ -282,6 +283,7 @@ class InteractiveRasterRow extends PureComponent<PropsType> {
     let nextIndex = 0;
     let i = 0;
     for (i = 0; i < topicElements.length; i++) {
+      const index = i;
       const { id, text, color, startIndex, endIndex, isLocal } = topicElements[
         i
       ];
@@ -301,6 +303,7 @@ class InteractiveRasterRow extends PureComponent<PropsType> {
           isDisabled={this.props.isOver}
           isLocal={!!isLocal}
           onEditClick={() => this.props.onEditInstance(id)}
+          onDeleteClick={() => this.props.onDeleteInstance(rowId, index)}
           onSaveConfiguration={this.props.onSaveConfiguration}
         >
           <ResizableRasterTopicElement
