@@ -45,9 +45,10 @@ const StyledTooltip = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
-  background: #e9e8e8;
-  padding: 4px 10px;
-  border-radius: 4px;
+  background: #f8f8f8d4;
+  padding: 5px 6px;
+  border-radius: 20px;
+  box-shadow: #6f6f6f42 2px 2px 7px 1px;
   ${StyledIcon} {
     margin-left: 5px;
     margin-right: 5px;
@@ -102,10 +103,12 @@ class TopicTooltip extends React.Component<PropsType> {
           size="small"
           animateFill={false}
           // [initial trigger after, leave trigger after] in ms
-          delay={[1000, 0]}
-          duration={[0, 0]}
+          delay={[0, 20]}
+          duration={[100, 100]}
           interactive={true}
           theme="custom"
+          // @ts-ignore - types only expect one value, but multiple can actually be set
+          trigger="click"
           distance={5}
           content={
             <StyledTooltip>
