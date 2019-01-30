@@ -14,6 +14,7 @@ declare type PropsType = {
     classLevelId: string;
     updateElements: (rowId: string, topicElements: LocalTopicIndexType[]) => void;
     onEditInstance: (instanceId: string) => void;
+    onDeleteInstance: (rowId: string, index: number) => void;
     onSaveConfiguration: () => void;
     onElementDidNotDrop: () => void;
     onElementDidDrop: () => void;
