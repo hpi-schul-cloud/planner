@@ -19,7 +19,7 @@ import {
   TopicInstanceView, 
   setupCustomStyles, 
   setupComponentMap
-} from 'planner';
+} from 'planner-core-lib';
 ```
 ### ClassConfigurationView
 ![Class Configuration View](/misc/class_configuration_view.png?raw=true "Class Configuration View")
